@@ -4,9 +4,6 @@ import Home from './Pages/Home';
 import QuizSelect from './Pages/Quiz/Select';
 import QuizGame from './Pages/Quiz/Game';
 import QuizResult from './Pages/Quiz/Result';
-import QuizEasy from './Pages/Quiz/Easy';
-import QuizNormal from './Pages/Quiz/Normal';
-import QuizHard from './Pages/Quiz/Hard';
 
 function App() {
   return (
@@ -14,11 +11,15 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/quiz/select" element={<QuizSelect />} />
-        <Route path="/quiz/game" element={<QuizGame />} />
+
+        { /* 
+          動的ルーティングに変更
+          難易度ごとにコンポーネントを分けるのではなく、
+          URLパラメータで難易度を受け取り、1つのコンポーネントで処理する 
+        */ }
+        <Route path="/quiz/game/:difficulty" element={<QuizGame />} />
+
         <Route path="/quiz/result" element={<QuizResult />} />
-        <Route path="/quiz/game/easy" element={<QuizEasy />} />
-        <Route path="/quiz/game/normal" element={<QuizNormal />} />
-        <Route path="/quiz/game/hard" element={<QuizHard />} />
       </Routes>
     </BrowserRouter>
   )
