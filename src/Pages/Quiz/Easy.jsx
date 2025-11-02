@@ -1,14 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
-import easyQuizData from "../../data/quiz";
+import quizData from "../../data/quiz";
 import { useEffect, useState } from "react";
 
 function Easy() {
 
-  // const quizIndex = 0; // 現在は0番目の問題を表示するように固定
+  const { easyQuizData } = quizData;
+
   const [quizIndex, setQuizIndex] = useState(0); // 初期値を0にセット
   const [ answerLogs, setAnswerLogs ] = useState([]); // 解答ログを保存する配列
   const navigate = useNavigate();
   const MAX_QUIZ_COUNT = easyQuizData.length;
+  const difficulty = "初級"; // 難易度設定も送る
 
   useEffect(() => {
     // 全問解答後、結果画面に遷移する処理
@@ -24,7 +26,8 @@ function Easy() {
         state: {
           answerLogs: answerLogs,
           totalQuestions: MAX_QUIZ_COUNT,
-          correctAnswers: correctAnswersNum.length
+          correctAnswers: correctAnswersNum.length,
+          difficulty: difficulty,
         }
       });
     }
@@ -45,27 +48,28 @@ function Easy() {
   }
 
   return (
-    <div>
+    <div id="appWrapper" className="appWrapper">
+      <div className="appContents">
+        <h1 className="appHead --lv-1">三國志 仮想戦史</h1>
+        <h2 className="appHead --lv-2">クイズモード</h2>
       { easyQuizData[quizIndex] && (
-        <div>
-          <h1>三國志 仮想戦史</h1>
-          <h2>クイズモード</h2>
-          <p>{easyQuizData[quizIndex].question}</p>
-          <p>正解を選択してください。</p>
-
-          <div>
-            {easyQuizData[quizIndex].options.map((option, index) => (
-              <button key={index} onClick={() => handleOptionClick(index)}>{option}</button>
-            )) }
+          <div className="appQuizData">
+            <p className="appLead">{easyQuizData[quizIndex].question}</p>
+            <p className="appLead">正解を選択してください。</p>
+            <div className="appQuizButtonListContaier">
+              {easyQuizData[quizIndex].options.map((option, index) => (
+                <button key={index} onClick={() => handleOptionClick(index)}>{option}</button>
+              )) }
+            </div>
           </div>
-        </div>
         )
       }
 
-      <div>
-        <Link to="/">
-          <button>ホームに戻る</button>
-        </Link>
+        <div className="appButtonContainer">
+          <Link to="/">
+            <button>ホームに戻る</button>
+          </Link>
+        </div>
       </div>
     </div>
   );
