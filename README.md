@@ -104,6 +104,10 @@ export NVM_DIR="$HOME/.nvm"
 - 以下コマンドを実行して`React Router`をインストール。
 `$ npm install react-router-dom`
 
+### Tailwind CSS のインストール
+
+`npm install -D tailwindcss postcss autoprefixer`
+
 ## ２回目以降の準備
 
 - `$ npm run dev`を実行する。
@@ -158,3 +162,7 @@ export NVM_DIR="$HOME/.nvm"
 - 次は、クイズの問題を別データで予め定義しておいてそれを呼び出して、表示させることを対応する。添字は決め打ちで表示させる。後で動的に設定する。
 - 取り敢えず、配列の0番目のクイズを表示できた。次は、添字部分を動的にする。
 - 先ずは、クリックされた選択肢のインデックス番号を取得することができた。
+
+### 2025-11-03
+
+- そろそろCSSのフレームワークを導入する。

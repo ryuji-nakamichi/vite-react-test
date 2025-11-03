@@ -4,7 +4,7 @@ import Home from './Pages/Home';
 import QuizSelect from './Pages/Quiz/Select';
 import QuizGame from './Pages/Quiz/Game';
 import QuizResult from './Pages/Quiz/Result';
-
+import DicList from './Pages/Dic/List';
 function App() {
   return (
     <BrowserRouter>
@@ -20,6 +20,8 @@ function App() {
         <Route path="/quiz/game/:difficulty" element={<QuizGame />} />
 
         <Route path="/quiz/result" element={<QuizResult />} />
+
+        <Route path="/dic/list" element={<DicList />} />
       </Routes>
     </BrowserRouter>
   )

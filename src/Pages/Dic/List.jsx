@@ -1,48 +1,28 @@
 import { Link } from "react-router-dom";
 import Header from "../../Components/Header";
-function Select() {
+function list() {
   return (
-    // 1. 骨格と背景の統一
     <div
       id="appWrapper"
       className="min-h-screen flex items-center justify-center py-20 bg-gray-900 px-6"
     >
       <div className="w-full max-w-lg p-10 rounded-2xl shadow-2xl bg-gray-800 border border-red-800/50 text-center">
 
-        {/* 2. タイトルと見出しの統一 */}
-        <Header page={{ title: 'クイズモード' }} />
+        <Header page={{ title: '人物辞典' }} />
 
-        <p className="text-xl text-gray-300 mb-10">難易度を選択してください。</p>
+        <p className="text-xl text-gray-300 mb-10">人物を選択してください。</p>
 
-        {/* 難易度ボタン - 強い影とアニメーションを追加 */}
         <div className="space-y-4">
 
           <div className="appButtonContainer">
             <Link to="/quiz/game/easy" className="block">
               <button className="w-full py-4 px-4 rounded-lg font-bold transition duration-300 uppercase tracking-widest text-white 
                                  bg-green-600 shadow-xl hover:bg-green-500 transform hover:scale-105">
-                簡単
+                劉備
               </button>
             </Link>
           </div>
 
-          <div className="appButtonContainer">
-            <Link to="/quiz/game/normal" className="block">
-              <button className="w-full py-4 px-4 rounded-lg font-bold transition duration-300 uppercase tracking-widest text-gray-900 
-                                 bg-yellow-500 shadow-xl hover:bg-yellow-400 transform hover:scale-105">
-                普通
-              </button>
-            </Link>
-          </div>
-
-          <div className="appButtonContainer">
-            <Link to="/quiz/game/hard" className="block">
-              <button className="w-full py-4 px-4 rounded-lg font-bold transition duration-300 uppercase tracking-widest text-white 
-                                 bg-red-700 shadow-xl hover:bg-red-600 transform hover:scale-105">
-                難しい
-              </button>
-            </Link>
-          </div>
         </div>
 
         {/* ホームに戻るボタン - デザインを統一 */}
@@ -60,4 +40,4 @@ function Select() {
   );
 }
 
-export default Select;
+export default list;

@@ -1,12 +1,14 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import quizData from "../../data/quiz";
-
+import Error from "./Error";
+import Header from "../../Components/Header";
 function Game() {
 
   const difficultyParams = useParams();
   const dataKey = `${difficultyParams.difficulty}QuizData`; // "easyQuizData", "normalQuizData", "hardQuizData"のいずれかがdataKeyに入る
   const currentQuizData = quizData[dataKey]; // 通常の配列として取得可能
+  // const currentQuizData = []; // 通常の配列として取得可能（エラー処理デバッグ用）
 
   let difficultyName;
   if (difficultyParams.difficulty === "easy") {
@@ -19,18 +21,16 @@ function Game() {
     difficultyName = "不明";
   }
 
-  if (!currentQuizData) {
+  if (currentQuizData.length === 0) {
+    console.log("無効な難易度が選択されました。");
     return (
       <div id="appWrapper" className="appWrapper">
         <div className="appContents">
-          <h1 className="appHead --lv-1">三國志 仮想戦史</h1>
-          <h2 className="appHead --lv-2">クイズモード</h2>
-          <p className="appLead">無効な難易度が選択されました。</p>
-          <div className="appButtonContainer">
-            <Link to="/quiz/select">
-              <button>難易度選択に戻る</button>
-            </Link>
-          </div>
+          <Error page={{
+            from: "Game.jsx"
+          }}>
+            無効な難易度が選択されました。<br />難易度選択画面に戻ってください。
+          </Error>
         </div>
       </div>
     );
@@ -44,7 +44,7 @@ function Game() {
   
   useEffect(() => {
     // 全問解答後、結果画面に遷移する処理
-    if (answerLogs.length === MAX_QUIZ_COUNT) {
+    if (answerLogs.length > 1 && (answerLogs.length === MAX_QUIZ_COUNT)) {
 
       const correctAnswersNum = answerLogs.filter((isCorrectNum) => {
         return isCorrectNum === true;
@@ -78,26 +78,55 @@ function Game() {
   }
 
   return (
-    <div id="appWrapper" className="appWrapper">
-      <div className="appContents">
-        <h1 className="appHead --lv-1">三國志 仮想戦史</h1>
-        <h2 className="appHead --lv-2">クイズモード</h2>
+    // 1. 骨格と背景の統一 (px-6を追加)
+    <div id="appWrapper" className="min-h-screen flex items-center justify-center py-20 bg-gray-900 px-6">
+      <div className="w-full max-w-xl p-10 rounded-2xl shadow-2xl bg-gray-800 border border-red-800/50 text-center">
+
+        {/* 2. タイトルと見出しの統一 */}
+        <Header page={{ title: 'クイズモード' }} />
+        
         {currentQuizData[quizIndex] && (
           <div className="appQuizData">
-            <p className="appLead">{currentQuizData[quizIndex].question}</p>
-            <p className="appLead">正解を選択してください。</p>
-            <div className="appQuizButtonListContaier">
-              {currentQuizData[quizIndex].options.map((option, index) => (
-                <button key={index} onClick={() => handleOptionClick(index)}>{option}</button>
-              ))}
+
+            {/* 進捗表示の強化 */}
+            <p className="text-xl font-bold text-red-500 bg-gray-700/50 py-2 rounded-lg mb-8 border-b-2 border-red-500">
+              第 {quizIndex + 1} 問 / 全 {MAX_QUIZ_COUNT} 問
+            </p>
+
+            {/* 3. 問題エリアの強化 */}
+            <div className="bg-gray-700 p-8 rounded-lg shadow-xl mb-10 border-t-4 border-red-600">
+              <p className="text-2xl font-semibold text-gray-100 mb-4">
+                {currentQuizData[quizIndex].question}
+              </p>
+              <p className="text-base text-gray-400 mb-6">
+                正解を選択してください。
+              </p>
+
+              {/* 選択肢ボタンの強化（強い影とアニメーション） */}
+              <div className="grid grid-cols-1 gap-4">
+                {currentQuizData[quizIndex].options.map((option, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleOptionClick(index)}
+                    className="py-4 px-4 rounded-lg font-bold bg-indigo-600 text-white shadow-xl hover:bg-indigo-500 
+                               transform hover:scale-105 transition duration-300"
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         )
         }
 
-        <div className="appButtonContainer">
-          <Link to="/">
-            <button>ホームに戻る</button>
+        {/* ホームに戻るボタン（統一デザイン） */}
+        <div className="mt-8">
+          <Link to="/" className="block">
+            <button className="w-full py-3 px-4 rounded-lg font-medium transition duration-200 
+                               bg-gray-600 text-gray-200 hover:bg-gray-700">
+              ホームに戻る
+            </button>
           </Link>
         </div>
       </div>
