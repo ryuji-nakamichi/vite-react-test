@@ -1,8 +1,9 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import quizData from "../../data/quiz";
 import Error from "./Error";
 import Header from "../../Components/Header";
+import NavigationButton from "../../Components/NavigationButton";
 function Game() {
 
   const difficultyParams = useParams();
@@ -41,7 +42,7 @@ function Game() {
   const navigate = useNavigate();
   const MAX_QUIZ_COUNT = currentQuizData.length;
   const difficulty = difficultyName || "不明"; // 難易度を取得
-  
+
   useEffect(() => {
     // 全問解答後、結果画面に遷移する処理
     if (answerLogs.length > 1 && (answerLogs.length === MAX_QUIZ_COUNT)) {
@@ -84,7 +85,7 @@ function Game() {
 
         {/* 2. タイトルと見出しの統一 */}
         <Header page={{ title: 'クイズモード' }} />
-        
+
         {currentQuizData[quizIndex] && (
           <div className="appQuizData">
 
@@ -122,12 +123,11 @@ function Game() {
 
         {/* ホームに戻るボタン（統一デザイン） */}
         <div className="mt-8">
-          <Link to="/" className="block">
-            <button className="w-full py-3 px-4 rounded-lg font-medium transition duration-200 
-                               bg-gray-600 text-gray-200 hover:bg-gray-700">
-              ホームに戻る
-            </button>
-          </Link>
+          <NavigationButton
+            to="/"
+            text="ホームに戻る"
+            isPrimary={false} // グレーのセカンダリボタン
+          />
         </div>
       </div>
     </div>

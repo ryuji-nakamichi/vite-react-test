@@ -1,5 +1,6 @@
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Header from "../../Components/Header";
+import NavigationButton from "../../Components/NavigationButton";
 function Result() {
   const location = useLocation();
   const answerLogs = location.state?.answerLogs || [];
@@ -53,12 +54,11 @@ function Result() {
 
         {/* ボタンの統一 */}
         <div className="appButtonContainer">
-          <Link to="/" className="block">
-            <button className="w-full py-3 px-4 rounded-lg font-medium transition duration-200 
-                               bg-red-700 text-white hover:bg-red-600 shadow-md">
-              ホームに戻る
-            </button>
-          </Link>
+          <NavigationButton
+            to="/"
+            text="ホームに戻る"
+            isPrimary={false}
+          />
         </div>
       </div>
     </div>

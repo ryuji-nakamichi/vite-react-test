@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Header from "../Components/Header";
+import NavigationButton from "../Components/NavigationButton";
 function Home() {
   return (
     // 1. 骨格と背景の強化
@@ -22,16 +23,12 @@ function Home() {
         {/* 3. ボタンの差別化とアクションの強調 */}
         <div className="space-y-4"> {/* space-y-4 でボタン間に間隔を確保 */}
 
-          <Link to="/quiz/select" className="block">
-            <button
-              className="w-full py-4 text-xl font-extrabold rounded-xl shadow-2xl 
-                         bg-red-700 text-white 
-                         hover:bg-red-600 
-                         transform hover:scale-105 transition duration-300"
-            >
-              クイズで遊ぶ (出陣！)
-            </button>
-          </Link>
+          <NavigationButton 
+            to="/quiz/select" 
+            text="クイズで遊ぶ (出陣！)" 
+            isPrimary={true} 
+            className="py-4 text-xl font-extrabold shadow-2xl" // ★ 個別のスタイルを追加
+          />
 
           <Link to="/dic/list" className="block">
             <button

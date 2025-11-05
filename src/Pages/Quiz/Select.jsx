@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
 import Header from "../../Components/Header";
+import NavigationButton from "../../Components/NavigationButton";
+import DifficultyButton from "../../Components/DifficultyButton";
 function Select() {
   return (
     // 1. 骨格と背景の統一
@@ -17,42 +18,34 @@ function Select() {
         {/* 難易度ボタン - 強い影とアニメーションを追加 */}
         <div className="space-y-4">
 
-          <div className="appButtonContainer">
-            <Link to="/quiz/game/easy" className="block">
-              <button className="w-full py-4 px-4 rounded-lg font-bold transition duration-300 uppercase tracking-widest text-white 
-                                 bg-green-600 shadow-xl hover:bg-green-500 transform hover:scale-105">
-                簡単
-              </button>
-            </Link>
-          </div>
+          {/* DifficultyButtonの使用 */}
+          <DifficultyButton
+            to="/quiz/game/easy"
+            colorClass="bg-green-600 hover:bg-green-500"
+            text="簡単"
+          />
 
-          <div className="appButtonContainer">
-            <Link to="/quiz/game/normal" className="block">
-              <button className="w-full py-4 px-4 rounded-lg font-bold transition duration-300 uppercase tracking-widest text-gray-900 
-                                 bg-yellow-500 shadow-xl hover:bg-yellow-400 transform hover:scale-105">
-                普通
-              </button>
-            </Link>
-          </div>
+          <DifficultyButton
+            to="/quiz/game/normal"
+            colorClass="bg-yellow-500 hover:bg-yellow-400"
+            text="普通"
+            textColor="text-gray-900"
+          />
 
-          <div className="appButtonContainer">
-            <Link to="/quiz/game/hard" className="block">
-              <button className="w-full py-4 px-4 rounded-lg font-bold transition duration-300 uppercase tracking-widest text-white 
-                                 bg-red-700 shadow-xl hover:bg-red-600 transform hover:scale-105">
-                難しい
-              </button>
-            </Link>
-          </div>
+          <DifficultyButton
+            to="/quiz/game/hard"
+            colorClass="bg-red-700 hover:bg-red-600"
+            text="難しい"
+          />
         </div>
 
         {/* ホームに戻るボタン - デザインを統一 */}
-        <div className="appButtonContainer mt-10">
-          <Link to="/" className="block">
-            <button className="w-full py-3 px-4 rounded-lg font-medium transition duration-200 
-                               bg-gray-600 text-gray-200 hover:bg-gray-700">
-              ホームに戻る
-            </button>
-          </Link>
+        <div className="mt-10">
+          <NavigationButton
+            to="/"
+            text="ホームに戻る"
+            isPrimary={false}
+          />
         </div>
 
       </div>
