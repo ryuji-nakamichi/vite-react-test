@@ -8,7 +8,7 @@ const BASE_BUTTON_CLASSES =
 
 function CharacterCard({ character, factionColor, factionBorder, factionBgColor }) {
   // リンク先パスの安全な生成 (nickNameがない場合を考慮)
-  const detailPath = `/dic/detail/${character.nickName || `${character.firstName}${character.lastName}`}`;
+  const detailPath = `/dic/detail/${character.id || `unknown-${character.firstName}${character.lastName}`}`;
 
   return (
     <div className="flex flex-col">

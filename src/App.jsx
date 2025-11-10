@@ -5,6 +5,7 @@ import QuizSelect from './Pages/Quiz/Select';
 import QuizGame from './Pages/Quiz/Game';
 import QuizResult from './Pages/Quiz/Result';
 import DicList from './Pages/Dic/List';
+import DicDetail from './Pages/Dic/Detail';
 function App() {
   return (
     <BrowserRouter>
@@ -22,6 +23,7 @@ function App() {
         <Route path="/quiz/result" element={<QuizResult />} />
 
         <Route path="/dic/list" element={<DicList />} />
+        <Route path="/dic/detail/:id" element={<DicDetail />} />
       </Routes>
     </BrowserRouter>
   )
