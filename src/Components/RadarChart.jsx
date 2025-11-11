@@ -1,6 +1,10 @@
 // src/Components/RadarChart.jsx
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+// グラフの定数定義
+const MAX_VAL = 100;
+const ANIMATION_DURATION = 1000; // 1000ms = 1秒
 
 /**
  * 武将の能力値をレーダーチャートで表示するコンポーネント
@@ -11,13 +15,52 @@ import React from 'react';
 const RadarChart = ({ stats, color = 'fill-red-500', size = 300 }) => {
   // グラフの軸とラベル
   const axes = [
-    { name: '武力', stat: stats.strength },
-    { name: '統率', stat: stats.command },
-    { name: '魅力', stat: stats.charisma },
-    { name: '政治', stat: stats.politics },
-    { name: '知力', stat: stats.intelligence },
-    { name: '策略', stat: stats.strategy },
+      { name: '武力', key: 'strength' },
+      { name: '統率', key: 'command' },
+      { name: '魅力', key: 'charisma' },
+      { name: '政治', key: 'politics' },
+      { name: '知力', key: 'intelligence' },
+      { name: '策略', key: 'strategy' },
   ];
+
+  // ★ アニメーション用の状態を定義 ★
+  const [animatedStats, setAnimatedStats] = useState({
+      strength: 0, intelligence: 0, charisma: 0,
+      politics: 0, command: 0, strategy: 0
+  });
+
+  // コンポーネントがマウントされた後にアニメーションを開始
+    useEffect(() => {
+        // 1. 開始時間と現在の能力値をセット
+        const startTime = Date.now();
+        const startStats = {
+            strength: 0, intelligence: 0, charisma: 0,
+            politics: 0, command: 0, strategy: 0
+        };
+        const endStats = stats; // 最終目標の能力値
+
+        const animate = () => {
+            const now = Date.now();
+            const elapsed = now - startTime;
+            // 経過時間に基づき、0から1の間の進行度を計算
+            const progress = Math.min(1, elapsed / ANIMATION_DURATION); 
+
+            // 進行度に基づき、各能力値を更新
+            const currentStats = {};
+            Object.keys(endStats).forEach(key => {
+                currentStats[key] = startStats[key] + (endStats[key] - startStats[key]) * progress;
+            });
+
+            setAnimatedStats(currentStats);
+
+            // 進行度が1未満なら、次のフレームで再描画を要求
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            }
+        };
+
+        requestAnimationFrame(animate);
+    }, [stats]); // statsが変更されたらアニメーションを再実行
 
   // グラフの半径
   const R = size / 2.5;
@@ -51,10 +94,13 @@ const RadarChart = ({ stats, color = 'fill-red-500', size = 300 }) => {
     return `${x},${y}`;
   };
 
-  // データのポリゴン座標を生成 (例: "x1,y1 x2,y2 x3,y3...")
-  const dataPoints = axes.map((axis, index) =>
-    getPoint(axis.stat, index, R)
-  ).join(' ');
+  // データのポリゴン座標を生成 (★ 修正: key を使って値を取得 ★)
+  const dataPoints = axes.map((axis, index) => {
+      // 修正: axis.key を使って animatedStats から値を取得
+      const value = animatedStats[axis.key] || 0; 
+      return getPoint(value, index, R);
+  }).join(' ');
+
 
   // グラフの枠線（六角形）の座標を生成
   const webPoints = axes.map((_, index) =>
@@ -86,13 +132,13 @@ const RadarChart = ({ stats, color = 'fill-red-500', size = 300 }) => {
         />
       ))}
 
-      {/* データポリゴン (能力値に基づく塗りつぶし領域) */}
-      <polygon
-        points={dataPoints}
-        className={`transition-all duration-1000 ease-in-out opacity-60 ${color}`}
-        strokeWidth="2"
-        stroke={color.replace('fill-', 'stroke-')}
-      />
+      {/* データポリゴン */}
+        <polygon 
+            points={dataPoints}
+            className={`opacity-60 ${color}`} 
+            strokeWidth="2"
+            stroke={color.replace('fill-', 'stroke-')}
+        />
 
       {/* ラベル (能力値の項目名) */}
       {axes.map((axis, index) => {

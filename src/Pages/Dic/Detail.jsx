@@ -1,10 +1,10 @@
-// src/Pages/Detail.jsx (クリーンアップ済み最終案)
-
 import { useParams } from "react-router-dom";
 import dic from "../../data/dic";
 import Header from "../../Components/Header";
 import NavigationButton from "../../Components/NavigationButton";
 import RadarChart from "../../Components/RadarChart";
+import CharacterTags from "../../Components/CharacterTags";
+import RelatedCharacters from "../../Components/RelatedCharacters";
 
 // ★ StatBoxコンポーネントは現在使用されていないため削除、またはファイル切り出しを推奨
 
@@ -87,6 +87,18 @@ function Detail() {
               </div>
             </div>
           </div>
+
+          {/* 4-4. キーワードと特技セクション */}
+          <CharacterTags
+            characterData={characterData}
+            colorClass={colorClass}
+          />
+
+          {/* ★★★ 4-5. 関連人物セクションを追加 ★★★ */}
+          <RelatedCharacters
+            relatedCharacters={characterData.relatedCharacters}
+            colorClass={colorClass}
+          />
 
           {/* 4-1. 略歴/基本情報 */}
           <div className="bg-gray-700 p-6 rounded-lg shadow-md">

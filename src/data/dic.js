@@ -16,7 +16,17 @@ const dicSyokuData = [
     charisma: 100,
     politics: 80, 
     command: 75,
-    strategy: 80
+    strategy: 80,
+    keywords: ['義兄弟', '人徳', '漢王室末裔', '三顧の礼', '蜀漢建国'],
+    skills: ['外交', '人心掌握', '騎馬', '弓術'],
+    relatedCharacters: [
+        { id: 2, name: '関羽', relation: '義兄弟' },
+        { id: 3, name: '張飛', relation: '義兄弟' },
+        { id: 4, name: '諸葛亮', relation: '軍師' },
+        { id: 5, name: '趙雲', relation: '忠実な部下' },
+        { id: 14, name: '曹操', relation: '好敵手' },
+        { id: 8, name: '孫権', relation: '同盟者' },
+    ]
    },  { 
     id: 2,
     firstName: '関',
@@ -34,7 +44,14 @@ const dicSyokuData = [
     charisma: 90,
     politics: 70,
     command: 85,
-    strategy: 75
+    strategy: 75,
+    keywords: ['義兄弟', '忠誠心', '剛勇', '赤壁の戦い', '神格化'],
+    skills: ['武勇', '忠誠心', '剣術', '戦術'],
+    relatedCharacters: [
+        { id: 1, name: '劉備', relation: '義兄弟' },
+        { id: 3, name: '張飛', relation: '義兄弟' },
+        { id: 14, name: '曹操', relation: '好敵手' },
+    ]
    },  { 
     id: 3,
     firstName: '張',
@@ -52,7 +69,14 @@ const dicSyokuData = [
     charisma: 85,
     politics: 60,
     command: 70,
-    strategy: 65
+    strategy: 65,
+    keywords: ['義兄弟', '豪放磊落', '剛勇', '長坂橋の戦い', '豪快'],
+    skills: ['武勇', '豪放磊落', '剣術', '戦術'],
+    relatedCharacters: [
+        { id: 1, name: '劉備', relation: '義兄弟' },
+        { id: 2, name: '関羽', relation: '義兄弟' },
+        { id: 14, name: '曹操', relation: '好敵手' },
+    ]
    },  { 
     id: 4,
     firstName: '諸',
@@ -70,7 +94,13 @@ const dicSyokuData = [
     charisma: 90,
     politics: 95,
     command: 80,
-    strategy: 85
+    strategy: 85,
+    keywords: ['天才軍師', '知略', '先見の明', '赤壁の戦い', '内政手腕'],
+    skills: ['戦術', '内政', '外交', '知略'],
+    relatedCharacters: [
+        { id: 1, name: '劉備', relation: '主君' },
+        { id: 14, name: '曹操', relation: '好敵手' },
+    ]
    },  { 
     id: 5,
     firstName: '趙',
@@ -88,7 +118,13 @@ const dicSyokuData = [
     charisma: 85,
     politics: 80,
     command: 85,
-    strategy: 80
+    strategy: 80,
+    keywords: ['勇敢', '忠誠心', '冷静', '長坂橋の戦い', '誠実'],
+    skills: ['武勇', '忠誠心', '判断力', '戦術'],
+    relatedCharacters: [
+        { id: 1, name: '劉備', relation: '主君' },
+        { id: 14, name: '曹操', relation: '好敵手' },
+    ]
    },
    {
     id: 6,
@@ -107,7 +143,13 @@ const dicSyokuData = [
     charisma: 80,
     politics: 70,
     command: 85,
-    strategy: 80
+    strategy: 80,
+    keywords: ['豪傑', '剛勇', '独立心', '潼関の戦い', '誇り高い'],
+    skills: ['武勇', '独立心', '剛勇', '戦術'],
+    relatedCharacters: [
+        { id: 1, name: '劉備', relation: '義兄弟' },
+        { id: 14, name: '曹操', relation: '好敵手' },
+    ]
    },
    { 
     id: 7,
@@ -126,7 +168,13 @@ const dicSyokuData = [
     charisma: 80,
     politics: 65,
     command: 75,
-    strategy: 70
+    strategy: 70,
+    keywords: ['忠義', '弓術', '正確な射撃', '定軍山の戦い', '高齢'],
+    skills: ['弓術', '忠誠心', '射撃', '戦術'],
+    relatedCharacters: [
+        { id: 1, name: '劉備', relation: '義兄弟' },
+        { id: 14, name: '曹操', relation: '好敵手' },
+    ]
    }
 ];
 
@@ -148,7 +196,13 @@ const dicGoData = [
     charisma: 90,
     politics: 80,
     command: 85,
-    strategy: 80
+    strategy: 80,
+    keywords: ['呉の初代皇帝', '政治手腕', '赤壁の戦い', '外交政策', '江東'],
+    skills: ['政治', '軍事', '外交', '戦術'],
+    relatedCharacters: [
+        { id: 14, name: '曹操', relation: '好敵手' },
+        { id: 1, name: '劉備', relation: '同盟者' },
+    ]
    },  { 
     id: 9,
     firstName: '周',
@@ -166,7 +220,13 @@ const dicGoData = [
     charisma: 85,
     politics: 80,
     command: 85,
-    strategy: 80
+    strategy: 80,
+    keywords: ['火計の名手', '優雅な人柄', '赤壁の戦い', '軍事的才能', '戦術眼'],
+    skills: ['火計', '軍事', '戦術', '外交'],
+    relatedCharacters: [
+        { id: 14, name: '曹操', relation: '好敵手' },
+        { id: 8, name: '孫権', relation: '主君' },
+    ]
    },  { 
     id: 10,
     firstName: '陸',
@@ -184,7 +244,13 @@ const dicGoData = [
     charisma: 80,
     politics: 85,
     command: 80,
-    strategy: 85
+    strategy: 85,
+    keywords: ['知略', '忠誠心', '冷静', '夷陵の戦い', '誠実'],
+    skills: ['戦術', '忠誠心', '判断力', '外交'],
+    relatedCharacters: [
+        { id: 8, name: '孫権', relation: '主君' },
+        { id: 14, name: '曹操', relation: '好敵手' },
+    ]
    },  { 
     id: 11,
     firstName: '甘',
@@ -202,7 +268,13 @@ const dicGoData = [
     charisma: 85,
     politics: 60,
     command: 75,
-    strategy: 70
+    strategy: 70,
+    keywords: ['豪傑', '勇敢', '山賊出身', '合肥の戦い', '忠義'],
+    skills: ['武勇', '豪快', '剛勇', '戦術'],
+    relatedCharacters: [
+        { id: 8, name: '孫権', relation: '主君' },
+        { id: 14, name: '曹操', relation: '好敵手' },
+    ]
    },  { 
     id: 12,
     firstName: '魯',
@@ -217,7 +289,16 @@ const dicGoData = [
     bio: '魯粛は、三国時代の呉の名参謀であり、その知略と外交手腕で多くの戦いで活躍した。彼は孫権に仕え、その優れた政治的才能と戦術眼で多くの戦いで勝利を収めた。魯粛は特にその冷静な判断力で知られ、敵軍を恐れさせる存在であった。彼の最も有名な逸話の一つに、「赤壁の戦い」での活躍があり、その後も数々の戦いで功績を挙げた。魯粛はまた、その誠実な性格でも知られ、多くの人々から尊敬された。',
     strength: 70,
     intelligence: 90,
-    charisma: 85 
+    charisma: 85,
+    politics: 90,
+    command: 75,
+    strategy: 70,
+    keywords: ['知略', '外交手腕', '冷静', '赤壁の戦い', '誠実'],
+    skills: ['戦術', '外交', '判断力', '知略'],
+    relatedCharacters: [
+        { id: 8, name: '孫権', relation: '主君' },
+        { id: 14, name: '曹操', relation: '好敵手' },
+    ]
    },
   {
     id: 13,
@@ -236,7 +317,13 @@ const dicGoData = [
     charisma: 80,
     politics: 75,
     command: 80,
-    strategy: 85
+    strategy: 85,
+    keywords: ['無学な将軍', '学問修得', '冷静', '合肥の戦い', '誠実'],
+    skills: ['戦術', '学問', '判断力', '知略'],
+    relatedCharacters: [
+        { id: 8, name: '孫権', relation: '主君' },
+        { id: 14, name: '曹操', relation: '好敵手' },
+    ]
    }
 ];
 
@@ -258,7 +345,13 @@ const dicGiData = [
     charisma: 90,
     politics: 80,
     command: 85,
-    strategy: 80
+    strategy: 80,
+    keywords: ['魏の初代皇帝', '政治手腕', '赤壁の戦い', '外交政策', '江東'],
+    skills: ['政治', '軍事', '外交', '戦術'],
+    relatedCharacters: [
+        { id: 1, name: '劉備', relation: '好敵手' },
+        { id: 8, name: '孫権', relation: '好敵手' },
+    ]
    },
   { 
     id: 15,
@@ -277,7 +370,13 @@ const dicGiData = [
     charisma: 85,
     politics: 80,
     command: 85,
-    strategy: 80
+    strategy: 80,
+    keywords: ['天才軍師', '知略', '先見の明', '赤壁の戦い', '内政手腕'],
+    skills: ['戦術', '内政', '外交', '知略'],
+    relatedCharacters: [
+        { id: 14, name: '曹操', relation: '好敵手' },
+        { id: 1, name: '劉備', relation: '好敵手' },
+    ]
    },
    { 
     id: 16,
@@ -296,7 +395,13 @@ const dicGiData = [
     charisma: 80,
     politics: 75,
     command: 80,
-    strategy: 85
+    strategy: 85,
+    keywords: ['忠義', '剛勇', '虎牢関の戦い', '誠実', '武勇'],
+    skills: ['武勇', '忠誠心', '剛勇', '戦術'],
+    relatedCharacters: [
+        { id: 14, name: '曹操', relation: '主君' },
+        { id: 1, name: '劉備', relation: '好敵手' },
+    ]
    },
    { 
     id: 17,
@@ -315,7 +420,13 @@ const dicGiData = [
     charisma: 75,
     politics: 70,
     command: 75,
-    strategy: 70
+    strategy: 70,
+    keywords: ['豪傑', '勇敢', '山賊出身', '合肥の戦い', '忠義'],
+    skills: ['武勇', '豪快', '剛勇', '戦術'],
+    relatedCharacters: [
+        { id: 14, name: '曹操', relation: '主君' },
+        { id: 8, name: '孫権', relation: '好敵手' },
+    ]
    },
    {
     id: 18,
@@ -334,7 +445,13 @@ const dicGiData = [
     charisma: 80,
     politics: 70,
     command: 80,
-    strategy: 75
+    strategy: 75,
+    keywords: ['魏の名将', '武勇', '合肥の戦い', '忠義', '剛勇'],
+    skills: ['武勇', '戦術', '忠誠心', '判断力'],
+    relatedCharacters: [
+        { id: 14, name: '曹操', relation: '主君' },
+        { id: 8, name: '孫権', relation: '好敵手' },
+    ]
    },
    {  
     id: 19,
@@ -353,7 +470,13 @@ const dicGiData = [
     charisma: 75,
     politics: 70,
     command: 75,
-    strategy: 70
+    strategy: 70,
+    keywords: ['忠義', '剛勇', '白狼山の戦い', '誠実', '武勇'],
+    skills: ['武勇', '忠誠心', '剛勇', '戦術'],
+    relatedCharacters: [
+        { id: 14, name: '曹操', relation: '主君' },
+        { id: 1, name: '劉備', relation: '好敵手' },
+    ]
    },
    { 
     id: 20,
@@ -372,7 +495,13 @@ const dicGiData = [
     charisma: 80,
     politics: 75,
     command: 80,
-    strategy: 75
+    strategy: 75,
+    keywords: ['勇将', '武勇', '漢中の戦い', '忠義', '剛勇'],
+    skills: ['武勇', '戦術', '忠誠心', '判断力'],
+    relatedCharacters: [
+        { id: 14, name: '曹操', relation: '主君' },
+        { id: 1, name: '劉備', relation: '好敵手' },
+    ]
    }
 
 ];
