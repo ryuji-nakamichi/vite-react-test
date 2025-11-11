@@ -27,7 +27,7 @@ function CharacterCard({ character, factionColor, factionBorder, factionBgColor 
             </p>
             {/* 字（ニックネーム）を勢力色で表示 */}
             <p className={`text-sm font-medium ${factionColor} mt-0.5`}>
-              字: {character.nickName || '字不明'}
+              {character.nickName || '字不明'}
             </p>
           </div>
 

@@ -6,7 +6,6 @@ import RadarChart from "../../Components/RadarChart";
 import CharacterTags from "../../Components/CharacterTags";
 import RelatedCharacters from "../../Components/RelatedCharacters";
 
-// ★ StatBoxコンポーネントは現在使用されていないため削除、またはファイル切り出しを推奨
 
 // 勢力ごとの色設定を定義
 const FACTION_COLORS = {
@@ -62,7 +61,7 @@ function Detail() {
             {characterData.firstName} {characterData.lastName}
           </p>
           <p className={`text-xl font-bold ${colorClass} mt-1`}>
-            字: {characterData.nickName || '字なし'}
+            字: {characterData.nickName || '字不明'}
           </p>
           <p className="text-base text-gray-400 italic mt-2">
             "{characterData.catch}"
