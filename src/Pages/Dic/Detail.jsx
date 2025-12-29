@@ -1,5 +1,5 @@
 import { useState } from "react"; // ★ useStateをインポート
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import dic from "../../data/dic";
 import Header from "../../Components/Header";
 import NavigationButton from "../../Components/NavigationButton";
@@ -18,8 +18,13 @@ function Detail() {
   const { id } = useParams();
   const characterId = parseInt(id, 10);
 
-  // 1. モード管理（history または romance）
-  const [viewMode, setViewMode] = useState('romance');
+  // ★ URLの ?mode=xxx 部分を取得 ★
+  const [searchParams] = useSearchParams();
+  const modeFromUrl = searchParams.get('mode'); // 'history' または 'romance' が取れる
+
+
+  // ★ Stateの初期値をURLのパラメータにする（なければ 'romance'）★
+  const [viewMode, setViewMode] = useState(modeFromUrl || 'romance');
 
   const characterData = dic.ALL_DIC_DATA.find(char => char.id === characterId);
 
@@ -37,6 +42,9 @@ function Detail() {
   const currentDetails = characterData.details[viewMode];
   const faction = characterData.group || 'その他';
   const factionTheme = FACTION_COLORS[faction] || FACTION_COLORS['その他'];
+
+  // 戻るボタンのリンク先を動的に生成
+  const backPath = `/dic/list?mode=${viewMode}`;
 
   return (
     <div id="appWrapper" className="min-h-screen flex items-center justify-center py-20 bg-gray-900 px-6">
@@ -107,7 +115,7 @@ function Detail() {
         </div>
 
         <div className="w-full mt-10">
-          <NavigationButton to="/dic/list" text="武将一覧に戻る" isPrimary={false} />
+          <NavigationButton to={backPath}  text="武将一覧に戻る"  isPrimary={false} />
         </div>
       </div>
     </div>

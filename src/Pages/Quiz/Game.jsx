@@ -1,40 +1,51 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import quizData from "../../data/quiz"; // 難易度別のクイズデータ コメントアウト
 import Error from "./Error";
 import Header from "../../Components/Header";
 import NavigationButton from "../../Components/NavigationButton";
 import { generateDynamicQuiz } from "../../data/quizGenerator";
+
 function Game() {
+  const { difficulty } = useParams(); // URLから難易度（easy, normal, hard）を取得
 
-  
-  
+  // 難易度の日本語表示用
+  const difficultyDisplayNames = {
+    easy: "初級",
+    normal: "中級",
+    hard: "上級"
+  };
+  const difficultyName = difficultyDisplayNames[difficulty] || "不明";
 
-  const difficultyParams = useParams();
-  const dataKey = `${difficultyParams.difficulty}QuizData`; // "easyQuizData", "normalQuizData", "hardQuizData"のいずれかがdataKeyに入る
-  // const currentQuizData = quizData[dataKey]; // 通常の配列として取得可能
-  const [currentQuizData] = useState(() => generateDynamicQuiz(5)); // 初回レンダリング時に5問生成
-  // const currentQuizData = []; // 通常の配列として取得可能（エラー処理デバッグ用）
+  // クイズデータの生成（初回レンダリング時に一度だけ実行）
+  const [currentQuizData] = useState(() => generateDynamicQuiz(difficulty, 5));
 
-  let difficultyName;
-  if (difficultyParams.difficulty === "easy") {
-    difficultyName = "初級";
-  } else if (difficultyParams.difficulty === "normal") {
-    difficultyName = "中級";
-  } else if (difficultyParams.difficulty === "hard") {
-    difficultyName = "上級";
-  } else {
-    difficultyName = "不明";
-  }
+  const [quizIndex, setQuizIndex] = useState(0);
+  const [answerLogs, setAnswerLogs] = useState([]);
+  const navigate = useNavigate();
+  const MAX_QUIZ_COUNT = currentQuizData.length;
 
-  if (currentQuizData.length === 0) {
-    console.log("無効な難易度が選択されました。");
+  // 全問解答後の遷移処理
+  useEffect(() => {
+    if (answerLogs.length > 0 && answerLogs.length === MAX_QUIZ_COUNT) {
+      const correctCount = answerLogs.filter(isCorrect => isCorrect === true).length;
+
+      navigate("/quiz/result", {
+        state: {
+          answerLogs: answerLogs,
+          totalQuestions: MAX_QUIZ_COUNT,
+          correctAnswers: correctCount,
+          difficulty: difficultyName,
+        }
+      });
+    }
+  }, [answerLogs, navigate, MAX_QUIZ_COUNT, difficultyName]);
+
+  // エラーハンドリング
+  if (!currentQuizData || currentQuizData.length === 0) {
     return (
-      <div id="appWrapper" className="appWrapper">
-        <div className="appContents">
-          <Error page={{
-            from: "Game.jsx"
-          }}>
+      <div id="appWrapper" className="min-h-screen flex items-center justify-center py-20 bg-gray-900 px-6">
+        <div className="w-full max-w-xl p-10 rounded-2xl shadow-2xl bg-gray-800 border border-red-800/50 text-center">
+          <Error page={{ from: "Game.jsx" }}>
             無効な難易度が選択されました。<br />難易度選択画面に戻ってください。
           </Error>
         </div>
@@ -42,64 +53,26 @@ function Game() {
     );
   }
 
-  const [quizIndex, setQuizIndex] = useState(0); // 初期値を0にセット
-  const [answerLogs, setAnswerLogs] = useState([]); // 解答ログを保存する配列
-  const navigate = useNavigate();
-  const MAX_QUIZ_COUNT = currentQuizData.length;
-  const difficulty = difficultyName || "不明"; // 難易度を取得
-
-  useEffect(() => {
-    // 全問解答後、結果画面に遷移する処理
-    if (answerLogs.length > 1 && (answerLogs.length === MAX_QUIZ_COUNT)) {
-
-      const correctAnswersNum = answerLogs.filter((isCorrectNum) => {
-        return isCorrectNum === true;
-      });
-
-
-      // 結果画面に遷移し、解答ログを渡す
-      navigate("/quiz/result", {
-        state: {
-          answerLogs: answerLogs,
-          totalQuestions: MAX_QUIZ_COUNT,
-          correctAnswers: correctAnswersNum.length,
-          difficulty: difficulty,
-        }
-      });
-    }
-  }, [answerLogs, navigate, MAX_QUIZ_COUNT]);// 依存配列にanswerLogs, navigate, MAX_QUIZ_COUNTを追加
-
-
-
   // 選択肢がクリックされたときの処理
   const handleOptionClick = (selectedIndex) => {
-    if (selectedIndex === currentQuizData[quizIndex].answerIndex) {
-      // 正解の場合の処理
-      setAnswerLogs((prev) => [...prev, true]); // 正解をログに追加
-    } else {
-      // 不正解の場合の処理
-      setAnswerLogs((prev) => [...prev, false]); // 不正解をログに追加
-    }
-    setQuizIndex((prev) => prev + 1); // 次の問題へ進む
-  }
+    // 生成時に保証された answerIndex と比較
+    const isCorrect = selectedIndex === currentQuizData[quizIndex].answerIndex;
+    setAnswerLogs((prev) => [...prev, isCorrect]);
+    setQuizIndex((prev) => prev + 1); // 次の問題へ
+  };
 
   return (
-    // 1. 骨格と背景の統一 (px-6を追加)
     <div id="appWrapper" className="min-h-screen flex items-center justify-center py-20 bg-gray-900 px-6">
       <div className="w-full max-w-xl p-10 rounded-2xl shadow-2xl bg-gray-800 border border-red-800/50 text-center">
 
-        {/* 2. タイトルと見出しの統一 */}
-        <Header page={{ title: 'クイズモード' }} />
+        <Header page={{ title: 'クイズモード' }} difficulty={difficultyName} />
 
         {currentQuizData[quizIndex] && (
           <div className="appQuizData">
-
-            {/* 進捗表示の強化 */}
             <p className="text-xl font-bold text-red-500 bg-gray-700/50 py-2 rounded-lg mb-8 border-b-2 border-red-500">
               第 {quizIndex + 1} 問 / 全 {MAX_QUIZ_COUNT} 問
             </p>
 
-            {/* 3. 問題エリアの強化 */}
             <div className="bg-gray-700 p-8 rounded-lg shadow-xl mb-10 border-t-4 border-red-600">
               <p className="text-2xl font-semibold text-gray-100 mb-4">
                 {currentQuizData[quizIndex].question}
@@ -108,7 +81,6 @@ function Game() {
                 正解を選択してください。
               </p>
 
-              {/* 選択肢ボタンの強化（強い影とアニメーション） */}
               <div className="grid grid-cols-1 gap-4">
                 {currentQuizData[quizIndex].options.map((option, index) => (
                   <button
@@ -123,16 +95,10 @@ function Game() {
               </div>
             </div>
           </div>
-        )
-        }
+        )}
 
-        {/* ホームに戻るボタン（統一デザイン） */}
         <div className="mt-8">
-          <NavigationButton
-            to="/"
-            text="ホームに戻る"
-            isPrimary={false} // グレーのセカンダリボタン
-          />
+          <NavigationButton to="/" text="ホームに戻る" isPrimary={false} />
         </div>
       </div>
     </div>

@@ -1,16 +1,25 @@
 // src/Pages/Dic/List.jsx
 
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import Header from "../../Components/Header";
 import dic from "../../data/dic";
 import CharacterCard from "../../Components/CharacterCard";
 import NavigationButton from "../../Components/NavigationButton";
 
 function List() {
+  
+
+  // ★ URLパラメータを取得
+  const [searchParams] = useSearchParams();
+  const modeFromUrl = searchParams.get('mode'); // 'history' または 'romance'
+
   // --- 1. 状態管理 (3つのState) ---
   const [searchTerm, setSearchTerm] = useState(""); // 名前検索用
   const [selectedFaction, setSelectedFaction] = useState("すべて"); // 勢力ボタン用
-  const [globalMode, setGlobalMode] = useState('romance'); // 正史/演義切り替え用
+
+  // ★ Stateの初期値を URLパラメータ 優先にする
+  const [globalMode, setGlobalMode] = useState(modeFromUrl || 'romance');
 
   // --- 2. フィルタリングロジック ---
   // 全データから「検索ワード」と「勢力」の両方に合致するものを抽出
