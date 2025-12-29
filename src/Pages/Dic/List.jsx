@@ -1,63 +1,113 @@
+// src/Pages/Dic/List.jsx
 
+import { useState } from "react";
 import Header from "../../Components/Header";
-import dic from "../../data/dic"; // 武将データをインポート（パスは適宜修正）
+import dic from "../../data/dic";
 import CharacterCard from "../../Components/CharacterCard";
 import NavigationButton from "../../Components/NavigationButton";
 
-// 勢力ごとのデータの定義を統合
-const ALL_DIC_DATA = [
-  { group: '蜀', data: dic.dicSyokuData, color: 'text-green-500', border: 'border-green-700/30', bgColor: 'bg-green-600 hover:bg-green-700' },
-  { group: '呉', data: dic.dicGoData, color: 'text-red-500', border: 'border-red-700/30', bgColor: 'bg-red-600 hover:bg-red-700' },
-  { group: '魏', data: dic.dicGiData, color: 'text-blue-500', border: 'border-blue-700/30', bgColor: 'bg-blue-600 hover:bg-blue-700' },
-];
-
-
 function List() {
+  // --- 1. 状態管理 (3つのState) ---
+  const [searchTerm, setSearchTerm] = useState(""); // 名前検索用
+  const [selectedFaction, setSelectedFaction] = useState("すべて"); // 勢力ボタン用
+  const [globalMode, setGlobalMode] = useState('romance'); // 正史/演義切り替え用
+
+  // --- 2. フィルタリングロジック ---
+  // 全データから「検索ワード」と「勢力」の両方に合致するものを抽出
+  const filteredCharacters = dic.ALL_DIC_DATA.filter((char) => {
+    // 名前または字（nickName）が検索ワードに含まれているか
+    const fullName = `${char.firstName}${char.lastName}`;
+    const matchesSearch =
+      fullName.includes(searchTerm) ||
+      (char.nickName && char.nickName.includes(searchTerm));
+
+    // 勢力が一致するか
+    const matchesFaction =
+      selectedFaction === "すべて" || char.group === selectedFaction;
+
+    return matchesSearch && matchesFaction;
+  });
+
+  // UI用の定数
+  const factions = ["すべて", "魏", "呉", "蜀"];
+
   return (
-    // 1. 骨格と背景の統一
-    <div
-      id="appWrapper"
-      className="min-h-screen py-16 bg-gray-900 px-6"
-    >
+    <div id="appWrapper" className="min-h-screen py-16 bg-gray-900 px-6">
       <div className="max-w-7xl mx-auto">
 
-        {/* 2. ヘッダーエリアの統一 */}
+        {/* --- 3. コントロールパネル (検索・フィルタ・モード切替) --- */}
         <div className="w-full max-w-xl mx-auto p-10 mb-8 rounded-2xl shadow-2xl bg-gray-800 border border-red-800/50 text-center">
           <Header page={{ title: '武将辞典' }} />
-          <p className="text-xl text-gray-300 mb-2">武将の詳細情報をご確認ください。</p>
-        </div>
 
-        {/* 3. 各勢力の武将カード一覧 */}
-        {ALL_DIC_DATA.map((faction) => (
-          <div key={faction.group} className="mb-12">
+          <div className="mt-6 space-y-6">
+            {/* 検索入力 */}
+            <input
+              type="text"
+              placeholder="武将名・字で検索..."
+              className="w-full p-3 rounded-lg bg-gray-900 text-white border border-gray-700 focus:border-red-500 outline-none transition shadow-inner"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
 
-            {/* 勢力見出し */}
-            <h2 className={`text-3xl font-extrabold mb-8 text-center ${faction.color} border-b-4 border-current pb-2`}>
-              {faction.group}軍 一覧
-            </h2>
-
-            {/* カードグリッド */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {faction.data.map((character) => (
-                <CharacterCard
-                  key={character.nickName || `${character.firstName}${character.lastName}`}
-                  character={character}
-                  factionColor={faction.color}
-                  factionBorder={faction.border}
-                  factionBgColor={faction.bgColor}
-                />
+            {/* 勢力フィルタボタン */}
+            <div className="flex justify-center gap-2 flex-wrap">
+              {factions.map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setSelectedFaction(f)}
+                  className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${selectedFaction === f
+                      ? "bg-yellow-600 text-white shadow-lg"
+                      : "bg-gray-700 text-gray-400 hover:bg-gray-600"
+                    }`}
+                >
+                  {f}
+                </button>
               ))}
             </div>
-          </div>
-        ))}
 
-        {/* 4. フッター/ホームボタンの統一 */}
+            {/* モード切り替えスイッチ */}
+            <div className="flex justify-center bg-gray-900 p-1 rounded-full border border-gray-700 w-full max-w-xs mx-auto shadow-inner">
+              <button
+                onClick={() => setGlobalMode('romance')}
+                className={`flex-1 py-2 px-4 rounded-full text-xs font-bold transition-all duration-300 ${globalMode === 'romance' ? 'bg-red-700 text-white shadow-lg' : 'text-gray-500'
+                  }`}
+              >
+                演義モード
+              </button>
+              <button
+                onClick={() => setGlobalMode('history')}
+                className={`flex-1 py-2 px-4 rounded-full text-xs font-bold transition-all duration-300 ${globalMode === 'history' ? 'bg-blue-800 text-white shadow-lg' : 'text-gray-500'
+                  }`}
+              >
+                正史モード
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* --- 4. 結果表示エリア --- */}
+        {filteredCharacters.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in">
+            {filteredCharacters.map((character) => (
+              <CharacterCard
+                key={character.id}
+                character={character}
+                viewMode={globalMode} // ★ 正史/演義の状態を渡す
+                // 勢力に応じた色設定（以前のロジックを統合）
+                factionColor={character.group === '魏' ? 'text-blue-400' : character.group === '呉' ? 'text-red-400' : 'text-green-400'}
+                factionBorder={character.group === '魏' ? 'border-blue-600/30' : character.group === '呉' ? 'border-red-600/30' : 'border-green-600/30'}
+                factionBgColor={character.group === '魏' ? 'bg-blue-800' : character.group === '呉' ? 'bg-red-800' : 'bg-green-800'}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-20">
+            <p className="text-gray-500 text-xl italic">該当する武将は戦史に見当たりません...</p>
+          </div>
+        )}
+
         <div className="w-full max-w-md mx-auto mt-12">
-          <NavigationButton
-            to="/"
-            text="ホームに戻る"
-            isPrimary={false}
-          />
+          <NavigationButton to="/" text="ホームに戻る" isPrimary={false} />
         </div>
       </div>
     </div>

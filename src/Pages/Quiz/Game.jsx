@@ -1,14 +1,19 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import quizData from "../../data/quiz";
+import quizData from "../../data/quiz"; // 難易度別のクイズデータ コメントアウト
 import Error from "./Error";
 import Header from "../../Components/Header";
 import NavigationButton from "../../Components/NavigationButton";
+import { generateDynamicQuiz } from "../../data/quizGenerator";
 function Game() {
+
+  
+  
 
   const difficultyParams = useParams();
   const dataKey = `${difficultyParams.difficulty}QuizData`; // "easyQuizData", "normalQuizData", "hardQuizData"のいずれかがdataKeyに入る
-  const currentQuizData = quizData[dataKey]; // 通常の配列として取得可能
+  // const currentQuizData = quizData[dataKey]; // 通常の配列として取得可能
+  const [currentQuizData] = useState(() => generateDynamicQuiz(5)); // 初回レンダリング時に5問生成
   // const currentQuizData = []; // 通常の配列として取得可能（エラー処理デバッグ用）
 
   let difficultyName;
