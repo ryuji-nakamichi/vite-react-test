@@ -8,7 +8,6 @@ import DicList from './Pages/Dic/List';
 import DicDetail from './Pages/Dic/Detail';
 function App() {
   return (
-    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/quiz/select" element={<QuizSelect />} />
@@ -25,7 +24,6 @@ function App() {
         <Route path="/dic/list" element={<DicList />} />
         <Route path="/dic/detail/:id" element={<DicDetail />} />
       </Routes>
-    </BrowserRouter>
   )
 }
 

@@ -1,10 +1,15 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom'; // ★ 1. BrowserRouterをインポート ★
 import './index.css'
 import App from './App.jsx'
 
+const BASE_PATH = '/js-test/react-test';
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <BrowserRouter basename={BASE_PATH}>
+      <App />
+    </BrowserRouter>
   </StrictMode>,
 )
