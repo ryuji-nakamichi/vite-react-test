@@ -166,3 +166,18 @@ export NVM_DIR="$HOME/.nvm"
 ### 2025-11-03
 
 - そろそろCSSのフレームワークを導入する。
+
+### 2026-01-03
+
+- PWA化
+  1. `$ npm add -D vite-plugin-pwa`
+  2. `vite.config.js`の設定。
+  3. アイコンの配置を確認
+
+- 動作確認
+  1. `$ npm run build`
+  2. `$ npm run preview`
+  3. ブラウザ経由でインストールできるか確認。インストールする。
+  4. 専用ウィンドウで開かれるので、開いて、開発ツールを開いて、Net WorkタブでThrottlingからOfflineを選択して、オフラインでも動作するかを確認する。
+
+- デプロイ
