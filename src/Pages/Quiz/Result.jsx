@@ -1,6 +1,9 @@
+// src/Pages/Quiz/Result.jsx
+
 import { useLocation } from "react-router-dom";
 import Header from "../../Components/Header";
 import NavigationButton from "../../Components/NavigationButton";
+
 function Result() {
   const location = useLocation();
   const answerLogs = location.state?.answerLogs || [];
@@ -9,60 +12,86 @@ function Result() {
   const score = correctAnswers * 20;
   const difficulty = location.state?.difficulty || "不明";
 
-  // スコアに基づくメッセージ
-  const resultMessage = correctAnswers === totalQuestions ? "完璧です！大軍師の采配！" : "よく頑張りました！次も挑戦を！";
+  // スコアに基づく称号（より三國志らしく）
+  const getRank = () => {
+    if (score === 100) return { title: "大軍師の采配", color: "text-yellow-400" };
+    if (score >= 60) return { title: "猛将の活躍", color: "text-red-400" };
+    return { title: "一兵卒の修行", color: "text-gray-400" };
+  };
+
+  const rank = getRank();
 
   return (
-    <div id="appWrapper" className="min-h-screen flex items-center justify-center py-20 bg-gray-900 px-6">
-      <div className="w-full max-w-xl p-10 rounded-2xl shadow-2xl bg-gray-800 border border-red-800/50 text-center">
+    // 1. 全体を h-[100svh] で固定
+    <div id="appWrapper" className="h-[100svh] flex flex-col bg-gray-900 overflow-hidden">
 
-        {/* 2. タイトルと見出しの統一 */}
-        <Header page={{ title: 'クイズモード' }} />
+      {/* 2. ヘッダーを固定 */}
+      <Header page={{ title: 'クイズ結果' }} difficulty={difficulty} />
 
-        {/* 3. 結果概要エリアの強化 */}
-        <div className="bg-gray-700/60 p-8 rounded-lg shadow-xl mb-10 border-t-4 border-yellow-500">
-          <p className="text-3xl font-bold text-yellow-400 mb-4">{resultMessage}</p>
+      {/* 3. メインコンテンツ領域 */}
+      <main className="flex-grow overflow-y-auto">
+        <div className="w-full max-w-2xl mx-auto p-4 md:p-8">
 
-          {/* スコア強調 */}
-          <p className="text-base text-gray-400 mb-2">得点</p>
-          <p className="text-7xl font-black text-green-400 mb-4 leading-none">
-            {score} 点
-          </p>
+          <div className="animate-fade-in">
+            {/* スコアカード：金色の装飾で達成感を演出 */}
+            <div className="bg-gray-800/60 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-2xl border border-yellow-600/30 text-center mb-8">
+              <p className={`text-xl md:text-2xl font-black tracking-widest mb-4 ${rank.color}`}>
+                【 {rank.title} 】
+              </p>
 
-          <p className="text-xl text-gray-300 mb-2">
-            {`全${totalQuestions}問中、${correctAnswers}問正解`}
-          </p>
-          <p className="text-base text-gray-400">
-            {`難易度: ${difficulty}`}
-          </p>
+              <div className="relative inline-block mb-6">
+                <p className="text-base text-gray-500 mb-1 tracking-tighter">得点</p>
+                <p className="text-8xl font-black text-transparent bg-clip-text bg-gradient-to-b from-green-300 to-green-600 leading-none">
+                  {score}
+                </p>
+                <span className="absolute -right-8 bottom-0 text-2xl text-green-600 font-bold">点</span>
+              </div>
+
+              <div className="flex justify-center gap-8 border-t border-gray-700/50 pt-6">
+                <div className="text-center">
+                  <p className="text-xs text-gray-500 mb-1">正解数</p>
+                  <p className="text-xl font-bold text-gray-200">{correctAnswers} / {totalQuestions}</p>
+                </div>
+                <div className="text-center border-l border-gray-700/50 pl-8">
+                  <p className="text-xs text-gray-500 mb-1">難易度</p>
+                  <p className="text-xl font-bold text-gray-200">{difficulty}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* 解答詳細ログ：戦記風のリスト */}
+            <div className="bg-gray-950/50 rounded-2xl p-6 border border-gray-800 mb-10">
+              <h3 className="text-sm font-bold text-gray-500 mb-4 tracking-widest text-center uppercase">戦績詳細（解答ログ）</h3>
+              <div className="space-y-3">
+                {answerLogs.map((isCorrect, index) => (
+                  <div
+                    key={index}
+                    className={`flex items-center justify-between p-4 rounded-xl border transition-all ${isCorrect
+                        ? 'bg-green-900/10 border-green-800/30 text-green-400'
+                        : 'bg-red-900/10 border-red-800/30 text-red-400'
+                      }`}
+                  >
+                    <span className="font-bold">第 {index + 1} 問</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm">{isCorrect ? "見事なり" : "不覚..."}</span>
+                      <span className="text-2xl">
+                        {isCorrect ? "○" : "×"}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* 下部ナビゲーション */}
+          <div className="mt-8 mb-12">
+            <NavigationButton to="/" text="ホームに戻る" isPrimary={false} />
+          </div>
         </div>
-
-        {/* 4. 解答ログエリアの強化 */}
-        <div className="mb-10 p-4 rounded-lg bg-gray-900 border border-gray-700">
-          <h3 className="text-lg font-semibold text-gray-200 mb-3 border-b border-gray-600 pb-2">解答詳細</h3>
-          <ul className="space-y-2 text-left">
-            {answerLogs.map((isCorrect, index) => (
-              <li
-                key={index}
-                className={`p-2 rounded-md font-medium text-gray-100 ${isCorrect ? 'bg-green-700' : 'bg-red-700'}`}
-              >
-                {`第${index + 1}問: ${isCorrect ? "正解" : "不正解"}`}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* ボタンの統一 */}
-        <div className="appButtonContainer">
-          <NavigationButton
-            to="/"
-            text="ホームに戻る"
-            isPrimary={false}
-          />
-        </div>
-      </div>
+      </main>
     </div>
-  )
+  );
 }
 
 export default Result;

@@ -1,4 +1,17 @@
 /* 1. フォントやカラースキームなど、アプリ全体に影響するグローバルな設定 */
+
+html,
+body,
+#root {
+  /* 画面が勝手にバウンドしたりスクロールしたりするのを防ぐ */
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #111827;
+  /* ★ ここで大元のスクロールを禁止する */
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -6,6 +19,8 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
+  --sat: env(safe-area-inset-top);
+  --sab: env(safe-area-inset-bottom);
 }
 
 /* 2. bodyのリセット（TailwindがCDNで提供しているため、完全に削除しても動作します） */
@@ -29,3 +44,13 @@ a {
 /* ... その他、アニメーションキーフレームなど ... */
 
 /* ★ それ以外の h1, button, .logo, .card などの定義は全て削除してください ★ */
+
+
+#appWrapper {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  /* ★ スクロールが必要な時だけ、この中でさせる */
+  -webkit-overflow-scrolling: touch;
+  /* iOSでのスクロールを滑らかに */
+}

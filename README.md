@@ -181,3 +181,36 @@ export NVM_DIR="$HOME/.nvm"
   4. 専用ウィンドウで開かれるので、開いて、開発ツールを開いて、Net WorkタブでThrottlingからOfflineを選択して、オフラインでも動作するかを確認する。
 
 - デプロイ
+
+
+### 2026-01-04
+
+#### デプロイする
+- `GitHub Pages`を使ってデプロイする
+  1. Build:  Reactのコードを、ブラウザが理解できる形式（HTML/CSS）に変換して`dist`フォルダにまとめる。
+  1. Upload: `dist`フォルダの中身だけを`GitHub`の`gh-oages`という専用ブランチに自動でアップロードする。
+  1. `Publish`: `GitHub`がそのファイルを読み込み、世界中に公開する。
+
+#### 設定の最終チェック
+- 公開を成功させるために、以下の三箇所をセットで修正・確認する。
+
+1. `package.json`の修正
+  - `homepage`フィールドと`scripts`を追加する。*`homepage`は、GitHubで自分のURLに合わせる。
+
+2. `vite.config.js`の確認
+  - 先日設定した`base`が、URLの末尾（サブディレクトリ）と一致しているか再確認する。
+
+3. 公開コマンドの実行
+- 以下のコマンドを実行する。
+
+`$ npm run deploy`
+
+#### エラー解決
+
+1. `gh-pages`をインストールする
+`$ npm install -D gh-pages`
+
+2. 再度デプロイを実行する
+
+- 以下で再度デプロイする
+`$ npm run deploy`

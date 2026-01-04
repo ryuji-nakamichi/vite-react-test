@@ -1,3 +1,5 @@
+// src/Pages/Quiz/Game.jsx
+
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Error from "./Error";
@@ -6,9 +8,8 @@ import NavigationButton from "../../Components/NavigationButton";
 import { generateDynamicQuiz } from "../../data/quizGenerator";
 
 function Game() {
-  const { difficulty } = useParams(); // URLから難易度（easy, normal, hard）を取得
+  const { difficulty } = useParams();
 
-  // 難易度の日本語表示用
   const difficultyDisplayNames = {
     easy: "初級",
     normal: "中級",
@@ -16,19 +17,15 @@ function Game() {
   };
   const difficultyName = difficultyDisplayNames[difficulty] || "不明";
 
-  // クイズデータの生成（初回レンダリング時に一度だけ実行）
   const [currentQuizData] = useState(() => generateDynamicQuiz(difficulty, 5));
-
   const [quizIndex, setQuizIndex] = useState(0);
   const [answerLogs, setAnswerLogs] = useState([]);
   const navigate = useNavigate();
   const MAX_QUIZ_COUNT = currentQuizData.length;
 
-  // 全問解答後の遷移処理
   useEffect(() => {
     if (answerLogs.length > 0 && answerLogs.length === MAX_QUIZ_COUNT) {
       const correctCount = answerLogs.filter(isCorrect => isCorrect === true).length;
-
       navigate("/quiz/result", {
         state: {
           answerLogs: answerLogs,
@@ -40,67 +37,94 @@ function Game() {
     }
   }, [answerLogs, navigate, MAX_QUIZ_COUNT, difficultyName]);
 
-  // エラーハンドリング
+  // エラーハンドリング用の体裁も統一
   if (!currentQuizData || currentQuizData.length === 0) {
     return (
-      <div id="appWrapper" className="min-h-screen flex items-center justify-center py-20 bg-gray-900 px-6">
-        <div className="w-full max-w-xl p-10 rounded-2xl shadow-2xl bg-gray-800 border border-red-800/50 text-center">
-          <Error page={{ from: "Game.jsx" }}>
-            無効な難易度が選択されました。<br />難易度選択画面に戻ってください。
-          </Error>
-        </div>
+      <div id="appWrapper" className="h-[100svh] flex flex-col bg-gray-900">
+        <Header page={{ title: 'エラー' }} />
+        <main className="flex-grow flex items-center justify-center p-6">
+          <div className="w-full max-w-lg p-10 rounded-3xl bg-gray-800 border border-red-800/50 text-center">
+            <Error page={{ from: "Game.jsx" }}>
+              無効な難易度が選択されました。<br />難易度選択画面に戻ってください。
+            </Error>
+          </div>
+        </main>
       </div>
     );
   }
 
-  // 選択肢がクリックされたときの処理
   const handleOptionClick = (selectedIndex) => {
-    // 生成時に保証された answerIndex と比較
     const isCorrect = selectedIndex === currentQuizData[quizIndex].answerIndex;
     setAnswerLogs((prev) => [...prev, isCorrect]);
-    setQuizIndex((prev) => prev + 1); // 次の問題へ
+    setQuizIndex((prev) => prev + 1);
   };
 
   return (
-    <div id="appWrapper" className="min-h-screen flex items-center justify-center py-20 bg-gray-900 px-6">
-      <div className="w-full max-w-xl p-10 rounded-2xl shadow-2xl bg-gray-800 border border-red-800/50 text-center">
+    // 1. 全体を h-[100svh] で固定
+    <div id="appWrapper" className="h-[100svh] flex flex-col bg-gray-900 overflow-hidden">
 
-        <Header page={{ title: 'クイズモード' }} difficulty={difficultyName} />
+      {/* 2. ヘッダーを固定 */}
+      <Header page={{ title: 'クイズモード' }} difficulty={difficultyName} />
 
-        {currentQuizData[quizIndex] && (
-          <div className="appQuizData">
-            <p className="text-xl font-bold text-red-500 bg-gray-700/50 py-2 rounded-lg mb-8 border-b-2 border-red-500">
-              第 {quizIndex + 1} 問 / 全 {MAX_QUIZ_COUNT} 問
-            </p>
+      {/* 3. メインコンテンツ領域：スクロール可能に */}
+      <main className="flex-grow overflow-y-auto">
+        <div className="w-full max-w-2xl mx-auto p-4 md:p-8">
 
-            <div className="bg-gray-700 p-8 rounded-lg shadow-xl mb-10 border-t-4 border-red-600">
-              <p className="text-2xl font-semibold text-gray-100 mb-4">
-                {currentQuizData[quizIndex].question}
-              </p>
-              <p className="text-base text-gray-400 mb-6">
-                正解を選択してください。
-              </p>
+          {currentQuizData[quizIndex] && (
+            <div className="animate-fade-in">
+              {/* 進捗表示 */}
+              <div className="flex justify-between items-center mb-6 px-2">
+                <span className="text-gray-400 font-bold tracking-widest text-sm">PROGRESS</span>
+                <span className="text-red-500 font-black text-xl">
+                  {quizIndex + 1} <span className="text-gray-600 text-sm">/ {MAX_QUIZ_COUNT}</span>
+                </span>
+              </div>
 
-              <div className="grid grid-cols-1 gap-4">
-                {currentQuizData[quizIndex].options.map((option, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleOptionClick(index)}
-                    className="py-4 px-4 rounded-lg font-bold bg-indigo-600 text-white shadow-xl hover:bg-indigo-500 
-                               transform hover:scale-105 transition duration-300"
-                  >
-                    {option}
-                  </button>
-                ))}
+              {/* クイズカード：スマホでは端まで広げ、没入感を出す */}
+              <div className="bg-gray-800/60 backdrop-blur-md p-6 md:p-10 rounded-3xl shadow-2xl border border-red-800/30 text-center">
+
+                {/* 問題文セクション */}
+                <div className="mb-10">
+                  <div className="inline-block px-4 py-1 rounded-full bg-red-900/30 border border-red-500/30 text-red-400 text-xs font-bold mb-4 tracking-widest">
+                    QUESTION
+                  </div>
+                  <p className="text-xl md:text-3xl font-bold text-gray-100 leading-relaxed">
+                    {currentQuizData[quizIndex].question}
+                  </p>
+                </div>
+
+                {/* 選択肢：押しやすさを最優先に */}
+                <div className="grid grid-cols-1 gap-4">
+                  {currentQuizData[quizIndex].options.map((option, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleOptionClick(index)}
+                      className="group relative w-full py-5 px-6 rounded-2xl font-bold text-lg 
+                               bg-gray-900 text-white border border-gray-700 
+                               hover:border-red-500 hover:bg-gray-800 
+                               active:scale-95 transition-all duration-200 text-left flex items-center shadow-lg"
+                    >
+                      <span className="w-8 h-8 flex items-center justify-center rounded-full bg-red-900/50 text-red-500 mr-4 group-hover:bg-red-500 group-hover:text-white transition-colors">
+                        {index + 1}
+                      </span>
+                      {option}
+                    </button>
+                  ))}
+                </div>
+
+                <p className="text-xs text-gray-500 mt-8 italic">
+                  ※正解と思う武将を選択して「出陣」せよ
+                </p>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        <div className="mt-8">
-          <NavigationButton to="/" text="ホームに戻る" isPrimary={false} />
+          {/* 下部ナビゲーション */}
+          <div className="mt-12 mb-10">
+            <NavigationButton to="/" text="ホームに戻る" isPrimary={false} />
+          </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

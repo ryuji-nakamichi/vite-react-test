@@ -47,77 +47,82 @@ function Detail() {
   const backPath = `/dic/list?mode=${viewMode}`;
 
   return (
-    <div id="appWrapper" className="min-h-screen flex items-center justify-center py-20 bg-gray-900 px-6">
-      <div className="w-full max-w-2xl p-10 rounded-2xl shadow-2xl bg-gray-800 border border-red-800/50 text-center">
+    // 1. 全体を h-[100svh] の縦並び(flex-col)にする
+    <div id="appWrapper" className="h-[100svh] flex flex-col bg-gray-900 overflow-hidden">
 
-        <Header page={{ title: '武将詳細' }} />
+      {/* 2. ヘッダーを外に出す。これで上部に固定される */}
+      <Header page={{ title: '武将詳細' }} />
 
-        {/* ★ モード切り替えタブ ★ */}
-        <div className="flex justify-center mb-8 bg-gray-900 p-1 rounded-full border border-gray-700 shadow-inner">
-          <button
-            onClick={() => setViewMode('romance')}
-            className={`flex-1 py-2 px-6 rounded-full font-bold transition-all duration-300 ${viewMode === 'romance'
-                ? 'bg-red-700 text-white shadow-lg'
-                : 'text-gray-500 hover:text-gray-300'
-              }`}
-          >
-            三國志演義 (物語)
-          </button>
-          <button
-            onClick={() => setViewMode('history')}
-            className={`flex-1 py-2 px-6 rounded-full font-bold transition-all duration-300 ${viewMode === 'history'
-                ? 'bg-blue-800 text-white shadow-lg'
-                : 'text-gray-500 hover:text-gray-300'
-              }`}
-          >
-            正史 三國志 (歴史)
-          </button>
-        </div>
+      {/* 3. コンテンツエリア：flex-grow と overflow-y-auto でここだけをスクロールさせる */}
+      <main className="flex-grow overflow-y-auto">
+        <div className="w-full max-w-2xl mx-auto p-4 md:p-8 pb-20">
 
-        {/* 武将名セクション */}
-        <div className={`p-6 rounded-lg mb-8 shadow-xl border-t-4 ${factionTheme.border} ${factionTheme.bg}`}>
-          <p className="text-4xl font-black text-white leading-tight">
-            {characterData.firstName} {characterData.lastName}
-          </p>
-          <p className={`text-xl font-bold ${factionTheme.color} mt-1`}>
-            字: {characterData.nickName || '字不明'}
-          </p>
-          {/* キャッチコピーの切り替え */}
-          <p className="text-base text-gray-400 italic mt-2 animate-fade-in">
-            "{currentDetails.catch}"
-          </p>
-        </div>
+          {/* カードコンテナ：スマホでは背景に馴染ませ、PCでは枠線を表示 */}
+          <div className="bg-gray-800/50 md:bg-gray-800 p-5 md:p-10 rounded-none md:rounded-3xl shadow-2xl border-y md:border border-red-800/30 text-center">
 
-        <div className="space-y-6 text-left">
-          {/* 能力チャート */}
-          <div className="bg-gray-700 p-6 rounded-lg shadow-md">
-            <h3 className={`text-xl font-bold mb-4 ${factionTheme.color}`}>⚔️ 総合能力</h3>
-            <div className="flex justify-center">
-              <div className="w-full max-w-sm">
-                <RadarChart stats={characterData} color={factionTheme.chartFill} size={400} />
+            {/* モード切り替えタブ：少しマージンを調整 */}
+            <div className="flex justify-center mb-10 bg-gray-900/50 p-1 rounded-full border border-gray-700 shadow-inner">
+              <button
+                onClick={() => setViewMode('romance')}
+                className={`flex-1 py-3 px-4 rounded-full font-bold text-sm md:text-base transition-all duration-300 ${viewMode === 'romance' ? 'bg-red-700 text-white shadow-lg' : 'text-gray-500'
+                  }`}
+              >
+                三國志演義
+              </button>
+              <button
+                onClick={() => setViewMode('history')}
+                className={`flex-1 py-3 px-4 rounded-full font-bold text-sm md:text-base transition-all duration-300 ${viewMode === 'history' ? 'bg-blue-800 text-white shadow-lg' : 'text-gray-500'
+                  }`}
+              >
+                正史 三國志
+              </button>
+            </div>
+
+            {/* 武将名セクション：ここがヘッダーの下に正しく現れます */}
+            <div className={`p-8 rounded-2xl mb-10 shadow-xl border-t-4 ${factionTheme.border} ${factionTheme.bg}`}>
+              <p className="text-4xl md:text-5xl font-black text-white leading-tight">
+                {characterData.firstName} {characterData.lastName}
+              </p>
+              <p className={`text-xl font-bold ${factionTheme.color} mt-2`}>
+                字: {characterData.nickName || '字不明'}
+              </p>
+              <p className="text-base text-gray-400 italic mt-4 animate-fade-in px-4">
+                "{currentDetails.catch}"
+              </p>
+            </div>
+
+            <div className="space-y-8 text-left">
+              {/* 能力チャート */}
+              <div className="bg-gray-900/40 p-6 rounded-2xl shadow-md border border-gray-700/50">
+                <h3 className={`text-xl font-bold mb-4 ${factionTheme.color}`}>⚔️ 総合能力</h3>
+                <div className="flex justify-center">
+                  <div className="w-full max-w-sm">
+                    <RadarChart stats={characterData} color={factionTheme.chartFill} size={300} />
+                  </div>
+                </div>
+              </div>
+
+              <CharacterTags characterData={characterData} colorClass={factionTheme.color} />
+              <RelatedCharacters relatedCharacters={characterData.relatedCharacters} colorClass={factionTheme.color} />
+
+              {/* 人物略歴 */}
+              <div className="bg-gray-900/40 p-6 rounded-2xl shadow-md border-l-4 border-yellow-500/50">
+                <h3 className={`text-xl font-bold mb-4 ${factionTheme.color}`}>
+                  <span className="mr-2">📖</span>
+                  {viewMode === 'romance' ? '演義での活躍' : '正史の記録'}
+                </h3>
+                <p className="text-gray-300 leading-relaxed indent-4 whitespace-pre-wrap text-base md:text-lg">
+                  {currentDetails.bio}
+                </p>
               </div>
             </div>
-          </div>
 
-          <CharacterTags characterData={characterData} colorClass={factionTheme.color} />
-          <RelatedCharacters relatedCharacters={characterData.relatedCharacters} colorClass={factionTheme.color} />
-
-          {/* 人物略歴（ここがモードによって劇的に切り替わります） */}
-          <div className="bg-gray-700 p-6 rounded-lg shadow-md border-l-4 border-yellow-500/50">
-            <h3 className={`text-xl font-bold mb-3 ${factionTheme.color}`}>
-              <span className="mr-2">📖</span>
-              {viewMode === 'romance' ? '演義での活躍' : '正史の記録'}
-            </h3>
-            <p className="text-gray-300 leading-relaxed indent-4 whitespace-pre-wrap transition-opacity duration-500">
-              {currentDetails.bio}
-            </p>
+            <div className="w-full mt-12 pb-6">
+              <NavigationButton to={backPath} text="武将一覧に戻る" isPrimary={false} />
+            </div>
           </div>
         </div>
-
-        <div className="w-full mt-10">
-          <NavigationButton to={backPath}  text="武将一覧に戻る"  isPrimary={false} />
-        </div>
-      </div>
+      </main>
     </div>
   );
 }

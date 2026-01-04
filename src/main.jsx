@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom'; // ★ 1. BrowserRouterをイ�
 import './index.css'
 import App from './App.jsx'
 
-const BASE_PATH = '/js-test/react-test';
+const BASE_PATH = '/vite-react-test';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

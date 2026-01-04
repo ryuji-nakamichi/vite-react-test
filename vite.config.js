@@ -5,7 +5,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 // https://vite.dev/config/
 export default defineConfig({
   // main.jsx の BASE_PATH と合わせる
-  base: '/js-test/react-test/',
+  base: '/vite-react-test/',
   plugins: [
     react(),
     VitePWA({
