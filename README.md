@@ -214,3 +214,47 @@ export NVM_DIR="$HOME/.nvm"
 
 - 以下で再度デプロイする
 `$ npm run deploy`
+
+
+### 2026-01-07
+
+#### 支援者専用コンテンツ
+
+##### 開発ツールから動作確認する方法
+
+- 動作確認するには以下のjsコードを張り付けることで直ぐにテストができる。
+
+```js
+// Web Monetizationの開始イベントを擬似的に発生させる
+if (document.monetization) {
+  document.monetization.state = 'started';
+  document.monetization.dispatchEvent(new CustomEvent('monetizationstart'));
+  console.log('✅ Monetization Mock Event Sent!');
+} else {
+  console.error('❌ metaタグがないか、ブラウザが未対応です');
+}
+```
+
+**Chromeの開発ツールで、デバッグコードが貼り付けられないことへの対策。**
+[https://qiita.com/flano_yuki/items/adc778aa8bcede2c10e9](https://qiita.com/flano_yuki/items/adc778aa8bcede2c10e9)
+
+
+`metaタグがないか、ブラウザが未対応です`と表示される場合は以下のコードをコンソールに貼り付けて実行することで、強制的に支援状態にできる。
+
+```js
+// 1. 存在しない document.monetization オブジェクトを無理やり作成する
+if (!document.monetization) {
+    document.monetization = document.createElement('div'); // イベントを扱えるようにする
+    document.monetization.state = 'pending';
+}
+
+// 2. 状態を「開始」に変更し、Reactが監視しているイベントを発生させる
+document.monetization.state = 'started';
+const startEvent = new CustomEvent('monetizationstart');
+document.monetization.dispatchEvent(startEvent);
+
+console.log('🚀 [Mock] 支援開始イベントを強制送信しました！');
+```
+
+
+##### 本物の拡張機能を使う場合
