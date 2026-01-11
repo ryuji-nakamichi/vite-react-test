@@ -108,10 +108,10 @@ const dicSyokuData = [
       }
     },
     supporterData: {
-      modernRole: "テックリード / 守護神",
-      hiddenBio: "圧倒的な実装力と義理堅さを誇る。しかし、前職（曹操社）からの引き抜きを「義理」で断るため、ヘッドハンター泣かせとしても有名。プライドが高く、若手エンジニアには厳しい。",
-      specialSkill: "スタンドアロン・ヒーロー",
-      modernMeta: "コードの品質（武勇）は神レベルだが、README（外交）を読まないため、たまに孤立する。"
+      modernRole: "SRE（サイト信頼性エンジニア）/ 物理担当",
+      hiddenBio: "「長坂橋の一喝」は、現代では全トラフィックをコマンド一つで遮断する圧倒的ファイアウォール。酒を飲むと本番環境のDBを物理的に破壊（物理削除）するリスクがあるため、常に監視が必要。",
+      specialSkill: "物理サーバー・リブート",
+      modernMeta: "声がデカすぎてアラート通知より先に本人の怒号がオフィスに響く。しかし、トラブル復旧速度だけは誰よりも早い。"
     },
     strength: 90,
     intelligence: 70,
@@ -129,8 +129,8 @@ const dicSyokuData = [
   },
   {
     id: 4,
-    firstName: '諸',
-    lastName: '葛亮',
+    firstName: '諸葛',
+    lastName: '亮',
     nickName: '孔明',
     group: '蜀',
     birthYear: 181,
@@ -149,10 +149,10 @@ const dicSyokuData = [
       }
     },
     supporterData: {
-      modernRole: "テックリード / 守護神",
-      hiddenBio: "圧倒的な実装力と義理堅さを誇る。しかし、前職（曹操社）からの引き抜きを「義理」で断るため、ヘッドハンター泣かせとしても有名。プライドが高く、若手エンジニアには厳しい。",
-      specialSkill: "スタンドアロン・ヒーロー",
-      modernMeta: "コードの品質（武勇）は神レベルだが、README（外交）を読まないため、たまに孤立する。"
+      modernRole: "CTO / チーフ・アーキテクト",
+      hiddenBio: "24時間365日稼働を10年以上続け、死の間際に後任（姜維）が困らないよう100年分の保守マニュアルを書き残した伝説のフルスタック。彼のコードは完璧すぎて誰もリファクタリングできない。",
+      specialSkill: "オーバークロック・知略",
+      modernMeta: "「死せる孔明、生ける仲達を走らす」は、現代では「本人が退職した後も、彼が作った自動化スクリプトが完璧すぎて競合他社が手も足も出ない」状態を指す。"
     },
     strength: 60,
     intelligence: 100,
@@ -189,10 +189,10 @@ const dicSyokuData = [
       }
     },
     supporterData: {
-      modernRole: "テックリード / 守護神",
-      hiddenBio: "圧倒的な実装力と義理堅さを誇る。しかし、前職（曹操社）からの引き抜きを「義理」で断るため、ヘッドハンター泣かせとしても有名。プライドが高く、若手エンジニアには厳しい。",
-      specialSkill: "スタンドアロン・ヒーロー",
-      modernMeta: "コードの品質（武勇）は神レベルだが、README（外交）を読まないため、たまに孤立する。"
+      modernRole: "シニア・セキュリティエンジニア",
+      hiddenBio: "単騎で炎上案件（長坂坡）に突っ込み、赤ん坊（大事なマスターデータ）を抱えて生還する危機管理の鬼。生涯で一度も致命的なバグ（敗走）を出したことがない稼働率100%の男。",
+      specialSkill: "100%稼働保証（SLA）",
+      modernMeta: "私欲がなく、深夜の緊急コールにも即座に対応するが、あまりにも無欠すぎて逆に人間味がないと噂される。"
     },
     strength: 90,
     intelligence: 80,
@@ -234,10 +234,10 @@ const dicGoData = [
       }
     },
     supporterData: {
-      modernRole: "テックリード / 守護神",
-      hiddenBio: "圧倒的な実装力と義理堅さを誇る。しかし、前職（曹操社）からの引き抜きを「義理」で断るため、ヘッドハンター泣かせとしても有名。プライドが高く、若手エンジニアには厳しい。",
-      specialSkill: "スタンドアロン・ヒーロー",
-      modernMeta: "コードの品質（武勇）は神レベルだが、README（外交）を読まないため、たまに孤立する。"
+      modernRole: "2代目CEO / プロジェクトマネージャー",
+      hiddenBio: "父と兄が作った巨大なレガシーコード（江東の基盤）を、見事にモダンな組織へとリファクタリングした経営のプロ。決断に迷うとオフィスのデスクを斬る（物理的決断）癖があり、備品代がかさむ。",
+      specialSkill: "外交的リファクタリング",
+      modernMeta: "「魏」と「蜀」という巨大なシェア争いの間で、絶妙なバランスを保ちながら会社を守り抜く、調整能力の化身。"
     },
     strength: 75,
     intelligence: 85,
@@ -277,10 +277,10 @@ const dicGiData = [
       }
     },
     supporterData: {
-      modernRole: "巨大コンツェルンの創業者兼・最高経営責任者",
-      hiddenBio: "『俺が天下を裏切っても、天下が俺を裏切ることは許さない』を社訓に掲げる超実力主義者。前科があってもコードが書ければ即採用するが、空の弁当箱を送って暗に退職勧告（解雇）する冷徹な一面も持つ。",
-      specialSkill: "M&A（人材・領土の吸収合併）",
-      modernMeta: "圧倒的な意思決定スピードを誇る最強のリーダー。ただし、プライベートでは人妻に目がなく、それが原因でサーバー（陣営）が大炎上した過去がある。"
+      modernRole: "メガベンチャー創業者兼CEO",
+      hiddenBio: "『俺が天下を裏切っても、天下が俺を裏切ることは許さない』を社訓に掲げる超実力主義者。前科があっても技術があれば即採用するが、期待外れだと空の弁当箱（退職届）を送りつける。",
+      specialSkill: "強引なM&A（人材吸収）",
+      modernMeta: "圧倒的な意思決定スピードと詩的なセンスを併せ持つ。プライベートでは他社のプロジェクトリーダーの妻をスカウトしようとして、たまに炎上する。"
     },
     strength: 85,
     intelligence: 95,
@@ -297,15 +297,278 @@ const dicGiData = [
   }
 ];
 
+// --- 魏（Gi）追加分 ---
+const dicGiDataExtra = [
+  {
+    id: 15,
+    firstName: '司馬',
+    lastName: '懿',
+    nickName: '仲達',
+    group: '魏',
+    birthYear: 179,
+    deathYear: 251,
+    homeland: '河内郡',
+    details: {
+      history: {
+        catch: '最後に笑った不倒の権力者',
+        description: '諸葛亮の最大の宿敵であり、後の晋の基礎を築いた老獪な政治家。',
+        bio: '正史では諸葛亮の北伐を徹底した持久戦で防ぎきりました。内政・軍事ともに隙がなく、政敵を次々と排除して司馬氏の権力を確立させた、忍耐と計算の達人です。'
+      },
+      romance: {
+        catch: '諸葛亮が最も恐れた智将',
+        description: '諸葛亮の知略を唯一見抜くことができたライバル。',
+        bio: '諸葛亮のライバルとして描かれ、時には翻弄されますが、最終的には「死せる孔明」に走らされつつも勝利を手にします。'
+      }
+    },
+    supporterData: {
+      modernRole: "ヘッド・オブ・セキュリティ / 監査役",
+      hiddenBio: "競合（諸葛亮）が自滅するまで徹底的に脆弱性を突かず待機する、忍耐のリスク管理者。一度牙を剥くと、社内の全権力を握るクーデター（M&A）を完遂させる冷徹さを持つ。",
+      specialSkill: "プロアクティブ・ディフェンス",
+      modernMeta: "「死ぬまでが開発期間」を地で行く長期メンテナンスの達人。彼が書いたコードは100年後の晋システムまで稼働し続ける。"
+    },
+    strength: 65, intelligence: 98, charisma: 85, politics: 95, command: 90, strategy: 95,
+    keywords: ['宿敵', '持久戦', '晋の礎', '老獪'],
+    skills: ['防衛', '内政', '策略'],
+    relatedCharacters: [{ id: 4, name: '諸葛亮', relation: '好敵手' }, { id: 14, name: '曹操', relation: '主君' }]
+  },
+  {
+    id: 16,
+    firstName: '張',
+    lastName: '遼',
+    nickName: '文遠',
+    group: '魏',
+    birthYear: 165,
+    deathYear: 222,
+    homeland: '雁門郡',
+    details: {
+      history: {
+        catch: '泣く子も黙る合肥の守護神',
+        description: '元は呂布の配下。合肥の戦いではわずか800の兵で10万の軍を震え上がらせた。',
+        bio: '武勇と冷静さを兼ね備えた、魏の五将軍の筆頭格。敵対していた関羽とも義によって結ばれるなど、武人としての品格も高く評価されています。'
+      },
+      romance: {
+        catch: '遼来遼来（遼来たる）',
+        description: '呉の子供たちが彼の名を聞くだけで泣き止んだという伝説を持つ猛将。',
+        bio: '合肥で孫権をあと一歩まで追い詰めた勇姿は、呉のトラウマとして語り継がれています。'
+      }
+    },
+    supporterData: {
+      modernRole: "インシデントレスポンス・リード",
+      hiddenBio: "大規模なDDoS攻撃（孫権の10万軍）を、わずか800行のスクリプトで完封した伝説の初動対応者。呉の若手エンジニアは彼のアイコンを見るだけで作業を止める（トラウマ）。",
+      specialSkill: "ゼロデイ・アタック完封",
+      modernMeta: "「遼来来（リョウライライ）」は、Slackに彼がログインした瞬間に全バグが沈静化することを指す。"
+    },
+    strength: 92, intelligence: 75, charisma: 85, politics: 60, command: 95, strategy: 80,
+    keywords: ['合肥の戦い', '勇猛', '五将軍', '義理堅い'],
+    skills: ['突撃', '統率', '武勇'],
+    relatedCharacters: [{ id: 14, name: '曹操', relation: '主君' }, { id: 8, name: '孫権', relation: '宿敵' }]
+  },
+  {
+    id: 17,
+    firstName: '夏侯',
+    lastName: '惇',
+    nickName: '元譲',
+    group: '魏',
+    birthYear: 155,
+    deathYear: 220, homeland: '沛国',
+    details: {
+      history: {
+        catch: '魏を支え続けた不屈の重鎮',
+        description: '曹操の旗揚げから従う最古参。軍事よりは後方の補給や統治で手腕を発揮した。',
+        bio: '曹操の親族であり、最も信頼された副官。戦場での負傷で片目を失いながらも、屯田制の導入など、魏のインフラ基盤を支え続けました。'
+      },
+      romance: {
+        catch: '抜矢啖眼（矢を抜き眼を喰らう）',
+        description: '左目に刺さった矢を眼球ごと抜き取り、それを飲み込んで戦い続けた豪将。',
+        bio: '曹操軍の先鋒として常に最前線に立ち、演義では凄まじい闘志を持つ武闘派として描かれます。'
+      }
+    },
+    supporterData: {
+      modernRole: "COO（最高執行責任者）/ インフラ担当",
+      hiddenBio: "左目（モニター）が一つ潰れてもデバッグを続ける不屈の男。曹操CEOの無茶な仕様変更を、現場で全て形にする圧倒的なデリバリー能力を持つ。",
+      specialSkill: "ハードウェア・リカバリー",
+      modernMeta: "彼が管理するサーバー（領土）は、どんな天災が起きてもダウンしない（屯田制によるリソース確保）。"
+    },
+    strength: 88, intelligence: 70, charisma: 92, politics: 85, command: 90, strategy: 70,
+    keywords: ['独眼竜', '最古参', '補給', '信頼'],
+    skills: ['統率', '内政', '武勇'],
+    relatedCharacters: [{ id: 14, name: '曹操', relation: '親族・右腕' }]
+  },
+  {
+    id: 18,
+    firstName: '郭',
+    lastName: '嘉',
+    nickName: '奉孝',
+    group: '魏',
+    birthYear: 170,
+    deathYear: 207, homeland: '潁川郡',
+    details: {
+      history: {
+        catch: '曹操が最も愛した夭折の天才軍師',
+        description: '相手の心理を読み切り、数手先を予言するように的中させた戦略家。',
+        bio: '曹操の覇業初期を支えた軍師。赤壁の戦いで敗れた際、曹操が「奉孝さえいればこれほどの敗北はしなかった」と嘆いたほど、その洞察力は鋭いものでした。'
+      },
+      romance: {
+        catch: '十勝十敗の説',
+        description: '曹操と袁紹の差を説き、勝利を確信させた知略の持ち主。',
+        bio: '若くして世を去りますが、死後も遺計によって敵を破るなど、天才軍師としての伝説を残しました。'
+      }
+    },
+    supporterData: {
+      modernRole: "データサイエンティスト / AI予測モデル",
+      hiddenBio: "ログ（心理）を数行見ただけで、競合の次の出方を99%の精度で予測する。あまりに高度な計算を行うため、CPU（体調）が常にオーバーヒート気味で、短命なのが難点。",
+      specialSkill: "遺言による自動デプロイ",
+      modernMeta: "彼が死に際に残したシェルスクリプト（遺計）は、実行するだけで半年後のバグまで修正してしまう。"
+    },
+    strength: 20, intelligence: 98, charisma: 80, politics: 80, command: 70, strategy: 100,
+    keywords: ['天才軍師', '夭折', '予言', '赤壁の嘆き'],
+    skills: ['予測', '知略', '分析'],
+    relatedCharacters: [{ id: 14, name: '曹操', relation: '寵愛する軍師' }]
+  }
+];
+
+// --- 呉（Go）追加分 ---
+const dicGoDataExtra = [
+  {
+    id: 9,
+    firstName: '周',
+    lastName: '瑜',
+    nickName: '公瑾',
+    group: '呉',
+    birthYear: 175,
+    deathYear: 210,
+    homeland: '廬江郡',
+    details: {
+      history: {
+        catch: '赤壁に燃える美周郎',
+        description: '容姿端麗で音楽にも通じた、呉の建国を支えた最高司令官。',
+        bio: '正史では、度量が広く寛大な人物として描かれます。赤壁の戦いでは実質的な総指揮を執り、圧倒的な兵力を誇る曹操軍を火計で打ち破った、呉の真の英雄です。'
+      },
+      romance: {
+        catch: '天はこの世に周瑜を生みながら、なぜ諸葛亮をも生んだのか',
+        description: '諸葛亮に翻弄される悲劇の天才軍師。',
+        bio: '諸葛亮への対抗心からくる策謀が裏目に出る描写が多いですが、それでも曹操軍を焼き払ったその知略は物語随一です。'
+      }
+    },
+    supporterData: {
+      modernRole: "クリエイティブディレクター / 共同創業者",
+      hiddenBio: "圧倒的なビジュアル（容姿）と、コードの美しさへのこだわり。火攻めという「ゼロデイ脆弱性」を突いた華やかな攻撃を得意とするが、自分よりGitHubのスター数が多いエンジニア（諸葛亮）を見ると、ストレスでサーバーがダウンする。",
+      specialSkill: "火攻め（大規模リファクタリング）",
+      modernMeta: "UI/UX（風流）への造詣も深く、「周郎、曲を誤れば顧みる（ミスがあればすぐ指摘する）」と言われるほどの完璧主義なコードレビュアー。"
+    },
+    strength: 78, intelligence: 96, charisma: 98, politics: 85, command: 95, strategy: 95,
+    keywords: ['美周郎', '赤壁の勝者', '火計', '音楽'],
+    skills: ['水軍統率', '火計', '音楽'],
+    relatedCharacters: [{ id: 8, name: '孫権', relation: '主柱' }, { id: 4, name: '諸葛亮', relation: 'ライバル' }]
+  },
+  {
+    id: 10,
+    firstName: '陸',
+    lastName: '遜',
+    nickName: '伯言',
+    group: '呉',
+    birthYear: 183,
+    deathYear: 245, homeland: '呉郡',
+    details: {
+      history: {
+        catch: '蜀の野望を焼き尽くした若き知将',
+        description: '夷陵の戦いで劉備の大軍を破った。後に呉の丞相となる。',
+        bio: '謙虚で目立たない若手でしたが、関羽を油断させて討ち取り、夷陵では火計で劉備を絶望させました。冷静な判断力と、長期的視点を持った呉の柱石です。'
+      },
+      romance: {
+        catch: '書生に何ができる！と侮らせた策',
+        description: '関羽や劉備に「青二才」と侮らせ、その隙を突いて勝利を収めた。',
+        bio: '見た目は若々しい書生ですが、その中身は老練な軍略家。石兵八陣に迷い込むなど、諸葛亮には一歩譲る描写もありますが、呉を守り抜いた功績は絶大です。'
+      }
+    },
+    supporterData: {
+      modernRole: "フルスタックエンジニア / 現場責任者",
+      hiddenBio: "「ただのコーダー」と侮ったベテラン（関羽・劉備）を、完璧なアーキテクチャ設計で完膚なきまでに叩き潰す。夷陵の戦い（レガシーコードの全焼却）という大規模マイグレーションを完遂した実績を持つ。",
+      specialSkill: "夷陵のファイアウォール構築",
+      modernMeta: "謙虚な態度で要件定義（外交）を進めるが、実装に入ると一切の容赦がない。後にCTO（丞相）にまで上り詰めた努力の天才。"
+    },
+    strength: 65, intelligence: 95, charisma: 88, politics: 95, command: 92, strategy: 98,
+    keywords: ['夷陵の戦い', '火計', '丞相', '謙虚'],
+    skills: ['戦術', '忍耐', '内政'],
+    relatedCharacters: [{ id: 8, name: '孫権', relation: '主君' }, { id: 1, name: '劉備', relation: '因縁の相手' }]
+  },
+  {
+    id: 11,
+    firstName: '呂',
+    lastName: '蒙',
+    nickName: '子明',
+    group: '呉',
+    birthYear: 178,
+    deathYear: 219, homeland: '汝南郡',
+    details: {
+      history: {
+        catch: '学問によって生まれ変わった努力の猛将',
+        description: '「呉下の阿蒙にあらず」。武勇だけの男から、読書で大軍略家へと進化した。',
+        bio: '元は無学な武将でしたが、孫権に勧められて猛勉強し、魯粛を驚かせました。周到な準備と変装を用いた奇襲で、無敵の関羽から荊州を奪還した知勇兼備の将です。'
+      },
+      romance: {
+        catch: '関羽を討ち取った執念の将',
+        description: '病を装い、関羽を油断させて背後を突く「白衣渡江」を成功させた。',
+        bio: '関羽を罠にかけ、その誇りを打ち砕いた人物。関羽の祟りで死ぬという非科学的な最後を描かれますが、その軍略は高く評価されています。'
+      }
+    },
+    supporterData: {
+      modernRole: "独学のリードエンジニア（元・体育会系）",
+      hiddenBio: "元は「気合と根性」のエンジニアだったが、猛勉強の末にデザインパターンとアルゴリズムを習得。「もう3日前の僕（阿蒙）ではありません」とドヤ顔でプルリクを出すのが日課。",
+      specialSkill: "ステルス・デプロイ（白衣渡江）",
+      modernMeta: "関羽（ベテラン）が休暇に入った隙を狙って、完璧なリプレイスを完了させる執念の持ち主。リカレント教育（学び直し）の象徴的存在。"
+    },
+    strength: 82, intelligence: 90, charisma: 85, politics: 82, command: 92, strategy: 95,
+    keywords: ['呉下の阿蒙', '荊州奪還', '努力家', '白衣渡江'],
+    skills: ['学習能力', '奇襲', '統率'],
+    relatedCharacters: [{ id: 8, name: '孫権', relation: '主君' }, { id: 2, name: '関羽', relation: '宿敵' }]
+  },
+  {
+    id: 12,
+    firstName: '魯',
+    lastName: '粛',
+    nickName: '子敬',
+    group: '呉',
+    birthYear: 172,
+    deathYear: 217, homeland: '臨淮郡',
+    details: {
+      history: {
+        catch: '天下二分の計を唱えた大局の士',
+        description: '孫権に、曹操に対抗するための壮大な戦略を提示した先見の明を持つ政治家。',
+        bio: '演義のお人好しなイメージとは異なり、正史では豪放で決断力に富む人物。諸葛亮に先んじて「天下二分の計」を唱え、呉と蜀の同盟を維持し続けた現実的な戦略家です。'
+      },
+      romance: {
+        catch: '諸葛亮と周瑜の板挟みになる苦労人',
+        description: '義理堅く誠実な性格で、蜀と呉の橋渡し役を務めた。',
+        bio: '諸葛亮にいいように扱われたり、周瑜に怒られたりと、中間管理職のような苦労人として描かれますが、その誠実さが物語の潤滑油となっています。'
+      }
+    },
+    supporterData: {
+      modernRole: "ビジネスデベロップメント / 渉外担当CTO",
+      hiddenBio: "諸葛亮（競合）と周瑜（自社）の板挟みになりながら、API連携（孫劉同盟）を維持し続ける調整の天才。非常に気前が良く、困っているエンジニアにサーバーリソースを無償で提供する太っ腹な一面も。",
+      specialSkill: "アライアンス・マネジメント",
+      modernMeta: "「お人好し」に見えるが、実は会社の将来を20年先まで見据えたロードマップを描いている戦略的アーキテクト。"
+    },
+    strength: 55, intelligence: 92, charisma: 90, politics: 95, command: 80, strategy: 92,
+    keywords: ['同盟', '先見の明', '太っ腹', '仲裁者'],
+    skills: ['外交', '内政', '戦略'],
+    relatedCharacters: [{ id: 8, name: '孫権', relation: '主柱' }, { id: 4, name: '諸葛亮', relation: '協力者' }]
+  }
+];
+
 const ALL_DIC_DATA = [
   ...dicSyokuData,
   ...dicGoData,
-  ...dicGiData
+  ...dicGiData,
+  ...dicGiDataExtra,
+  ...dicGoDataExtra
 ];
 
 export default {
   dicSyokuData,
   dicGoData,
   dicGiData,
+  dicGiDataExtra,
+  dicGoDataExtra,
   ALL_DIC_DATA
 };

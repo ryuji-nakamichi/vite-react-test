@@ -7,6 +7,7 @@ import RadarChart from "../../Components/RadarChart";
 import CharacterTags from "../../Components/CharacterTags";
 import RelatedCharacters from "../../Components/RelatedCharacters";
 import { useMonetization } from "../../hooks/useMonetization"; // ★追加
+import DecodingText from '../../Components/DecodingText';
 
 const FACTION_COLORS = {
   '蜀': { color: 'text-green-400', border: 'border-green-600', bg: 'bg-green-700/50', chartFill: 'fill-green-500' },
@@ -122,49 +123,63 @@ function Detail() {
             {/* 人物略歴の下あたりに「支援者限定セクション」を追加 */}
             <div className="mt-8 space-y-6">
               {isMonetized ? (
-                // 🔓 支援ユーザー向けの表示（プレミアムなデザイン）
-                <div className="relative overflow-hidden bg-gradient-to-br from-yellow-900/40 via-gray-800 to-red-900/40 p-6 rounded-3xl border-2 border-yellow-500/50 shadow-[0_0_20px_rgba(234,179,8,0.3)] animate-fade-in">
-                  {/* 装飾用の光るエフェクト */}
+                // 🔓 支援ユーザー向けの表示（デコード演出付きプレミアムデザイン）
+                <div className="secret-container relative overflow-hidden bg-gradient-to-br from-yellow-900/40 via-gray-800 to-red-900/40 p-6 rounded-3xl border-2 border-yellow-500/50 shadow-[0_0_20px_rgba(234,179,8,0.3)] animate-fade-in">
+                  {/* 背景の光るエフェクト */}
                   <div className="absolute -top-10 -left-10 w-32 h-32 bg-yellow-500/10 blur-3xl rounded-full"></div>
-                  
+
                   <div className="relative z-10">
                     <div className="flex items-center gap-3 mb-4">
-                      <span className="text-2xl">🏆</span>
+                      <span className="text-2xl animate-pulse">🏆</span>
                       <h3 className="text-xl font-black text-yellow-400 tracking-tighter">
                         【 支援者限定：軍略秘録 】
                       </h3>
                     </div>
 
                     <div className="space-y-4">
+                      {/* 現代の役職セクション */}
                       <div className="bg-gray-900/60 p-4 rounded-xl border border-yellow-500/20">
-                        <span className="text-xs font-bold text-yellow-600 block mb-1">現代の役職 / パラレル設定</span>
-                        <p className="text-white font-bold text-lg">{characterData.supporterData.modernRole}</p>
+                        <span className="text-[10px] font-bold text-yellow-600 uppercase tracking-widest block mb-1">
+                          Analysis: Modern Role
+                        </span>
+                        <div className="text-white font-bold text-lg">
+                          <DecodingText text={characterData.supporterData.modernRole} />
+                        </div>
                       </div>
 
+                      {/* 裏・人物評セクション */}
                       <div className="bg-gray-900/60 p-4 rounded-xl border border-yellow-500/20">
-                        <span className="text-xs font-bold text-yellow-600 block mb-1">裏・人物評</span>
-                        <p className="text-gray-200 leading-relaxed italic">
-                          「 {characterData.supporterData.hiddenBio} 」
-                        </p>
+                        <span className="text-[10px] font-bold text-yellow-600 uppercase tracking-widest block mb-1">
+                          Analysis: Hidden Bio
+                        </span>
+                        <div className="text-gray-200 leading-relaxed italic">
+                          「 <DecodingText text={characterData.supporterData.hiddenBio} speed={25} /> 」
+                        </div>
                       </div>
 
+                      {/* フッター情報 */}
                       <div className="flex justify-between items-center pt-2">
-                        <span className="text-xs text-yellow-600/70 font-mono">ENCRYPTED_DATA_UNLOCKED</span>
-                        <span className="px-3 py-1 bg-yellow-500/20 text-yellow-500 rounded-full text-[10px] font-bold">ACTIVE_SUPPORT</span>
+                        <div className="flex items-center gap-2">
+                          <span className="w-2 h-2 bg-green-500 rounded-full animate-ping"></span>
+                          <span className="text-xs text-yellow-600/70 font-mono">DATA_DECRYPTED_SUCCESS</span>
+                        </div>
+                        <span className="px-3 py-1 bg-yellow-500/20 text-yellow-500 rounded-full text-[10px] font-bold border border-yellow-500/30">
+                          ACTIVE_STREAMING
+                        </span>
                       </div>
                     </div>
                   </div>
                 </div>
               ) : (
                 // 🔒 非支援ユーザー向けの表示（誘導）
-                <div className="p-8 rounded-3xl border-2 border-dashed border-gray-700 bg-gray-800/20 text-center group">
+                <div className="p-8 rounded-3xl border-2 border-dashed border-gray-700 bg-gray-800/20 text-center group transition-colors duration-500 hover:border-yellow-900/50">
                   <div className="text-4xl mb-4 opacity-50 group-hover:scale-110 transition-transform duration-500">📜</div>
                   <h3 className="text-gray-400 font-bold mb-2 text-lg">軍略秘録（限定コンテンツ）</h3>
                   <p className="text-gray-500 text-sm leading-relaxed mb-6">
                     Web Monetizationでの支援を開始すると、<br />
                     この武将の「現代役職」や「裏・人物評」が解放されます。
                   </p>
-                  <div className="inline-block px-6 py-2 rounded-full border border-gray-600 text-gray-500 text-xs font-bold">
+                  <div className="inline-block px-6 py-2 rounded-full border border-gray-600 text-gray-500 text-xs font-bold group-hover:text-yellow-600 group-hover:border-yellow-600 transition-colors">
                     SUPPORT_REQUIRED
                   </div>
                 </div>
