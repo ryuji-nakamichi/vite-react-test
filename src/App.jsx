@@ -31,7 +31,7 @@ function App() {
           { /* 動的ルーティング
             URLパラメータで難易度を受け取り、1つのコンポーネントで処理する 
           */ }
-          <Route path="/quiz/game/:difficulty" element={<QuizGame />} />
+          <Route path="/quiz/game/:difficulty" element={<QuizGame isMonetized={isMonetized} />} />
 
           <Route path="/quiz/result" element={<QuizResult />} />
 
