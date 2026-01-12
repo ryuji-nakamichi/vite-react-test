@@ -7,7 +7,7 @@ body,
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  color: white;
   background-color: #111827;
   /* ★ ここで大元のスクロールを禁止する */
 }
@@ -17,8 +17,6 @@ body,
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
   --sat: env(safe-area-inset-top);
   --sab: env(safe-area-inset-bottom);
 }
@@ -108,4 +106,41 @@ a {
   100% {
     top: 100%;
   }
+}
+
+
+/* 右からスライドイン */
+@keyframes bounce-in {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  60% {
+    transform: translateX(-10%);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+}
+
+/* 5秒かけて幅が0になる */
+@keyframes shrink-width {
+  0% {
+    width: 100%;
+  }
+
+  100% {
+    width: 0%;
+  }
+}
+
+.animate-shrink-width {
+  animation: shrink-width 5s linear forwards;
 }

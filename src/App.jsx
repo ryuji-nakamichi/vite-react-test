@@ -6,25 +6,35 @@ import QuizGame from './Pages/Quiz/Game';
 import QuizResult from './Pages/Quiz/Result';
 import DicList from './Pages/Dic/List';
 import DicDetail from './Pages/Dic/Detail';
+import ThankYouToast from './Components/ThankYouToast';
+import { useMonetization } from './hooks/useMonetization';
+
 function App() {
+  const isMonetized = useMonetization();
+
   return (
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/quiz/select" element={<QuizSelect />} />
+    <div className="flex flex-col min-h-screen w-full items-center bg-slate-900">
+      {/* どのページにいても支援を検知したらトーストを表示 */}
+      <ThankYouToast isMonetized={isMonetized} />
 
-        { /* 
-          動的ルーティングに変更
-          難易度ごとにコンポーネントを分けるのではなく、
-          URLパラメータで難易度を受け取り、1つのコンポーネントで処理する 
-        */ }
-        <Route path="/quiz/game/:difficulty" element={<QuizGame />} />
+      <main className="w-full max-w-6xl flex-grow flex flex-col px-0 sm:px-4">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/quiz/select" element={<QuizSelect />} />
 
-        <Route path="/quiz/result" element={<QuizResult />} />
+          { /* 動的ルーティング
+            URLパラメータで難易度を受け取り、1つのコンポーネントで処理する 
+          */ }
+          <Route path="/quiz/game/:difficulty" element={<QuizGame />} />
 
-        <Route path="/dic/list" element={<DicList />} />
-        <Route path="/dic/detail/:id" element={<DicDetail />} />
-      </Routes>
-  )
+          <Route path="/quiz/result" element={<QuizResult />} />
+
+          <Route path="/dic/list" element={<DicList />} />
+          <Route path="/dic/detail/:id" element={<DicDetail />} />
+        </Routes>
+      </main>
+    </div>
+  );
 }
 
 export default App;
