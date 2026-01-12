@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Header from "../Components/Header";
 import NavigationButton from "../Components/NavigationButton";
 
-function Home() {
+function Home({ isMonetized }) {
   return (
     /* flex-grow: 親のmain要素の残りの高さをすべて使う
       flex flex-col: ヘッダーとメインコンテンツを縦に並べる
@@ -19,17 +19,15 @@ function Home() {
       <main className="flex-grow flex items-center justify-center px-4 sm:px-6">
 
         <div
-          /* w-full: 横幅を最大限使う
-             max-w-[96%]: スマホで左右にわずかな隙間を作りつつ、ほぼ全域を使う
-             sm:max-w-lg: PCでは適切なサイズに制限
-             p-6 sm:p-10: スマホでは余白を少し詰め、コンテンツを広く見せる
-          */
-          className="w-full sm:max-w-2xl p-6 sm:p-12 rounded-3xl shadow-2xl text-center 
-               bg-gray-800/70 backdrop-blur-md border border-red-700/30 
-               transform hover:scale-[1.01] transition duration-500"
+          className={`w-full sm:max-w-2xl p-6 sm:p-12 sm:rounded-3xl shadow-2xl text-center 
+             backdrop-blur-md border transition-all duration-1000 ${isMonetized
+              ? 'bg-yellow-900/20 border-yellow-500/50 shadow-[0_0_30px_rgba(234,179,8,0.2)]'
+              : 'bg-gray-800/70 border-red-700/30'
+            }`}
         >
-          {/* 装飾的な区切り線 */}
-          <hr className="border-t-2 border-red-600/50 w-1/4 mx-auto mb-8" />
+          {/* 支援中のみ区切り線を黄金に */}
+          <hr className={`w-1/4 mx-auto mb-8 border-t-2 transition-colors duration-1000 ${isMonetized ? 'border-yellow-500 shadow-[0_0_10px_rgba(234,179,8,0.8)]' : 'border-red-600/50'
+            }`} />
 
           <p className="text-lg md:text-xl text-gray-300 mb-10 font-serif italic tracking-widest">
             モードを選択してください

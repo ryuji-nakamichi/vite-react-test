@@ -13,7 +13,13 @@ function App() {
   const isMonetized = useMonetization();
 
   return (
-    <div className="flex flex-col min-h-screen w-full items-center bg-slate-900">
+    /* isMonetized が true なら 'bg-golden-mode'、false なら通常の 'bg-slate-900' */
+    <div className={`flex flex-col min-h-screen w-full items-center transition-colors duration-1000 ${isMonetized ? 'bg-golden-mode' : 'bg-slate-900'
+      }`}>
+
+      {/* 黄金モード時のみ、上部に微かな光のオーラを表示 */}
+      {isMonetized && <div className="golden-aura" />}
+
       {/* どのページにいても支援を検知したらトーストを表示 */}
       <ThankYouToast isMonetized={isMonetized} />
 

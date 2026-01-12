@@ -144,3 +144,37 @@ a {
 .animate-shrink-width {
   animation: shrink-width 5s linear forwards;
 }
+
+
+/* src/index.css の末尾に追記 */
+
+/* 黄金の輝き（揺らぎ）アニメーション */
+@keyframes gold-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* 黄金モード用の背景クラス */
+.bg-golden-mode {
+  background: linear-gradient(-45deg, #111827, #1a1a1a, #451a03, #78350f, #111827);
+  background-size: 400% 400%;
+  animation: gold-shimmer 15s ease infinite;
+}
+
+/* 黄金の光跡（オーラ） */
+.golden-aura {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% -20%, rgba(234, 179, 8, 0.15), transparent 70%);
+  z-index: 1;
+}
