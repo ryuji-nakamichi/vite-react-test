@@ -42,6 +42,21 @@ function Home({ isMonetized }) {
               className="py-6 text-xl sm:text-2xl font-black w-full block"
             />
 
+            {/* ★ 新設：歴史シミュレーションボタン */}
+            <Link to="/simulation" className="block w-full">
+              <button
+                className={`w-full py-5 text-xl sm:text-2xl font-black rounded-2xl shadow-xl transition-all duration-500 border-2 ${isMonetized
+                    ? 'bg-gradient-to-r from-amber-600 to-yellow-500 text-black border-yellow-300 shadow-[0_0_20px_rgba(234,179,8,0.5)]'
+                    : 'bg-gradient-to-r from-indigo-900 to-blue-900 text-white border-blue-700/50 shadow-[0_0_15px_rgba(30,58,138,0.4)]'
+                  }`}
+              >
+                <span className="flex items-center justify-center gap-3">
+                  <span className="text-2xl">🌲</span>
+                  仮想戦史を編む (Simulation)
+                </span>
+              </button>
+            </Link>
+
             {/* 辞典ボタン */}
             <Link to="/dic/list" className="block w-full">
               <button

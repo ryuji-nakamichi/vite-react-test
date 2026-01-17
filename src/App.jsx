@@ -1,16 +1,21 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { useState } from "react";
 import Home from './Pages/Home';
 import QuizSelect from './Pages/Quiz/Select';
 import QuizGame from './Pages/Quiz/Game';
 import QuizResult from './Pages/Quiz/Result';
 import DicList from './Pages/Dic/List';
 import DicDetail from './Pages/Dic/Detail';
+import HistorySimulation from './Pages/HistorySimulation';
 import ThankYouToast from './Components/ThankYouToast';
 import { useMonetization } from './hooks/useMonetization';
 
 function App() {
   const isMonetized = useMonetization();
+
+  // ★ 追加：現在の歴史ブランチ（デフォルトは 'main'）
+  const [currentBranch, setCurrentBranch] = useState('main');
 
   return (
     /* isMonetized が true なら 'bg-golden-mode'、false なら通常の 'bg-slate-900' */
@@ -36,7 +41,19 @@ function App() {
           <Route path="/quiz/result" element={<QuizResult />} />
 
           <Route path="/dic/list" element={<DicList />} />
-          <Route path="/dic/detail/:id" element={<DicDetail />} />
+          {/* ★ 武将詳細に現在のブランチ情報を渡す */}
+          <Route path="/dic/detail/:id" element={
+            <DicDetail currentBranch={currentBranch} />
+          } />
+
+          {/* ★ シミュレーション画面に setter を渡す */}
+          <Route path="/simulation" element={
+            <HistorySimulation
+              isMonetized={isMonetized}
+              currentBranch={currentBranch}
+              setCurrentBranch={setCurrentBranch}
+            />
+          } />
         </Routes>
       </main>
     </div>

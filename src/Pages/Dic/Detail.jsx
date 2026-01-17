@@ -16,7 +16,7 @@ const FACTION_COLORS = {
   'その他': { color: 'text-gray-400', border: 'border-gray-600', bg: 'bg-gray-700/50', chartFill: 'fill-gray-500' },
 };
 
-function Detail() {
+function Detail({ currentBranch }) {
   const isMonetized = useMonetization();
   const { id } = useParams();
   const characterId = parseInt(id, 10);
@@ -109,6 +109,24 @@ function Detail() {
                 </p>
               </div>
             </div>
+
+            {/* ★ ブランチが 'main' 以外、かつその武将にIFデータがある場合のみ表示 */}
+            {currentBranch !== 'main' && characterData.details[currentBranch] && (
+              <div className="mt-8 animate-fade-in">
+                <div className="bg-blue-900/30 border-2 border-blue-500/50 p-6 rounded-3xl shadow-[0_0_20px_rgba(59,130,246,0.2)]">
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="px-2 py-0.5 bg-blue-600 text-[10px] font-mono font-bold rounded text-white uppercase">
+                      Branch: {currentBranch}
+                    </span>
+                    <h3 className="text-xl font-black text-blue-400">【 仮想戦史：IFの軌跡 】</h3>
+                  </div>
+                  <p className="text-gray-200 leading-relaxed italic text-base md:text-lg">
+                    {characterData.details[currentBranch].bio}
+                  </p>
+                  {/* IFの世界での「現代の役職」も変えられたら最高ですね！ */}
+                </div>
+              </div>
+            )}
 
             {/* 支援者限定セクション：pxを調整 */}
             <div className="mt-8 space-y-6">
