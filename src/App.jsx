@@ -17,6 +17,17 @@ function App() {
   // ★ 追加：現在の歴史ブランチ（デフォルトは 'main'）
   const [currentBranch, setCurrentBranch] = useState('main');
 
+  // ★ 追加：訪問済みのブランチを記録（初期値は史実 'main'）
+  const [visitedBranches, setVisitedBranches] = useState(['main']);
+
+  // ★ 追加：新しいブランチを訪れた時に記録を更新する関数
+  const markBranchAsVisited = (branchId) => {
+    setVisitedBranches(prev => {
+      if (prev.includes(branchId)) return prev; // すでに存在すれば更新しない
+      return [...prev, branchId];
+    });
+  };
+
   return (
     /* isMonetized が true なら 'bg-golden-mode'、false なら通常の 'bg-slate-900' */
     <div className={`flex flex-col min-h-screen w-full items-center transition-colors duration-1000 ${isMonetized ? 'bg-golden-mode' : 'bg-slate-900'
@@ -30,7 +41,10 @@ function App() {
 
       <main className="w-full max-w-6xl flex-grow flex flex-col px-0 sm:px-4">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home
+            isMonetized={isMonetized}
+            visitedBranches={visitedBranches}
+          />} />
           <Route path="/quiz/select" element={<QuizSelect />} />
 
           { /* 動的ルーティング
@@ -52,6 +66,7 @@ function App() {
               isMonetized={isMonetized}
               currentBranch={currentBranch}
               setCurrentBranch={setCurrentBranch}
+              markBranchAsVisited={markBranchAsVisited} // 関数を渡す
             />
           } />
         </Routes>
