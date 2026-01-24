@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { useState } from "react";
 import Home from './Pages/Home';
 import QuizSelect from './Pages/Quiz/Select';
@@ -8,6 +8,8 @@ import QuizResult from './Pages/Quiz/Result';
 import DicList from './Pages/Dic/List';
 import DicDetail from './Pages/Dic/Detail';
 import HistorySimulation from './Pages/HistorySimulation';
+import BattleList from './Pages/BattleList';
+import BattleScreen from './Pages/BattleScreen';
 import ThankYouToast from './Components/ThankYouToast';
 import { useMonetization } from './hooks/useMonetization';
 
@@ -80,6 +82,18 @@ function App() {
               currentBranch={currentBranch}
               setCurrentBranch={setCurrentBranch}
               markBranchAsVisited={markBranchAsVisited} // 関数を渡す
+            />
+          } />
+
+          {/* 合戦一覧画面 ★追加 */}
+          <Route path="/battles" element={<BattleList isMonetized={isMonetized} visitedBranches={visitedBranches} />} />
+
+          {/* 合戦画面 ★修正（:battleId で動的に受け取る） */}
+          <Route path="/battle/:battleId" element={
+            <BattleScreen
+              isMonetized={isMonetized}
+              markBranchAsVisited={markBranchAsVisited}
+              setCurrentBranch={setCurrentBranch}
             />
           } />
         </Routes>

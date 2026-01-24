@@ -50,27 +50,17 @@ function Home({ isMonetized, visitedBranches = [], quizStats = { maxCorrect: 0 }
             </p>
 
             <div className="space-y-6 sm:space-y-8">
-              {/* 各種ボタン... */}
-              <NavigationButton to="/quiz/select" text="クイズで遊ぶ（出陣！）" isPrimary={true} className="py-6 text-xl sm:text-2xl font-black w-full block" />
+              {/* クイズ */}
+              <NavigationButton to="/quiz/select" text="クイズで遊ぶ（出陣！）" isPrimary={true} />
 
-              {/* 仮想戦史ボタン */}
-              <Link to="/simulation" className="block w-full">
-                <button className={`w-full py-5 text-xl sm:text-2xl font-black rounded-2xl shadow-xl transition-all duration-500 border-2 ${isMonetized
-                    ? 'bg-gradient-to-r from-amber-600 to-yellow-500 text-black border-yellow-300'
-                    : 'bg-gradient-to-r from-indigo-900 to-blue-900 text-white border-blue-700/50'
-                  }`}>
-                  <span className="flex items-center justify-center gap-3">
-                    🌲 仮想戦史を編む (Simulation)
-                  </span>
-                </button>
-              </Link>
+              {/* 合戦一覧 ★今回追加 */}
+              <NavigationButton to="/battles" text="合戦場へ出陣する" isPrimary={true} className="bg-gradient-to-r from-red-600 to-red-800" />
 
-              {/* 武将名鑑ボタン */}
-              <Link to="/dic/list" className="block w-full">
-                <button className="w-full py-5 text-xl font-extrabold rounded-2xl shadow-lg bg-gradient-to-r from-red-950 to-red-900 text-white border border-red-800/50 transition duration-300">
-                  武将名鑑を見る
-                </button>
-              </Link>
+              {/* シミュレーション */}
+              <NavigationButton to="/simulation" text="🌲 仮想戦史を編む" isPrimary={false} />
+
+              {/* 名鑑 */}
+              <NavigationButton to="/dic/list" text="武将名鑑を見る" isPrimary={false} />
             </div>
           </div>
         </div>

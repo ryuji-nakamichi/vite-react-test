@@ -40,3 +40,49 @@
 .read-the-docs {
   color: #888;
 }
+
+
+/* src/App.css */
+
+@keyframes slide-in-diagonal {
+  0% {
+    transform: translateX(-100%) rotate(-12deg);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  85% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(100%) rotate(-12deg);
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.animate-cutin-bg {
+  animation: slide-in-diagonal 2.5s ease-in-out forwards;
+}
+
+.animate-cutin-text {
+  animation: fade-in-up 0.8s ease-out 0.3s forwards;
+  opacity: 0;
+}
