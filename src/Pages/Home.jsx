@@ -3,8 +3,8 @@ import Header from "../Components/Header";
 import NavigationButton from "../Components/NavigationButton";
 import { getPlayerTitle } from '../utils/titleSystem';
 
-function Home({ isMonetized, visitedBranches = [] }) {
-  const title = getPlayerTitle(visitedBranches.length, isMonetized);
+function Home({ isMonetized, visitedBranches = [], quizStats = { maxCorrect: 0 } }) {
+  const title = getPlayerTitle(visitedBranches.length, isMonetized, quizStats);
 
   return (
     <div className="flex-grow flex flex-col w-full h-full">
@@ -35,7 +35,7 @@ function Home({ isMonetized, visitedBranches = [] }) {
 
               <span className="text-[10px] font-mono text-gray-500 uppercase tracking-[0.2em] block">Current Strategist Title</span>
               <div className={`text-xl sm:text-2xl font-black italic tracking-tighter ${title.color}`}>
-                {title.name}
+                {title.fullName}
               </div>
             </div>
           </div>

@@ -17,7 +17,8 @@ const HistorySimulation = ({ isMonetized, currentBranch, setCurrentBranch, markB
     const branchNames = {
       'main': 'Historical Timeline',
       'win-fancheng': 'Guan Yu Survival Route',
-      'win-yiling': 'Liu Bei Revenge Success Route'
+      'win-yiling': 'Liu Bei Revenge Success Route',
+      'mengda-success': 'Meng Da Coup Success Route'
     };
 
     const logs = [
@@ -155,6 +156,35 @@ const HistorySimulation = ({ isMonetized, currentBranch, setCurrentBranch, markB
                     }`}
                 >
                   {currentBranch === 'win-yiling' ? '✓ Checked out' : 'この歴史を Checkout する'}
+                </button>
+              </div>
+            </div>
+
+            
+            <div className="relative pl-12 group cursor-pointer">
+              {/* 分岐の線（前の分岐からさらに横に伸びるイメージ） */}
+              <div className="absolute left-4 top-[-20px] w-8 h-10 border-l-4 border-b-4 border-purple-500 rounded-bl-xl"></div>
+
+              <div className="absolute left-0 top-1 w-10 h-10 bg-purple-600 rounded-full border-4 border-gray-900 z-10 flex items-center justify-center text-xs font-bold shadow-[0_0_15px_rgba(147,51,234,0.5)] group-hover:scale-110 transition-transform">
+                IF
+              </div>
+
+              <div className="bg-purple-900/20 p-6 rounded-2xl border border-purple-500/30 hover:bg-purple-900/40 transition-colors">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-xl font-bold text-purple-400">上庸の乱：孟達の挙兵成功</h3>
+                  <span className="px-3 py-1 bg-purple-500 text-white text-[10px] rounded-full font-bold">BRANCH: mengda-success</span>
+                </div>
+                <p className="text-gray-300 text-sm mb-4">
+                  「もし孟達が司馬懿の電撃戦を凌ぎ、上庸で蜀軍と合流できていたら？」
+                </p>
+                <button
+                  onClick={() => handleCheckout('mengda-success')}
+                  className={`px-6 py-2 rounded-lg font-bold text-sm transition-colors ${currentBranch === 'mengda-success'
+                      ? 'bg-green-600 text-white'
+                      : 'bg-purple-600 hover:bg-purple-500 text-white'
+                    }`}
+                >
+                  {currentBranch === 'mengda-success' ? '✓ Checked out' : 'この歴史を Checkout する'}
                 </button>
               </div>
             </div>

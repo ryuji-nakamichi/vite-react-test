@@ -1,16 +1,25 @@
 // src/Pages/Quiz/Result.jsx
 
+import { useEffect } from 'react';
 import { useLocation } from "react-router-dom";
 import Header from "../../Components/Header";
 import NavigationButton from "../../Components/NavigationButton";
 
-function Result() {
+function Result({ updateQuizStats }) {
   const location = useLocation();
   const answerLogs = location.state?.answerLogs || [];
   const totalQuestions = location.state?.totalQuestions || 0;
   const correctAnswers = location.state?.correctAnswers || 0;
   const score = correctAnswers * 20;
   const difficulty = location.state?.difficulty || "不明";
+
+  // ★ 追加：ページ読み込み時にクイズ成績を App.jsx へ報告する
+  useEffect(() => {
+    if (updateQuizStats) {
+      // 正解数と難易度を親コンポーネントのステートに保存
+      updateQuizStats(correctAnswers, difficulty);
+    }
+  }, []); // [] により、結果画面が出た時の一度だけ実行される
 
   // スコアに基づく称号（より三國志らしく）
   const getRank = () => {
