@@ -31,6 +31,7 @@ const BattleScreen = ({ isMonetized, markBranchAsVisited, setCurrentBranch, visi
   const [currentPhase, setCurrentPhase] = useState("start");
   const [logs, setLogs] = useState(["軍議を開始します。"]);
   const [showCutIn, setShowCutIn] = useState(false);
+  const [isShaking, setIsShaking] = useState(false);
 
   const phaseData = scenario.phases[currentPhase];
   const isVictory = currentPhase === "victory";
@@ -116,6 +117,17 @@ const BattleScreen = ({ isMonetized, markBranchAsVisited, setCurrentBranch, visi
     } else {
       setCurrentPhase(choice.nextPhase);
     }
+
+
+    // ★ 揺れ判定のロジック
+    // 例えば、自分の士気が15以上減る、または兵力が減る場合に発動
+    const isHardImpact = (choice.impact.playerMorale || 0) <= -15 || (choice.impact.playerTroops || 0) < 0;
+
+    if (isHardImpact) {
+      setIsShaking(true);
+      // 0.5秒（アニメーション時間）後にフラグを戻す（デバウンス処理）
+      setTimeout(() => setIsShaking(false), 500);
+    }
   };
 
   const isLowMorale = playerArmy.morale < 40 && battleId === 'wuzhang_shu';
@@ -179,7 +191,9 @@ const BattleScreen = ({ isMonetized, markBranchAsVisited, setCurrentBranch, visi
 
       <main className="flex-grow flex flex-col items-center p-4 sm:p-8 relative">
         {/* メインカード */}
-        <div className="w-full max-w-4xl bg-gray-900/90 backdrop-blur-xl rounded-3xl border border-gray-700 p-6 shadow-2xl overflow-hidden relative z-10">
+        <div className={`w-full max-w-4xl bg-gray-900/90 backdrop-blur-xl rounded-3xl border p-6 shadow-2xl overflow-hidden relative z-10 transition-all duration-300 
+          ${isShaking ? 'animate-shake border-red-500 shadow-[0_0_30px_rgba(239,68,68,0.4)]' : 'border-gray-700'}`}
+        >
 
           {/* 1. 対峙レイアウト */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
