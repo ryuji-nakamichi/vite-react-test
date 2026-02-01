@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 
 export function useMonetization() {
 
-  // const [isMonetized, setIsMonetized] = useState(false); // 実際は false から開始
-  const [isMonetized, setIsMonetized] = useState(true); // テスト用
+  const [isMonetized, setIsMonetized] = useState(false); // 実際は false から開始
+  // const [isMonetized, setIsMonetized] = useState(true); // テスト用
  
   useEffect(() => {
     // 定期的にチェックするタイマーを回す（遅延読み込み対策）

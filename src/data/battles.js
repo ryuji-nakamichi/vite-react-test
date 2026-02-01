@@ -1,9 +1,210 @@
 export const BATTLES = {
+  // 官渡の戦い - 曹操軍、北の覇権を賭けた決戦
+  guandu_wei: {
+    title: "官渡の戦い - 奇襲烏巣",
+    typeLabel: "MAJOR BATTLE",
+    icon: "🌾",
+    branchId: "win-guandu",
+    factions: ['魏', '袁紹'],
+    mapX: 450, mapY: 150, mapColor: "purple", // 黄河の近く
+    prelude: [
+      "中原の覇権を巡り、曹操と袁紹が激突。兵力差は十倍、曹操軍は兵糧不足に苦しんでいた。",
+      "そこへ袁紹の策士・許攸が投降し、秘密の情報を告げる。兵糧庫『烏巣』の守りが薄いと……。",
+      "「天、我に味方せり！」"
+    ],
+    initialStats: {
+      player: { name: "曹操軍", troops: 20000, morale: 60 },
+      enemy: { name: "袁紹軍", troops: 100000, morale: 90 }
+    },
+    phases: {
+      start: {
+        message: "決死の奇襲を仕掛けるか、官渡の城で守り抜くか？",
+        choices: [
+          {
+            text: "曹操自ら軽騎兵を率い、烏巣を火攻めにする",
+            impact: { enemyMorale: -50, enemyTroops: -20000, playerMorale: 40 },
+            log: "烏巣の炎が夜空を焦がす！袁紹軍はパニックに陥り、大軍が総崩れとなった！",
+            nextPhase: "victory"
+          },
+          {
+            text: "増援を待ち、官渡を死守する",
+            impact: { playerTroops: -5000, playerMorale: -20 },
+            log: "物量差に圧倒され、城壁が崩れ始める……。撤退はもはや不可能だ。",
+            nextPhase: "defeat"
+          }
+        ]
+      },
+      victory: {
+        message: "袁紹軍を撃破し、曹操は北中原の支配権を確立した。覇道はここから加速する。",
+        choices: [{ text: "凱旋（ホームへ）", nextPhase: "end_victory", impact: {}, log: "中原の覇者へ。" }]
+      },
+      defeat: {
+        message: "奇襲は失敗し、曹操は官渡で力尽きた。袁紹の天下が現実のものとなる……。",
+        choices: [{ text: "撤退（ホームへ）", nextPhase: "end_defeat", impact: {}, log: "無念……。" }]
+      }
+    },
+    cutIn: {
+      text: "「天下の形勢、この一火にあり！」",
+      author: "— 魏王・曹操孟徳",
+      color: "bg-purple-900/90"
+    }
+  },
+  // 赤壁の戦い - 天下三分を決めた大火
+  chibi_shu: {
+    title: "赤壁の戦い - 逆転の東風",
+    typeLabel: "NAVAL BATTLE",
+    icon: "⛵",
+    branchId: "win-chibi",
+    factions: ['魏', '呉', '蜀',],
+    mapX: 550, mapY: 400, mapColor: "emerald",
+    prelude: [
+      "曹操率いる八十万の大軍が南下。長江を埋め尽くす艦隊を前に、孫権・劉備連合軍は窮地に立たされる。",
+      "諸葛亮はひとり、七星壇に登り『祈風』の儀式を執り行う……。",
+      "「この風、天に届くか――」"
+    ],
+    initialStats: {
+      player: { name: "孫劉連合軍", troops: 50000, morale: 85 },
+      enemy: { name: "曹操軍", troops: 800000, morale: 70 }
+    },
+    phases: {
+      start: {
+        message: "北風が吹き荒れている。火計を成功させるには、南東の風が必要だ。諸葛亮はどう動く？",
+        choices: [
+          {
+            text: "祈祷により風を呼ぶ（IFルート）",
+            impact: { playerMorale: 50, enemyMorale: -20 },
+            log: "奇跡か、天命か。突如として南東の風が吹き始め、黄蓋の火船が魏の艦隊へ突っ込む！",
+            nextPhase: "victory"
+          },
+          {
+            text: "風を待たず、小舟で奇襲をかける",
+            impact: { playerTroops: -10000, playerMorale: -20 },
+            log: "風に煽られ火は自軍へ。圧倒的な兵力差を前に、連合軍は壊滅の危機に……。",
+            nextPhase: "defeat"
+          }
+        ]
+      },
+      victory: {
+        message: "赤壁の海は火の海と化し、曹操は命からがら北へ逃げ延びた。ここに『天下三分』の礎が築かれた。",
+        choices: [{ text: "凱旋（ホームへ）", nextPhase: "end_victory", impact: {}, log: "伝説が始まった。" }]
+      },
+      defeat: {
+        message: "火計は失敗し、長江は曹操の手に落ちた。漢王朝の運命は風前の灯火……。",
+        choices: [{ text: "撤退（ホームへ）", nextPhase: "end_defeat", impact: {}, log: "野望は潰えた。" }]
+      }
+    },
+    cutIn: {
+      text: "「天、我が願いを聞き入れたり！」",
+      author: "— 諸葛亮孔明",
+      color: "bg-emerald-600/90"
+    }
+  },
+  // 漢中争奪戦 - 蜀漢の最盛期
+  hanzhong_shu: {
+    title: "漢中争奪戦 - 定軍山の戦い",
+    typeLabel: "MOUNTAIN BATTLE",
+    icon: "🏔️",
+    branchId: "win-hanzhong",
+    factions: ['蜀', '魏'],
+    mapX: 280, mapY: 320, mapColor: "amber",
+    prelude: [
+      "蜀の安寧のため、北の門戸『漢中』の奪還は急務。老将・黄忠は名将・夏侯淵を討つべく定軍山へ向かう。",
+      "劉備自ら陣頭指揮を執り、曹操との最終決戦が幕を開ける！"
+    ],
+    initialStats: {
+      player: { name: "劉備軍", troops: 12000, morale: 100 },
+      enemy: { name: "夏侯淵軍", troops: 10000, morale: 85 }
+    },
+    phases: {
+      start: {
+        message: "夏侯淵は高地を占拠している。黄忠の猛攻をどう仕掛ける？",
+        choices: [
+          {
+            text: "法正の合図を待ち、一気に駆け下りる",
+            impact: { enemyTroops: -5000, enemyMorale: -40 },
+            log: "「いまだ！」法正が旗を振ると、黄忠は雷光の如き速さで夏侯淵を討ち取った！",
+            nextPhase: "victory"
+          },
+          {
+            text: "力攻めで斜面を登る",
+            impact: { playerTroops: -4000, playerMorale: -10 },
+            log: "矢の雨に阻まれ、消耗戦に。曹操の援軍が到着してしまう……。",
+            nextPhase: "defeat"
+          }
+        ]
+      },
+      victory: {
+        message: "漢中を手中に収めた劉備は、ついに『漢中王』を名乗り、天下にその覇道を示した。",
+        choices: [{ text: "凱旋（ホームへ）", nextPhase: "end_victory", impact: {}, log: "王道ここに極まる。" }]
+      },
+      defeat: {
+        message: "夏侯淵を崩せず、劉備軍は漢中から撤退。曹操の威圧感はさらに増すことに……。",
+        choices: [{ text: "撤退（ホームへ）", nextPhase: "end_defeat", impact: {}, log: "無念の敗北。" }]
+      }
+    },
+    cutIn: {
+      text: "「この黄忠、老いたりといえど、この首は取れまい！」",
+      author: "— 蜀将・黄忠漢升",
+      color: "bg-amber-600/90"
+    }
+  },
+  // 合肥の戦い - 張遼、八百の勇士
+  hefei_wei: {
+    title: "合肥の戦い - 遼来来",
+    typeLabel: "DEFENSIVE BATTLE",
+    icon: "🐎",
+    branchId: "win-hefei",
+    factions: ['魏', '呉'],
+    mapX: 600, mapY: 350, mapColor: "purple", // 長江の下流、東部
+    prelude: [
+      "孫権率いる十万の大軍が合肥城を包囲。守る魏軍はわずか七千。",
+      "絶望的な状況下、名将・張遼は決死隊八百を選りすぐり、夜明けとともに敵陣へ突撃した！"
+    ],
+    initialStats: {
+      player: { name: "張遼隊", troops: 800, morale: 120 },
+      enemy: { name: "孫権軍", troops: 100000, morale: 80 }
+    },
+    phases: {
+      start: {
+        message: "孫権の本陣が見えた！張遼、全軍をどう導く？",
+        choices: [
+          {
+            text: "己が名を叫び、真っ直ぐ孫権を急襲する！",
+            impact: { enemyMorale: -60, enemyTroops: -10000, playerMorale: 30 },
+            log: "「張文遠、ここにおり！」孫権軍は恐怖で凍りつき、呉の子らは泣く子も黙ったという……。",
+            nextPhase: "victory"
+          },
+          {
+            text: "城に戻り、籠城戦に切り替える",
+            impact: { playerMorale: -30, enemyMorale: 10 },
+            log: "突撃の勢いが止まり、圧倒的な物量に包囲される。チャンスは失われた。",
+            nextPhase: "defeat"
+          }
+        ]
+      },
+      victory: {
+        message: "八百の勇士が十万を退けた。合肥は守られ、張遼の名は呉の国中に轟いた。",
+        choices: [{ text: "凱旋（ホームへ）", nextPhase: "end_victory", impact: {}, log: "武神の如し。" }]
+      },
+      defeat: {
+        message: "張遼、奮戦及ばず。合肥城は陥落し、呉軍の中原進出を許してしまった……。",
+        choices: [{ text: "撤退（ホームへ）", nextPhase: "end_defeat", impact: {}, log: "合肥、陥つ。" }]
+      }
+    },
+    cutIn: {
+      text: "「我が名を震えながら聞くがいい！」",
+      author: "— 魏将・張遼文遠",
+      color: "bg-indigo-800/90"
+    }
+  },
+  // 樊城の戦い
   fancheng_shu: {
     title: "樊城の戦い - 蜀軍シナリオ",
     typeLabel: "BATTLEFIELD",
     icon: "🗡️",
     branchId: "win-fancheng",
+    factions: ['魏', '呉', '蜀',],
+    mapX: 420, mapY: 300, mapColor: "blue",
     prelude: [
       "建安二十四年。\n関羽は中原を震わせるべく、\n魏の要衝・樊城へと進軍を開始した。",
       "長雨により大地はぬかるみ、河川は荒れ狂う。",
@@ -99,6 +300,8 @@ export const BATTLES = {
     typeLabel: "BATTLEFIELD",
     icon: "🔥",
     branchId: "win-yiling",
+    factions: ['蜀', '呉'],
+    mapX: 300, mapY: 430, mapColor: "red",
     prelude: [
       "章武二年。昭烈帝・劉備は、\n義弟・関羽の報復を果たすべく、\n蜀の精鋭を率いて東呉へと侵攻した。",
       "破竹の勢いで長江を下る蜀軍。\n対する呉の若き名将・陸遜は、\n広大な森林地帯へと劉備を誘い込む。",
@@ -184,6 +387,87 @@ export const BATTLES = {
           }
         ]
       }
+    }
+  },
+  // 五丈原の戦い
+  wuzhang_shu: {
+    title: "五丈原の戦い - 秋風の決戦",
+    typeLabel: "BATTLEFIELD",
+    icon: "🌟",
+    branchId: "win-wuzhang",
+    factions: ['蜀', '魏'],
+    mapX: 350, mapY: 220, mapColor: "indigo",
+    prelude: [
+      "建安九年。諸葛亮、五度目の北伐。\n魏の守護神・司馬懿は、堅固な陣を築き、\n一向に打って出ようとはしない。",
+      "秋風が吹き抜ける五丈原。\n諸葛亮は自らの寿命が尽きようとしていることを悟る。",
+      "「我が命、天に問わん」"
+    ],
+    initialStats: {
+      player: { name: "諸葛亮軍", troops: 10000, morale: 80 },
+      enemy: { name: "司馬懿軍", troops: 15000, morale: 95 }
+    },
+    phases: {
+      start: {
+        message: "司馬懿は堅く守り、持久戦の構えだ。諸葛亮の病状は悪化している。どう動くか？",
+        choices: [
+          {
+            text: "女物の服を送りつけ、司馬懿を挑発する",
+            impact: { enemyMorale: -20, playerMorale: 10 },
+            log: "司馬懿は激怒するが、皇帝の詔を盾に出陣を拒む。焦燥感だけが募っていく……。",
+            nextPhase: "star_prayer"
+          },
+          {
+            text: "五丈原で屯田を行い、長期戦の覚悟を見せる",
+            impact: { playerMorale: 5, playerTroops: 1000 },
+            log: "蜀軍は現地で食糧を確保し、粘り強く対峙する。しかし時間は諸葛亮に残されていない。",
+            nextPhase: "star_prayer"
+          }
+        ]
+      },
+      star_prayer: {
+        message: "諸葛亮は「七星灯の儀式」を行い、天に寿命を延ばすよう祈る。背後では司馬懿が動き出した……！",
+        choices: [
+          {
+            text: "儀式に集中し、天命を待つ",
+            impact: { playerMorale: 50, enemyMorale: -10 },
+            log: "灯火は消えなかった！諸葛亮の瞳に力が戻る。魏軍は『死せる孔明』の虚像を恐れ、後退を開始した！",
+            nextPhase: "victory"
+          },
+          {
+            text: "儀式を中断し、全軍に撤退を命じる",
+            impact: { playerMorale: -40, enemyMorale: 20, playerTroops: -2000 },
+            log: "「我が命、ここまでか……」諸葛亮は静かに目を閉じ、蜀軍は整然と撤退を開始した。",
+            nextPhase: "defeat"
+          }
+        ]
+      },
+      victory: {
+        message: "奇跡の復活を遂げた諸葛亮の采配に、魏軍は壊滅。長安への道が開かれた。歴史の歯車が今、逆転する！",
+        choices: [
+          {
+            text: "勝利の凱旋（ホームへ）",
+            nextPhase: "end_victory",
+            impact: {},
+            log: "秋風は、蜀漢の旗を高く掲げた。"
+          }
+        ]
+      },
+      defeat: {
+        message: "巨星、五丈原に墜つ。蜀軍は悲しみを胸に、姜維に導かれ漢中へと退いた……。",
+        choices: [
+          {
+            text: "撤退する（ホームへ）",
+            nextPhase: "end_defeat",
+            impact: {},
+            log: "秋風五丈原……一つの時代が終わった。"
+          }
+        ]
+      }
+    },
+    cutIn: {
+      text: "「死せる孔明、生ける仲達を走らす！」",
+      author: "— 蜀漢丞相・諸葛亮孔明",
+      color: "bg-indigo-900/90" // 神秘的な夜のイメージ
     }
   }
 };

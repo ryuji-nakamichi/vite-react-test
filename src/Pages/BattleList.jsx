@@ -9,6 +9,23 @@ import { BATTLES } from '../data/battles';
 const BattleList = ({ isMonetized, visitedBranches = [] }) => {
   const navigate = useNavigate();
 
+  // 勢力ごとのデザインテーマ
+  const FACTION_THEMES = {
+    '魏': 'bg-blue-600 border-blue-400',
+    '呉': 'bg-red-600 border-red-400',
+    '蜀': 'bg-emerald-600 border-emerald-400',
+    '袁': 'bg-purple-600 border-purple-400',
+    'default': 'bg-gray-600 border-gray-400'
+  };
+
+
+  const FACTION_DETAILS = {
+    '蜀': { name: '蜀漢', desc: '劉備が建国した「漢」の正統を継ぐ国。義を重んじる。' },
+    '魏': { name: '曹魏', desc: '曹操が礎を築いた、中原を支配する最大勢力。実力主義。' },
+    '呉': { name: '孫呉', desc: '長江の天険を頼みに三代に渡って築かれた南方の大国。' },
+    '袁紹': { name: '袁紹軍', desc: '「四世三公」を誇る名門中の名門。河北に強大な版図を築いた、三国時代初期の最大勢力。' }
+  };
+
   return (
     <div className={`flex-grow flex flex-col w-full min-h-screen ${isMonetized ? 'bg-golden-mode' : 'bg-slate-900'}`}>
       <Header page={{ title: '軍議演習：合戦一覧' }} />
@@ -40,17 +57,19 @@ const BattleList = ({ isMonetized, visitedBranches = [] }) => {
                 <div
                   key={key}
                   onClick={() => navigate(`/battle/${key}`)}
-                  className={`relative p-6 rounded-2xl border transition-all group cursor-pointer overflow-hidden ${isCleared
+                  className={`relative p-6 rounded-2xl border transition-all group cursor-pointer overflow-visible ${isCleared
                     ? 'bg-blue-900/20 border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.2)]'
                     : 'bg-gray-800/50 border-gray-700 hover:border-red-500/50'
                     }`}
                 >
-                  {/* 1. クリア済みバッジ（最背面） */}
+                  {/* 1. クリア済みバッジ：ここだけを overflow-hidden の小箱に入れる */}
                   {isCleared && (
-                    <div className="absolute -right-8 -top-8 w-20 h-20 bg-blue-600 rotate-45 flex items-end justify-center pb-1 shadow-lg">
-                      <span className="text-[10px] font-black text-white uppercase tracking-tighter -rotate-45 mb-1">
-                        Cleared
-                      </span>
+                    <div className="absolute top-0 right-0 w-20 h-20 overflow-hidden rounded-tr-2xl pointer-events-none">
+                      <div className="absolute -right-8 -top-8 w-20 h-20 bg-blue-600 rotate-45 flex items-end justify-center pb-1 shadow-lg">
+                        <span className="text-[10px] font-black text-white uppercase tracking-tighter -rotate-45 mb-1">
+                          Cleared
+                        </span>
+                      </div>
                     </div>
                   )}
 
@@ -90,9 +109,36 @@ const BattleList = ({ isMonetized, visitedBranches = [] }) => {
                   {/* 5. フッター（勢力・ボタン案内） */}
                   <div className="flex justify-between items-center">
                     <div className="flex -space-x-2">
-                      <div className="w-8 h-8 rounded-full bg-blue-600 border-2 border-gray-800 flex items-center justify-center text-[10px] font-bold">蜀</div>
-                      <div className="w-8 h-8 rounded-full bg-red-600 border-2 border-gray-800 flex items-center justify-center text-[10px] font-bold">魏</div>
+                      {battle.factions?.map((factionName, index) => (
+                        <div
+                          key={index}
+                          className="relative group/faction" // 親にgroupを設定
+                          style={{ zIndex: 10 - index }}
+                        >
+                          {/* 勢力丸アイコン */}
+                          <div
+                            className={`w-8 h-8 rounded-full border-2 border-gray-800 flex items-center justify-center text-[10px] font-bold shadow-lg transition-all hover:scale-110 hover:-translate-y-1 ${FACTION_THEMES[factionName] || FACTION_THEMES.default
+                              }`}
+                          >
+                            {factionName}
+                          </div>
+
+                          {/* ★ ゲーム風ツールチップレイヤー */}
+                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-48 p-3 bg-gray-900 border border-gray-700 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] opacity-0 invisible group-hover/faction:opacity-100 group-hover/faction:visible transition-all z-50 pointer-events-none">
+                            <div className="text-xs font-bold text-white border-b border-gray-700 pb-1 mb-1 flex items-center gap-2">
+                              <span className={`w-2 h-2 rounded-full ${FACTION_THEMES[factionName]}`}></span>
+                              {FACTION_DETAILS[factionName]?.name || factionName}
+                            </div>
+                            <div className="text-[10px] text-gray-400 leading-relaxed font-serif italic">
+                              {FACTION_DETAILS[factionName]?.desc || '詳細は不明。'}
+                            </div>
+                            {/* ツールチップの矢印 */}
+                            <div className="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-gray-900"></div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
+
                     <span className="text-red-500 font-bold text-sm group-hover:translate-x-1 transition-transform">
                       出陣する ▶
                     </span>
