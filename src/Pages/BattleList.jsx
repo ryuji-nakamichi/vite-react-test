@@ -3,6 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Components/Header';
 import NavigationButton from '../Components/NavigationButton';
+import StrategyMap from '../Components/StrategyMap';
 import { BATTLES } from '../data/battles';
 
 const BattleList = ({ isMonetized, visitedBranches = [] }) => {
@@ -13,7 +14,19 @@ const BattleList = ({ isMonetized, visitedBranches = [] }) => {
       <Header page={{ title: '軍議演習：合戦一覧' }} />
 
       <main className="flex-grow flex flex-col items-center p-4 sm:p-8">
-        <div className="w-full max-w-4xl">
+        <div className="w-full max-w-5xl">
+
+          {/* ★ 戦略地図：画面上部に堂々と配置 */}
+          <div className="mb-12">
+            <h2 className="text-gray-500 text-[10px] font-black tracking-[0.5em] uppercase mb-4 text-center">
+              Continental Strategic Map
+            </h2>
+            <StrategyMap visitedBranches={visitedBranches} />
+            <p className="mt-4 text-[10px] text-gray-600 italic tracking-widest uppercase text-center">
+              Click markers on the map or select from the list below
+            </p>
+          </div>
+
           <h2 className="text-2xl font-black text-gray-400 mb-8 tracking-widest uppercase border-l-4 border-red-600 pl-4">
             合戦場を選択せよ
           </h2>

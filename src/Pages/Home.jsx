@@ -8,7 +8,6 @@ function Home({ isMonetized, visitedBranches = [], quizStats = { maxCorrect: 0 }
 
   return (
     <div className="flex-grow flex flex-col w-full h-full">
-      {/* 1. ヘッダー（ページタイトルのみ） */}
       <Header page={{ title: '〜其レハ智ノ旅路〜' }} />
 
       <main className="flex-grow flex items-center justify-center px-4 sm:px-6 py-6">
