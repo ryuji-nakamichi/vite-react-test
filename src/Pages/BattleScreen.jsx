@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../Components/Header';
 import BattleGauge from '../Components/BattleGauge';
+import SevenStarLantern from '../Components/SevenStarLantern';
 import NavigationButton from '../Components/NavigationButton';
 import { useParams, useNavigate } from 'react-router-dom';
 import { BATTLES } from '../data/battles';
@@ -90,7 +91,7 @@ const BattleScreen = ({ isMonetized, markBranchAsVisited, setCurrentBranch, visi
     // 2. ステータス計算
     const nextPlayerTroops = playerArmy.troops + (choice.impact.playerTroops || 0);
     const nextEnemyTroops = enemyArmy.troops + (choice.impact.enemyTroops || 0);
-    const nextPlayerMorale = Math.max(0, Math.min(100, playerArmy.morale + (choice.impact.playerMorale || 0)));
+    const nextPlayerMorale = Math.max(0, Math.min(150, playerArmy.morale + (choice.impact.playerMorale || 0)));
     const nextEnemyMorale = Math.max(0, Math.min(100, enemyArmy.morale + (choice.impact.enemyMorale || 0)));
 
     setLogs(prev => [choice.log, ...prev]);
@@ -117,6 +118,10 @@ const BattleScreen = ({ isMonetized, markBranchAsVisited, setCurrentBranch, visi
     }
   };
 
+  const isLowMorale = playerArmy.morale < 40 && battleId === 'wuzhang_shu';
+
+  // 1. 判定ロジックの追加
+  const isBlessed = playerArmy.morale > 120 && battleId === 'wuzhang_shu';
 
   // --- ナレーション画面のレンダリング ---
   if (isNarrating) {
@@ -156,6 +161,20 @@ const BattleScreen = ({ isMonetized, markBranchAsVisited, setCurrentBranch, visi
 
   return (
     <div className={`flex-grow flex flex-col w-full min-h-screen ${isMonetized ? 'bg-golden-mode' : 'bg-slate-900'}`}>
+
+      {/* ★ 追加：暗闇オーバーレイレイヤー */}
+      {isLowMorale && (
+        <div className="fixed inset-0 z-[5] pointer-events-none transition-opacity duration-1000 animate-fade-in bg-black/60 shadow-[inset_0_0_150px_rgba(0,0,0,1)]">
+        </div>
+      )}
+
+      {isBlessed && (
+        <div className="fixed inset-0 z-[5] pointer-events-none animate-pulse bg-yellow-500/20 shadow-[inset_0_0_100px_rgba(253,224,71,0.4)] transition-opacity duration-1000">
+          {/* 粒子が舞うような装飾を入れるとさらに神々しくなります */}
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30"></div>
+        </div>
+      )}
+      
       <Header page={{ title: '戦争シミュレーション' }} />
 
       <main className="flex-grow flex flex-col items-center p-4 sm:p-8 relative">
@@ -178,6 +197,14 @@ const BattleScreen = ({ isMonetized, markBranchAsVisited, setCurrentBranch, visi
               <BattleGauge label="士気" value={enemyArmy.morale} maxValue={100} type="morale" />
             </div>
           </div>
+
+          {/* ★ ここがベストポジション！ ★ */}
+          {/* 五丈原の戦いの時だけ表示し、プレイヤーの士気を渡す */}
+          {battleId === 'wuzhang_shu' && (
+            <div className="mb-8">
+              <SevenStarLantern morale={playerArmy.morale} />
+            </div>
+          )}
 
           {/* 2. メッセージ・コマンドエリア */}
           <div className={`border-2 rounded-2xl p-6 mb-8 relative transition-all duration-500 ${isVictory ? 'bg-blue-900/40 border-blue-400 shadow-[0_0_30px_rgba(59,130,246,0.6)]' :

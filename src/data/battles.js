@@ -403,7 +403,7 @@ export const BATTLES = {
       "「我が命、天に問わん」"
     ],
     initialStats: {
-      player: { name: "諸葛亮軍", troops: 10000, morale: 80 },
+      player: { name: "諸葛亮軍", troops: 10000, morale: 80 }, // 初回ボーナス+20で 100 スタートを想定
       enemy: { name: "司馬懿軍", troops: 15000, morale: 95 }
     },
     phases: {
@@ -411,15 +411,15 @@ export const BATTLES = {
         message: "司馬懿は堅く守り、持久戦の構えだ。諸葛亮の病状は悪化している。どう動くか？",
         choices: [
           {
-            text: "女物の服を送りつけ、司馬懿を挑発する",
-            impact: { enemyMorale: -20, playerMorale: 10 },
-            log: "司馬懿は激怒するが、皇帝の詔を盾に出陣を拒む。焦燥感だけが募っていく……。",
+            text: "女物の服を送りつけ、司馬懿を激しく挑発する",
+            impact: { playerMorale: -45, enemyMorale: -30 }, // ★ 大幅に士気を削るリスク（絶望への道）
+            log: "司馬懿は動じず。逆に蜀軍の焦りが全軍に伝染し、士気が急落した……！",
             nextPhase: "star_prayer"
           },
           {
             text: "五丈原で屯田を行い、長期戦の覚悟を見せる",
             impact: { playerMorale: 5, playerTroops: 1000 },
-            log: "蜀軍は現地で食糧を確保し、粘り強く対峙する。しかし時間は諸葛亮に残されていない。",
+            log: "蜀軍は落ち着きを取り戻すが、時間は無情に過ぎていく。",
             nextPhase: "star_prayer"
           }
         ]
@@ -429,14 +429,16 @@ export const BATTLES = {
         choices: [
           {
             text: "儀式に集中し、天命を待つ",
-            impact: { playerMorale: 50, enemyMorale: -10 },
-            log: "灯火は消えなかった！諸葛亮の瞳に力が戻る。魏軍は『死せる孔明』の虚像を恐れ、後退を開始した！",
+            // ★ 士気 +60 に強化！ (100 + 60 = 160 で黄金モード確定)
+            impact: { playerMorale: 60, enemyMorale: -20 },
+            log: "灯火は消えなかった！天から黄金の光が降り注ぎ、諸葛亮の瞳に力が戻る。魏軍は『死せる孔明』の威圧感に震え上がった！",
             nextPhase: "victory"
           },
           {
             text: "儀式を中断し、全軍に撤退を命じる",
-            impact: { playerMorale: -40, enemyMorale: 20, playerTroops: -2000 },
-            log: "「我が命、ここまでか……」諸葛亮は静かに目を閉じ、蜀軍は整然と撤退を開始した。",
+            // ★ 士気 -70 に強化！ (100 - 70 = 30 で暗闇モード確定)
+            impact: { playerMorale: -70, enemyMorale: 20, playerTroops: -3000 },
+            log: "「我が命、ここまでか……」諸葛亮の溜息と共に灯火が消え、戦場に深い闇が立ち込める。蜀軍は悲痛な面持ちで撤退を開始した。",
             nextPhase: "defeat"
           }
         ]
