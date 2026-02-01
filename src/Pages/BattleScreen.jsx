@@ -7,16 +7,25 @@ import NavigationButton from '../Components/NavigationButton';
 import { useParams, useNavigate } from 'react-router-dom';
 import { BATTLES } from '../data/battles';
 
-const BattleScreen = ({ isMonetized, markBranchAsVisited, setCurrentBranch }) => {
+const BattleScreen = ({ isMonetized, markBranchAsVisited, setCurrentBranch, visitedBranches = [] }) => {
   const navigate = useNavigate();
   const { battleId } = useParams();
   const scenario = BATTLES[battleId] || BATTLES.fancheng_shu;
+
+  // ★ 追加：軍令ボーナスの判定
+  const isCleared = visitedBranches.includes(scenario.branchId);
+  const moraleBonus = !isCleared ? 20 : 0;
+  
 
   const [isNarrating, setIsNarrating] = useState(true); // ★ ナレーション中かどうか
   const [currentLine, setCurrentLine] = useState(0);    // ★ 何行目か
   const [displayedText, setDisplayedText] = useState(""); // ★ タイピング演出用
 
-  const [playerArmy, setPlayerArmy] = useState(scenario.initialStats.player);
+  // 初期ステータスにボーナスを合算
+  const [playerArmy, setPlayerArmy] = useState({
+    ...scenario.initialStats.player,
+    morale: scenario.initialStats.player.morale + moraleBonus
+  });
   const [enemyArmy, setEnemyArmy] = useState(scenario.initialStats.enemy);
   const [currentPhase, setCurrentPhase] = useState("start");
   const [logs, setLogs] = useState(["軍議を開始します。"]);
@@ -130,7 +139,7 @@ const BattleScreen = ({ isMonetized, markBranchAsVisited, setCurrentBranch }) =>
           </p>
 
           <div className="min-h-[12rem] flex items-center justify-center">
-            <p className="text-xl sm:text-2xl text-gray-100 font-serif narration-text text-center">
+            <p className="text-xl sm:text-2xl text-gray-100 font-serif narration-text text-center whitespace-pre-wrap">
               {displayedText}
               <span className={`ml-1 inline-block w-1 h-6 bg-blue-500 ${displayedText.length === scenario.prelude[currentLine].length ? 'animate-pulse' : ''
                 }`}></span>
@@ -195,19 +204,33 @@ const BattleScreen = ({ isMonetized, markBranchAsVisited, setCurrentBranch }) =>
 
           {/* ★ 撤退するボタンをカードの内側・最下部に配置（レイアウトの安定） */}
           <div className="text-center pt-4 border-t border-gray-800">
-            <NavigationButton to="/" text="撤退する" isPrimary={false} />
+            {/* ★ 決着がついていない（勝利でも敗北でもない）時だけ、撤退ボタンを表示 */}
+            {!isVictory && !isDefeat && (
+              <NavigationButton to="/battles" text="戦場から離脱する" isPrimary={false} />
+            )}
+
+            {/* 勝利時や敗北時は、このエリアには何も表示しないか、あるいは「戦歴を確認して帰還する」といった補足テキストを入れるのもアリです */}
+            {(isVictory || isDefeat) && (
+              <p className="text-[10px] text-gray-600 uppercase tracking-widest animate-pulse">
+                The battle has ended. Return to headquarters.
+              </p>
+            )}
           </div>
         </div>
 
-        {/* ★ カットイン演出レイヤー（z-index最強にしてカードの外に配置） */}
-        {showCutIn && (
+        {/* ★ カットイン演出レイヤー（動的版） */}
+        {showCutIn && scenario.cutIn && (
           <div className="fixed inset-0 z-[9999] pointer-events-none flex items-center justify-center overflow-hidden">
-            <div className="absolute w-[200%] h-32 bg-blue-600/80 animate-cutin-bg border-y-4 border-blue-400 shadow-[0_0_50px_rgba(59,130,246,0.8)]" />
+            {/* 背景色も動的に変更 */}
+            <div className={`absolute w-[200%] h-32 animate-cutin-bg border-y-4 border-white/20 shadow-2xl ${scenario.cutIn.color || 'bg-blue-600/80'}`} />
+
             <div className="relative z-10 text-center animate-cutin-text">
               <p className="text-4xl sm:text-6xl font-black text-white italic tracking-tighter drop-shadow-[0_5px_15px_rgba(0,0,0,0.5)]">
-                「我が刃、中原を両断せん！」
+                {scenario.cutIn.text}
               </p>
-              <p className="text-right text-xl text-blue-200 font-bold mt-4 mr-10">— 蜀将・関羽雲長</p>
+              <p className="text-right text-xl text-white/80 font-bold mt-4 mr-10">
+                {scenario.cutIn.author}
+              </p>
             </div>
           </div>
         )}

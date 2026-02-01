@@ -20,18 +20,19 @@ const BattleList = ({ isMonetized, visitedBranches = [] }) => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {Object.entries(BATTLES).map(([key, battle]) => {
-              // ★ クリア判定：この合戦の branchId が訪問済みリストに含まれているか
               const isCleared = visitedBranches.includes(battle.branchId);
+              const hasMilitaryOrder = !isCleared;
+
               return (
                 <div
                   key={key}
                   onClick={() => navigate(`/battle/${key}`)}
                   className={`relative p-6 rounded-2xl border transition-all group cursor-pointer overflow-hidden ${isCleared
-                      ? 'bg-blue-900/20 border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.2)]'
-                      : 'bg-gray-800/50 border-gray-700 hover:border-red-500/50'
+                    ? 'bg-blue-900/20 border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.2)]'
+                    : 'bg-gray-800/50 border-gray-700 hover:border-red-500/50'
                     }`}
                 >
-                  {/* ★ クリア済みバッジ */}
+                  {/* 1. クリア済みバッジ（最背面） */}
                   {isCleared && (
                     <div className="absolute -right-8 -top-8 w-20 h-20 bg-blue-600 rotate-45 flex items-end justify-center pb-1 shadow-lg">
                       <span className="text-[10px] font-black text-white uppercase tracking-tighter -rotate-45 mb-1">
@@ -39,19 +40,31 @@ const BattleList = ({ isMonetized, visitedBranches = [] }) => {
                       </span>
                     </div>
                   )}
-                  <div className="flex justify-between items-start mb-4">
-                    <span className={`text-[10px] font-bold px-2 py-1 rounded uppercase ${isCleared ? 'text-blue-400 bg-blue-400/10' : 'text-red-500 bg-red-500/10'
-                      }`}>
-                      {isCleared ? '制圧済み' : '未踏の地'}
-                    </span>
-                  </div>
-                  
-                  <div className="flex justify-between items-start mb-4">
-                    <span className="text-[10px] font-bold text-red-500 bg-red-500/10 px-2 py-1 rounded uppercase">
-                      Battlefield
+
+                  {/* 2. ヘッダー行（統合済み） */}
+                  <div className="flex justify-between items-center mb-4">
+                    <div className="flex items-center gap-2">
+                      <span className={`text-[10px] font-bold px-2 py-1 rounded uppercase ${isCleared ? 'text-blue-400 bg-blue-400/10' : 'text-red-500 bg-red-500/10'
+                        }`}>
+                        {isCleared ? '制圧済み' : '未踏の地'}
+                      </span>
+                    </div>
+                    {/* ★ アイコン付きのラベル表示 */}
+                    <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest flex items-center gap-1">
+                      {battle.typeLabel || 'BATTLEFIELD'} {battle.icon || '🗡️'}
                     </span>
                   </div>
 
+                  {/* 3. 軍令バッジ（絶対配置の調整） */}
+                  {hasMilitaryOrder && (
+                    <div className="absolute top-12 right-4 animate-bounce z-10">
+                      <span className="bg-yellow-500 text-black text-[10px] font-black px-2 py-1 rounded shadow-lg border border-yellow-300">
+                        ⚠︎ 軍令：初期士気+20
+                      </span>
+                    </div>
+                  )}
+
+                  {/* 4. コンテンツ */}
                   <h3 className={`text-xl font-bold mb-2 transition-colors ${isCleared ? 'text-blue-200' : 'text-white group-hover:text-red-400'
                     }`}>
                     {battle.title}
@@ -61,6 +74,7 @@ const BattleList = ({ isMonetized, visitedBranches = [] }) => {
                     {battle.phases.start.message.substring(0, 50)}...
                   </p>
 
+                  {/* 5. フッター（勢力・ボタン案内） */}
                   <div className="flex justify-between items-center">
                     <div className="flex -space-x-2">
                       <div className="w-8 h-8 rounded-full bg-blue-600 border-2 border-gray-800 flex items-center justify-center text-[10px] font-bold">蜀</div>
