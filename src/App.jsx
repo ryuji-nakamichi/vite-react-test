@@ -1,6 +1,6 @@
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Home from './Pages/Home';
 import QuizSelect from './Pages/Quiz/Select';
 import QuizGame from './Pages/Quiz/Game';
@@ -16,41 +16,54 @@ import { useMonetization } from './hooks/useMonetization';
 function App() {
   const isMonetized = useMonetization();
 
-  // ★ 追加：現在の歴史ブランチ（デフォルトは 'main'）
+  // --- データの復元（初期化） ---
+  // localStorageからデータを読み込み、なければデフォルト値を返します
+  const [visitedBranches, setVisitedBranches] = useState(() => {
+    const saved = localStorage.getItem('visitedBranches');
+    return saved ? JSON.parse(saved) : ['main'];
+  });
+
+  const [quizStats, setQuizStats] = useState(() => {
+    const saved = localStorage.getItem('quizStats');
+    return saved ? JSON.parse(saved) : { maxCorrect: 0, difficulty: "" };
+  });
+
   const [currentBranch, setCurrentBranch] = useState('main');
 
-  // ★ 追加：訪問済みのブランチを記録（初期値は史実 'main'）
-  const [visitedBranches, setVisitedBranches] = useState(['main']);
+  // --- データの保存（永続化） ---
+  // visitedBranchesが更新されるたびにlocalStorageに保存
+  useEffect(() => {
+    localStorage.setItem('visitedBranches', JSON.stringify(visitedBranches));
+  }, [visitedBranches]);
 
-  // ★ 新設：クイズの最高成績を管理
-  const [quizStats, setQuizStats] = useState({ maxCorrect: 0, difficulty: "" });
+  // quizStatsが更新されるたびにlocalStorageに保存
+  useEffect(() => {
+    localStorage.setItem('quizStats', JSON.stringify(quizStats));
+  }, [quizStats]);
 
-  // ★ 新設：クイズ完了時に成績を更新する関数
+  // --- 既存の関数ロジック ---
+
+  // クイズ完了時に成績を更新する関数
   const updateQuizStats = (correct, diff) => {
     setQuizStats(prev => ({
-      // 正解数がこれまでの最高を超えた場合、または同等でも難易度が変わった場合に更新
       maxCorrect: Math.max(prev.maxCorrect, correct),
       difficulty: correct >= prev.maxCorrect ? diff : prev.difficulty
     }));
   };
 
-  // ★ 追加：新しいブランチを訪れた時に記録を更新する関数
+  // 新しいブランチを訪れた時に記録を更新する関数
   const markBranchAsVisited = (branchId) => {
     setVisitedBranches(prev => {
-      if (prev.includes(branchId)) return prev; // すでに存在すれば更新しない
+      if (prev.includes(branchId)) return prev;
       return [...prev, branchId];
     });
   };
 
   return (
-    /* isMonetized が true なら 'bg-golden-mode'、false なら通常の 'bg-slate-900' */
     <div className={`flex flex-col min-h-screen w-full items-center transition-colors duration-1000 ${isMonetized ? 'bg-golden-mode' : 'bg-slate-900'
       }`}>
 
-      {/* 黄金モード時のみ、上部に微かな光のオーラを表示 */}
       {isMonetized && <div className="golden-aura" />}
-
-      {/* どのページにいても支援を検知したらトーストを表示 */}
       <ThankYouToast isMonetized={isMonetized} />
 
       <main className="w-full max-w-6xl flex-grow flex flex-col px-0 sm:px-4">
@@ -58,37 +71,30 @@ function App() {
           <Route path="/" element={<Home
             isMonetized={isMonetized}
             visitedBranches={visitedBranches}
-            quizStats={quizStats} // ★ 追加
+            quizStats={quizStats}
           />} />
           <Route path="/quiz/select" element={<QuizSelect />} />
 
-          { /* 動的ルーティング
-            URLパラメータで難易度を受け取り、1つのコンポーネントで処理する 
-          */ }
           <Route path="/quiz/game/:difficulty" element={<QuizGame isMonetized={isMonetized} />} />
 
           <Route path="/quiz/result" element={<QuizResult updateQuizStats={updateQuizStats} />} />
 
           <Route path="/dic/list" element={<DicList />} />
-          {/* ★ 武将詳細に現在のブランチ情報を渡す */}
           <Route path="/dic/detail/:id" element={
             <DicDetail currentBranch={currentBranch} />
           } />
 
-          {/* ★ シミュレーション画面に setter を渡す */}
           <Route path="/simulation" element={
             <HistorySimulation
               isMonetized={isMonetized}
               currentBranch={currentBranch}
               setCurrentBranch={setCurrentBranch}
-              markBranchAsVisited={markBranchAsVisited} // 関数を渡す
+              markBranchAsVisited={markBranchAsVisited}
             />
           } />
 
-          {/* 合戦一覧画面 ★追加 */}
           <Route path="/battles" element={<BattleList isMonetized={isMonetized} visitedBranches={visitedBranches} />} />
 
-          {/* 合戦画面 ★修正（:battleId で動的に受け取る） */}
           <Route path="/battle/:battleId" element={
             <BattleScreen
               isMonetized={isMonetized}

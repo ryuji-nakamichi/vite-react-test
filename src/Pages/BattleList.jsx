@@ -20,20 +20,40 @@ const BattleList = ({ isMonetized, visitedBranches = [] }) => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {Object.entries(BATTLES).map(([key, battle]) => {
-              // 解放条件などのロジックをここに挟むことも可能
+              // ★ クリア判定：この合戦の branchId が訪問済みリストに含まれているか
+              const isCleared = visitedBranches.includes(battle.branchId);
               return (
                 <div
                   key={key}
                   onClick={() => navigate(`/battle/${key}`)}
-                  className="bg-gray-800/50 backdrop-blur-md rounded-2xl border border-gray-700 p-6 hover:border-red-500/50 transition-all group cursor-pointer relative overflow-hidden"
+                  className={`relative p-6 rounded-2xl border transition-all group cursor-pointer overflow-hidden ${isCleared
+                      ? 'bg-blue-900/20 border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.2)]'
+                      : 'bg-gray-800/50 border-gray-700 hover:border-red-500/50'
+                    }`}
                 >
+                  {/* ★ クリア済みバッジ */}
+                  {isCleared && (
+                    <div className="absolute -right-8 -top-8 w-20 h-20 bg-blue-600 rotate-45 flex items-end justify-center pb-1 shadow-lg">
+                      <span className="text-[10px] font-black text-white uppercase tracking-tighter -rotate-45 mb-1">
+                        Cleared
+                      </span>
+                    </div>
+                  )}
+                  <div className="flex justify-between items-start mb-4">
+                    <span className={`text-[10px] font-bold px-2 py-1 rounded uppercase ${isCleared ? 'text-blue-400 bg-blue-400/10' : 'text-red-500 bg-red-500/10'
+                      }`}>
+                      {isCleared ? '制圧済み' : '未踏の地'}
+                    </span>
+                  </div>
+                  
                   <div className="flex justify-between items-start mb-4">
                     <span className="text-[10px] font-bold text-red-500 bg-red-500/10 px-2 py-1 rounded uppercase">
                       Battlefield
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-red-400 transition-colors">
+                  <h3 className={`text-xl font-bold mb-2 transition-colors ${isCleared ? 'text-blue-200' : 'text-white group-hover:text-red-400'
+                    }`}>
                     {battle.title}
                   </h3>
 

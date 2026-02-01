@@ -71,7 +71,8 @@ const BattleScreen = ({ isMonetized, markBranchAsVisited, setCurrentBranch }) =>
     // 1. 終了判定（凱旋ボタンなど）
     if (choice.nextPhase === "end_victory" || choice.nextPhase === "end_defeat") {
       if (choice.nextPhase === "end_victory" && markBranchAsVisited) {
-        markBranchAsVisited('win-fancheng');
+        // ★ ハードコードを廃止し、scenario.branchId を使用
+        markBranchAsVisited(scenario.branchId);
       }
       navigate('/');
       return;

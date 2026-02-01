@@ -1,6 +1,7 @@
 export const BATTLES = {
   fancheng_shu: {
     title: "樊城の戦い - 蜀軍シナリオ",
+    branchId: "win-fancheng",
     prelude: [
       "建安二十四年。関羽は中原を震わせるべく、魏の要衝・樊城へと進軍を開始した。",
       "長雨により大地はぬかるみ、河川は荒れ狂う。",
