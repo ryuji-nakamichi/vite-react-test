@@ -86,3 +86,28 @@
   animation: fade-in-up 0.8s ease-out 0.3s forwards;
   opacity: 0;
 }
+
+
+/* src/App.css に追加 */
+
+/* ナレーション全体のフェードイン */
+.animate-narration-in {
+  animation: fadeIn 1.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* 文字が浮かび上がるようなエフェクト */
+.narration-text {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.1em;
+  line-height: 2;
+}

@@ -1,6 +1,6 @@
 // src/Pages/BattleScreen.jsx
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../Components/Header';
 import BattleGauge from '../Components/BattleGauge';
 import NavigationButton from '../Components/NavigationButton';
@@ -12,6 +12,10 @@ const BattleScreen = ({ isMonetized, markBranchAsVisited, setCurrentBranch }) =>
   const { battleId } = useParams();
   const scenario = BATTLES[battleId] || BATTLES.fancheng_shu;
 
+  const [isNarrating, setIsNarrating] = useState(true); // ★ ナレーション中かどうか
+  const [currentLine, setCurrentLine] = useState(0);    // ★ 何行目か
+  const [displayedText, setDisplayedText] = useState(""); // ★ タイピング演出用
+
   const [playerArmy, setPlayerArmy] = useState(scenario.initialStats.player);
   const [enemyArmy, setEnemyArmy] = useState(scenario.initialStats.enemy);
   const [currentPhase, setCurrentPhase] = useState("start");
@@ -21,6 +25,47 @@ const BattleScreen = ({ isMonetized, markBranchAsVisited, setCurrentBranch }) =>
   const phaseData = scenario.phases[currentPhase];
   const isVictory = currentPhase === "victory";
   const isDefeat = currentPhase === "defeat";
+
+  // ★ 追加：ナレーションを全て飛ばして合戦を開始する
+  const handleSkip = (e) => {
+    e.stopPropagation(); // 1. 背景の onClick（handleNextLine）が発火するのを防ぐ
+    setIsNarrating(false); // 2. ナレーション画面を閉じる
+  };
+
+
+  // --- タイピング演出ロジック（改良版） ---
+  useEffect(() => {
+    if (!isNarrating) return;
+
+    let index = 0;
+    const fullText = scenario.prelude[currentLine];
+
+    // 1. まず表示を空にする
+    setDisplayedText("");
+
+    // 2. タイマーを開始
+    const timer = setInterval(() => {
+      index++; // 1文字目から順に増やしていく
+
+      // 文字列の先頭から index 番目までを切り取って表示
+      // これにより prev ステートに依存せず、常に正しい位置の文字が表示されます
+      setDisplayedText(fullText.slice(0, index));
+
+      if (index >= fullText.length) {
+        clearInterval(timer);
+      }
+    }, 60); // わずかに速度を調整（お好みで）
+
+    return () => clearInterval(timer);
+  }, [currentLine, isNarrating, scenario.prelude]);
+
+  const handleNextLine = () => {
+    if (currentLine < scenario.prelude.length - 1) {
+      setCurrentLine(prev => prev + 1);
+    } else {
+      setIsNarrating(false); // ナレーション終了
+    }
+  };
 
   const handleChoice = (choice) => {
     // 1. 終了判定（凱旋ボタンなど）
@@ -61,6 +106,43 @@ const BattleScreen = ({ isMonetized, markBranchAsVisited, setCurrentBranch }) =>
       setCurrentPhase(choice.nextPhase);
     }
   };
+
+
+  // --- ナレーション画面のレンダリング ---
+  if (isNarrating) {
+    return (
+      <div
+        className="fixed inset-0 z-[200] bg-black flex flex-col items-center justify-center p-8 cursor-pointer overflow-hidden"
+        onClick={handleNextLine}
+      >
+        {/* ★ スキップボタン：右上に配置 */}
+        <button
+          onClick={handleSkip}
+          className="absolute top-8 right-8 px-4 py-2 border border-gray-800 text-gray-600 text-[10px] tracking-widest rounded-full hover:bg-gray-900 hover:text-gray-400 transition-all z-[210] uppercase font-bold"
+        >
+          Skip Narration ≫
+        </button>
+
+        <div className="max-w-2xl w-full animate-narration-in">
+          <p className="text-gray-600 text-[10px] tracking-[0.5em] uppercase mb-12 text-center">
+            Historical Prelude
+          </p>
+
+          <div className="min-h-[12rem] flex items-center justify-center">
+            <p className="text-xl sm:text-2xl text-gray-100 font-serif narration-text text-center">
+              {displayedText}
+              <span className={`ml-1 inline-block w-1 h-6 bg-blue-500 ${displayedText.length === scenario.prelude[currentLine].length ? 'animate-pulse' : ''
+                }`}></span>
+            </p>
+          </div>
+
+          <p className="mt-16 text-gray-700 text-xs text-center animate-pulse tracking-widest">
+            CLICK TO CONTINUE
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`flex-grow flex flex-col w-full min-h-screen ${isMonetized ? 'bg-golden-mode' : 'bg-slate-900'}`}>
