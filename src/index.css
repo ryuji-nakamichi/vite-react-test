@@ -297,3 +297,30 @@ a {
 .animate-gold-particle {
   animation: gold-float 4s linear infinite;
 }
+
+/* src/index.css */
+
+@keyframes gold-float {
+  0% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 0.8;
+  }
+
+  80% {
+    opacity: 0.4;
+    transform: translateY(-80vh) translateX(20px) scale(1.2) rotate(180deg);
+  }
+
+  100% {
+    transform: translateY(-100vh) translateX(-20px) scale(0) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.animate-gold-float {
+  animation: gold-float linear infinite;
+}
