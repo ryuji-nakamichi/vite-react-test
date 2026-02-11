@@ -82,7 +82,6 @@ const BattleScreen = ({ isMonetized, markBranchAsVisited, setCurrentBranch, visi
     // 1. 終了判定（凱旋ボタンなど）
     if (choice.nextPhase === "end_victory" || choice.nextPhase === "end_defeat") {
       if (choice.nextPhase === "end_victory" && markBranchAsVisited) {
-        // ★ ハードコードを廃止し、scenario.branchId を使用
         markBranchAsVisited(scenario.branchId);
       }
       navigate('/');
@@ -99,21 +98,61 @@ const BattleScreen = ({ isMonetized, markBranchAsVisited, setCurrentBranch, visi
     setPlayerArmy({ ...playerArmy, troops: nextPlayerTroops, morale: nextPlayerMorale });
     setEnemyArmy({ ...enemyArmy, troops: nextEnemyTroops, morale: nextEnemyMorale });
 
-    // 3. 次のフェーズ判定
-    // ★ 修正：兵数が0になるだけでなく、勝利フェーズ（victory）に遷移する時もカットインを出す
+    // 3. 次のフェーズ判定 ＆ スコア計算
     const isNowVictory = choice.nextPhase === "victory" || nextEnemyTroops <= 0 || nextEnemyMorale <= 0;
+    const isNowDefeat = nextPlayerTroops <= 0 || nextPlayerMorale <= 0;
 
     if (isNowVictory) {
+      // --- 【追加】勝利スコアの計算ロジック ---
+      const maxTroops = scenario.initialStats.player.troops;
+      const troopRatio = (nextPlayerTroops / maxTroops) * 100;
+      const finalScore = Math.round((troopRatio * 0.6) + (nextPlayerMorale * 0.4));
+      const isNowBlessed = nextPlayerMorale > 120; // 加護フラグ
+
+      // 1. ランクの決定
+      let rank = "C";
+      let title = "九死一生";
+      if (finalScore >= 95) { rank = "S"; title = "神算鬼謀"; }
+      else if (finalScore >= 75) { rank = "A"; title = "名将の采配"; }
+      else if (finalScore >= 50) { rank = "B"; title = "薄氷の勝利"; }
+
+      // 2. メッセージの動的取得
+      const messages = scenario.resultMessages?.[rank];
+      const finalMessage = isNowBlessed && messages?.blessed
+        ? messages.blessed
+        : (messages?.default || messages || "戦果を確認しました。");
+
+      const resultData = {
+        rank,
+        title,
+        score: finalScore,
+        message: finalMessage,
+        isBlessed: isNowBlessed
+      };
+
       setCurrentPhase("victory");
       setShowCutIn(true);
 
-      // ★ 追加：3秒後に自動的にカットインを閉じる
       setTimeout(() => {
-        setShowCutIn(false);
-      }, 3500); // アニメーション時間(2.5s)より少し長めに設定
+        navigate('/result', { state: { resultData } });
+      }, 3500);
 
-    } else if (nextPlayerTroops <= 0 || nextPlayerMorale <= 0) {
+    } else if (isNowDefeat) {
+      // --- 【追加】敗北時の処理 ---
       setCurrentPhase("defeat");
+
+      const defeatData = {
+        rank: "C",
+        title: "志半ば",
+        score: 0,
+        message: "五丈原に秋風が吹き抜け、巨星が堕ちました……。",
+        isBlessed: false
+      };
+
+      setTimeout(() => {
+        navigate('/result', { state: { resultData: defeatData } });
+      }, 3000);
+
     } else {
       setCurrentPhase(choice.nextPhase);
     }

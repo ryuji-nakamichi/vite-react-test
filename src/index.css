@@ -227,3 +227,37 @@ a {
 .animate-shake {
   animation: shake 0.2s ease-in-out infinite;
 }
+
+
+/* 粒子の基本スタイル */
+.particle {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  border-radius: 50%;
+}
+
+/* 黄金の輝きアニメーション */
+@keyframes gold-float {
+  0% {
+    transform: translateY(100vh) rotate(0deg) scale(0);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translateY(-20vh) rotate(720deg) scale(1.2);
+    opacity: 0;
+  }
+}
+
+.animate-gold-particle {
+  animation: gold-float 4s linear infinite;
+}

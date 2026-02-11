@@ -1,0 +1,92 @@
+{
+  "title": "合肥の戦い - 遼来来",
+  "typeLabel": "DEFENSIVE BATTLE",
+  "icon": "🐎",
+  "branchId": "win-hefei",
+  "factions": [
+    "魏",
+    "呉"
+  ],
+  "mapX": 600,
+  "mapY": 350,
+  "mapColor": "purple",
+  "prelude": [
+    "孫権率いる十万の大軍が合肥城を包囲。守る魏軍はわずか七千。",
+    "絶望的な状況下、名将・張遼は決死隊八百を選りすぐり、夜明けとともに敵陣へ突撃した！"
+  ],
+  "initialStats": {
+    "player": {
+      "name": "張遼隊",
+      "troops": 800,
+      "morale": 120
+    },
+    "enemy": {
+      "name": "孫権軍",
+      "troops": 100000,
+      "morale": 80
+    }
+  },
+  "phases": {
+    "start": {
+      "message": "孫権の本陣が見えた！張遼、全軍をどう導く？",
+      "choices": [
+        {
+          "text": "己が名を叫び、真っ直ぐ孫権を急襲する！",
+          "impact": {
+            "enemyMorale": -60,
+            "enemyTroops": -10000,
+            "playerMorale": 30
+          },
+          "log": "「張文遠、ここにおり！」孫権軍は恐怖で凍りつき、呉の子らは泣く子も黙ったという……。",
+          "nextPhase": "victory"
+        },
+        {
+          "text": "城に戻り、籠城戦に切り替える",
+          "impact": {
+            "playerMorale": -30,
+            "enemyMorale": 10
+          },
+          "log": "突撃の勢いが止まり、圧倒的な物量に包囲される。チャンスは失われた。",
+          "nextPhase": "defeat"
+        }
+      ]
+    },
+    "victory": {
+      "message": "八百の勇士が十万を退けた。合肥は守られ、張遼の名は呉の国中に轟いた。",
+      "choices": [
+        {
+          "text": "凱旋（ホームへ）",
+          "nextPhase": "end_victory",
+          "impact": {},
+          "log": "武神の如し。"
+        }
+      ]
+    },
+    "defeat": {
+      "message": "張遼、奮戦及ばず。合肥城は陥落し、呉軍の中原進出を許してしまった……。",
+      "choices": [
+        {
+          "text": "撤退（ホームへ）",
+          "nextPhase": "end_defeat",
+          "impact": {},
+          "log": "合肥、陥つ。"
+        }
+      ]
+    }
+  },
+  "cutIn": {
+    "text": "「我が名を震えながら聞くがいい！」",
+    "author": "— 魏将・張遼文遠",
+    "color": "bg-indigo-800/90"
+  },
+  "resultMessages": {
+    "S": {
+      "default": "張遼の突撃が孫権の本陣を強襲！十万の呉軍を数千の兵で敗走させるという、未曾有の武功を挙げました。",
+      "blessed": "『遼来来』の叫びとともに加護が全軍に波及。呉の兵士たちは影に怯え、その恐怖は江東の子らをも黙らせるほどでした。"
+    },
+    "A": {
+      "default": "孫権軍の猛攻を凌ぎ、逍遥津での反撃に成功。合肥の牙城は微動だにせず、呉の北進を阻みました。",
+      "blessed": "崩れかけた防衛線が加護によって繋ぎ止められ、奇跡的な粘りで逆転の機を掴みました。"
+    }
+  }
+}

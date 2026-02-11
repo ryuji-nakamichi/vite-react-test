@@ -10,8 +10,10 @@ import DicDetail from './Pages/Dic/Detail';
 import HistorySimulation from './Pages/HistorySimulation';
 import BattleList from './Pages/BattleList';
 import BattleScreen from './Pages/BattleScreen';
+import ResultScreen from './Pages/ResultScreen';
 import ThankYouToast from './Components/ThankYouToast';
 import { useMonetization } from './hooks/useMonetization';
+import Result from './Pages/Quiz/Result';
 
 function App() {
   const isMonetized = useMonetization();
@@ -102,6 +104,8 @@ function App() {
               setCurrentBranch={setCurrentBranch}
             />
           } />
+
+          <Route path="/result" element={<ResultScreen />} />
         </Routes>
       </main>
     </div>
