@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Header from '../Components/Header';
 import NavigationButton from '../Components/NavigationButton';
@@ -26,6 +26,30 @@ const ResultScreen = ({ isMonetized }) => {
     B: "text-green-400",
     C: "text-gray-500"
   };
+
+  // ★ 新設：歴史の加護メッセージ集
+  const getBlessedMessage = useMemo(() => {
+    // 黄金モード（Web Monetization）が有効な時の特別なリスト
+    const goldenMessages = [
+      "諸葛孔明の神算鬼謀が、天の時をも味方につけた",
+      "黄金の補給路が確立され、大軍を養うに足る兵糧が届いている",
+      "太公望の如き静かなる一手が、歴史の奔流を変えた",
+      "桃園の誓いが時を超え、黄金の輝きとなって戦場を包む",
+      "楚漢の覇気が激突し、貴殿に勝利の天命が下った"
+    ];
+
+    // 通常の加護（isBlessed）の時のリスト
+    const normalMessages = [
+      "七星灯の加護が消えることなく、歴史を動かした",
+      "白起の如き苛烈なる用兵が、敵陣を壊滅させた",
+      "管仲の智略が国を富ませ、勝利の礎を築いた",
+      "背水の陣、その覚悟が奇跡の逆転劇を生んだ"
+    ];
+
+    // リストからランダムに選ぶ
+    const list = isMonetized ? goldenMessages : normalMessages;
+    return list[Math.floor(Math.random() * list.length)];
+  }, [isMonetized]);
 
   return (
     /* ★ 修正ポイント：isMonetized に応じて背景クラスを切り替え */
@@ -82,7 +106,7 @@ const ResultScreen = ({ isMonetized }) => {
             {(isBlessed || (isSRank && isMonetized)) && (
               <div className="mt-6 py-2 px-4 bg-yellow-600/20 border border-yellow-500/30 rounded-xl text-yellow-400 text-[10px] font-black tracking-widest animate-pulse flex items-center justify-center gap-2">
                 <span>✦</span>
-                {isMonetized ? "黄金の加護が戦果を増幅させている" : "七星灯の加護が歴史を動かした"}
+                {getBlessedMessage}
                 <span>✦</span>
               </div>
             )}

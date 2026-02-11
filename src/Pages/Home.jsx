@@ -1,14 +1,15 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import Header from "../Components/Header";
 import NavigationButton from "../Components/NavigationButton";
 import { getPlayerTitle } from '../utils/titleSystem';
-// ★ useMonetization フックをインポート
 import { useMonetization } from '../Hooks/useMonetization';
+import ThankYouToast from "../Components/ThankYouToast";
 
 function Home({ visitedBranches = [], quizStats = { maxCorrect: 0 } }) {
-  // Hookから最新の状態を取得（これでテストモードの true も反映されます）
   const { isMonetized, totalReceived, currency } = useMonetization();
-  
+
+  // 称号の計算
   const title = getPlayerTitle(visitedBranches.length, isMonetized, quizStats);
 
   return (
@@ -17,11 +18,14 @@ function Home({ visitedBranches = [], quizStats = { maxCorrect: 0 } }) {
 
       <main className="flex-grow flex items-center justify-center px-4 sm:px-6 py-6 relative">
 
-        {/* ★ 新設：軍資金（War Funds）カウンターウィジェット */}
-        <div className="fixed top-24 right-4 z-50 animate-bounce-in">
+        {/* ★ 修正：コンポーネントを置くだけ！ロジックはあちらで完結しています */}
+        <ThankYouToast isMonetized={isMonetized} />
+
+        {/* 軍資金（War Funds）カウンターウィジェット */}
+        <div className="fixed top-52 right-4 z-50 animate-bounce-in">
           <div className={`p-3 rounded-2xl border backdrop-blur-xl transition-all duration-1000 ${isMonetized
-              ? 'bg-yellow-900/40 border-yellow-500/50 shadow-[0_0_20px_rgba(234,179,8,0.3)]'
-              : 'bg-gray-900/60 border-white/5'
+            ? 'bg-yellow-900/40 border-yellow-500/50 shadow-[0_0_20px_rgba(234,179,8,0.3)]'
+            : 'bg-gray-900/60 border-white/5'
             }`}>
             <div className="flex items-center gap-2 mb-1">
               <div className={`w-2 h-2 rounded-full ${isMonetized ? 'bg-green-500 animate-pulse' : 'bg-gray-600'}`} />
@@ -29,7 +33,6 @@ function Home({ visitedBranches = [], quizStats = { maxCorrect: 0 } }) {
             </div>
 
             <div className="flex items-baseline gap-1">
-              {/* 小数点以下を9桁表示して、ミリ秒単位で「動いている感」を出します */}
               <span className="text-xl font-mono font-bold text-white tracking-tighter">
                 {totalReceived.toFixed(9)}
               </span>
@@ -44,6 +47,7 @@ function Home({ visitedBranches = [], quizStats = { maxCorrect: 0 } }) {
           </div>
         </div>
 
+        {/* メインコンテンツパネル */}
         <div
           className={`relative w-full sm:max-w-2xl p-6 sm:p-12 sm:rounded-3xl shadow-2xl text-center 
              backdrop-blur-md border transition-all duration-1000 ${isMonetized
@@ -51,7 +55,7 @@ function Home({ visitedBranches = [], quizStats = { maxCorrect: 0 } }) {
               : 'bg-gray-800/70 border-red-700/30'
             }`}
         >
-          {/* 称号プレート部分（既存コード） */}
+          {/* 称号プレート */}
           <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-4/5 sm:w-2/3">
             <div className={`relative px-4 py-2 rounded-xl border-2 shadow-2xl transition-all duration-1000 ${isMonetized
               ? 'bg-gray-900 border-yellow-500 shadow-[0_0_15px_rgba(234,179,8,0.4)]'

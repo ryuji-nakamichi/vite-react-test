@@ -7,7 +7,7 @@ export function useMonetization() {
     return saved ? parseFloat(saved) : 0;
   });
 
-  const [isMonetized, setIsMonetized] = useState(true); // テスト用
+  const [isMonetized, setIsMonetized] = useState(false); // true : テスト用に false は本番挙動
   const [currency, setCurrency] = useState('EUR');
 
   // 2. totalReceived が変化するたびに自動でセーブ
@@ -17,9 +17,9 @@ export function useMonetization() {
 
   useEffect(() => {
     // テスト用タイマー（1秒ごとに加算）
-    const testTimer = setInterval(() => {
-      setTotalReceived(prev => prev + 0.000000001);
-    }, 1000);
+    // const testTimer = setInterval(() => {
+    //   setTotalReceived(prev => prev + 0.000000001);
+    // }, 1000);
 
     if (document.monetization) {
       const handleProgress = (e) => {
@@ -32,12 +32,12 @@ export function useMonetization() {
 
       document.monetization.addEventListener('monetizationprogress', handleProgress);
       return () => {
-        clearInterval(testTimer);
+        // clearInterval(testTimer);
         document.monetization.removeEventListener('monetizationprogress', handleProgress);
       };
     }
 
-    return () => clearInterval(testTimer);
+    // return () => clearInterval(testTimer);
   }, []);
 
   return { isMonetized, totalReceived, currency };
