@@ -1,15 +1,51 @@
 /* 1. フォントやカラースキームなど、アプリ全体に影響するグローバルな設定 */
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html,
 body,
 #root {
-  /* 画面が勝手にバウンドしたりスクロールしたりするのを防ぐ */
   height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
   color: white;
-  background-color: #111827;
-  /* ★ ここで大元のスクロールを禁止する */
+  background-color: #0f172a;
+  /* 横揺れを完全に封印 */
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  /* ★ 以下の flex 関連を削除し、標準のドキュメントフローに戻す */
+  display: block;
+  min-width: 320px;
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* アプリ全体を包むラッパー */
+#appWrapper {
+  width: 100%;
+  min-height: 100%;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* 二重の防波堤 */
+}
+
+/* スクロールバーを隠す設定 */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 :root {
