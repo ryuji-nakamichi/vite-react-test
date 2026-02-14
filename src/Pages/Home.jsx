@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../Components/Header";
 import NavigationButton from "../Components/NavigationButton";
 import { getPlayerTitle } from '../utils/titleSystem';
-import { useMonetization } from '../Hooks/useMonetization';
+import MarchingSimulator from '../Components/MarchingSimulator';
+import MilitaryRankGallery from '../Components/MilitaryRankGallery';
+import { useMonetization } from '../hooks/useMonetization';
 import ThankYouToast from "../Components/ThankYouToast";
 
 function Home({ visitedBranches = [], quizStats = { maxCorrect: 0 } }) {
   const { isMonetized, totalReceived, currency } = useMonetization();
+
+
+  // モード管理を拡張 ('menu' | 'marching' | 'ranks')
+  const [activeMode, setActiveMode] = useState('menu');
 
   // 称号の計算
   const title = getPlayerTitle(visitedBranches.length, isMonetized, quizStats);
@@ -76,19 +82,57 @@ function Home({ visitedBranches = [], quizStats = { maxCorrect: 0 } }) {
           </div>
 
           <div className="mt-8">
-            <hr className={`w-1/4 mx-auto mb-8 border-t-2 transition-colors duration-1000 ${isMonetized ? 'border-yellow-500 shadow-[0_0_10px_rgba(234,179,8,0.8)]' : 'border-red-600/50'
-              }`} />
+            {activeMode === 'menu' ? (
+              <>
+                <p className="text-lg md:text-xl text-gray-300 mb-8 font-serif italic tracking-widest">
+                  モードを選択してください
+                </p>
 
-            <p className="text-lg md:text-xl text-gray-300 mb-10 font-serif italic tracking-widest">
-              モードを選択してください
-            </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <NavigationButton to="/quiz/select" text="⚔️ クイズで出陣" isPrimary={true} />
+                  <NavigationButton to="/battles" text="🔥 合戦場へ向かう" isPrimary={true} className="bg-gradient-to-r from-red-600 to-red-800" />
 
-            <div className="space-y-6 sm:space-y-8">
-              <NavigationButton to="/quiz/select" text="クイズで遊ぶ（出陣！）" isPrimary={true} />
-              <NavigationButton to="/battles" text="合戦場へ出陣する" isPrimary={true} className="bg-gradient-to-r from-red-600 to-red-800" />
-              <NavigationButton to="/simulation" text="🌲 仮想戦史を編む" isPrimary={false} />
-              <NavigationButton to="/dic/list" text="武将名鑑を見る" isPrimary={false} />
-            </div>
+                  <button
+                    onClick={() => setActiveMode('marching')}
+                    className="flex items-center justify-center px-6 py-4 rounded-xl bg-blue-900/40 border border-blue-500/50 text-blue-100 font-bold hover:bg-blue-800/60 transition-all shadow-lg hover:shadow-blue-500/20"
+                  >
+                    🗺️ 行軍試算を行う
+                  </button>
+
+                  {/* ★ 変更：Linkではなくモード切替ボタンにする */}
+                  <button
+                    onClick={() => setActiveMode('ranks')}
+                    className="flex items-center justify-center px-6 py-4 rounded-xl bg-purple-900/40 border border-purple-500/50 text-purple-100 font-bold hover:bg-purple-800/60 transition-all shadow-lg hover:shadow-purple-500/20"
+                  >
+                    🏛️ 将軍位名鑑
+                  </button>
+
+                  <NavigationButton to="/simulation" text="🌲 仮想戦史を編む" isPrimary={false} />
+                  <NavigationButton to="/dic/list" text="📜 武将名鑑を見る" isPrimary={false} />
+                </div>
+              </>
+            ) : activeMode === 'marching' ? (
+              <div className="animate-fade-in">
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-xl font-black text-blue-400 italic">【大陸行軍試算儀】</h2>
+                  <button onClick={() => setActiveMode('menu')} className="text-xs text-gray-400 hover:text-white border border-gray-700 px-3 py-1 rounded-full transition-colors">
+                    戻る
+                  </button>
+                </div>
+                <MarchingSimulator />
+              </div>
+            ) : (
+              /* --- 将軍位名鑑モード --- */
+              <div className="animate-fade-in">
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-xl font-black text-purple-400 italic">【官職学位名鑑】</h2>
+                  <button onClick={() => setActiveMode('menu')} className="text-xs text-gray-400 hover:text-white border border-gray-700 px-3 py-1 rounded-full transition-colors">
+                    戻る
+                  </button>
+                </div>
+                <MilitaryRankGallery />
+              </div>
+            )}
           </div>
         </div>
       </main>
