@@ -1,54 +1,83 @@
-// src/Components/MilitaryRankGallery.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import { MILITARY_RANKS } from '../constants/militaryRanks';
+import RankDetailModal from './RankDetailModal';
 
 export default function MilitaryRankGallery() {
+  const [filter, setFilter] = useState('すべて');
+  const [selectedRank, setSelectedRank] = useState(null); // モーダル用
+
+  // フィルタリング処理
+  const filteredRanks = MILITARY_RANKS.filter(rank =>
+    filter === 'すべて' || rank.category === filter
+  );
+
   return (
-    <div className="max-h-[500px] overflow-y-auto pr-2 space-y-4 custom-scrollbar">
-      {MILITARY_RANKS.map((rank, index) => {
-        // --- カテゴリに応じたアイコンを定義 ---
-        const categoryIcon = rank.category === "文官" ? "📜" : "⚔️";
-
-        return (
-          <div
-            key={index}
-            className={`p-4 rounded-xl border border-white/10 ${rank.bg} transition-all hover:border-white/30`}
+    <div className="space-y-6">
+      {/* --- フィルタリングタブ --- */}
+      <div className="flex justify-center gap-2 mb-6">
+        {['すべて', '文官', '武官'].map(cat => (
+          <button
+            key={cat}
+            onClick={(e) => {
+              e.stopPropagation();
+              setFilter(cat);
+            }}
+            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all border ${filter === cat
+                ? 'bg-purple-600 border-purple-400 text-white shadow-[0_0_15px_rgba(147,51,234,0.4)]'
+                : 'bg-slate-900 border-slate-700 text-gray-500 hover:border-gray-500'
+              }`}
           >
-            <div className="flex justify-between items-center mb-2">
-              <div className="flex gap-2 items-center">
-                <span className={`px-2 py-0.5 rounded text-[8px] font-bold border ${rank.color} border-current opacity-80`}>
-                  {rank.category}
-                </span>
-                <span className={`text-[10px] font-black uppercase tracking-widest opacity-60 ${rank.color}`}>
-                  {rank.grade}
-                </span>
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      {/* --- リスト表示エリア --- */}
+      <div className="max-h-[500px] overflow-y-auto pr-2 space-y-4 custom-scrollbar">
+        {filteredRanks.map((rank, index) => {
+          const categoryIcon = rank.category === "文官" ? "📜" : "⚔️";
+          return (
+            <div
+              key={index}
+              onClick={() => setSelectedRank(rank)}
+              className={`p-4 rounded-xl border border-white/10 ${rank.bg} cursor-pointer transition-all hover:scale-[1.02] hover:border-white/30 active:scale-95 group`}
+            >
+              <div className="flex justify-between items-start mb-2">
+                <div className="flex gap-2 items-center">
+                  <span className={`px-2 py-0.5 rounded text-[8px] font-bold border ${rank.color} border-current opacity-80`}>
+                    {rank.category}
+                  </span>
+                  <span className={`text-[10px] font-black uppercase tracking-widest opacity-60 ${rank.color}`}>
+                    {rank.grade}
+                  </span>
+                </div>
+                <span className="text-[9px] text-gray-600 font-mono">DETAIL ➔</span>
               </div>
-              <span className="text-[10px] text-gray-500 font-mono">Rank ID: 00{index + 1}</span>
+
+              <h3 className={`text-xl font-black mb-2 italic ${rank.color} flex items-center gap-2`}>
+                <span className="text-base">{categoryIcon}</span>
+                {rank.title}
+              </h3>
+
+              <div className="flex flex-wrap gap-2 mt-3">
+                {rank.famous.map(name => (
+                  <span key={name} className="px-2 py-1 bg-black/60 rounded text-[10px] text-gray-400 border border-white/5 inline-block">
+                    {name}
+                  </span>
+                ))}
+              </div>
             </div>
+          );
+        })}
+      </div>
 
-            {/* ★ アイコンを表示するように修正 */}
-            <h3 className={`text-xl font-black mb-2 italic ${rank.color} flex items-center gap-2`}>
-              <span className="text-base filter saturate-50">{categoryIcon}</span>
-              {rank.title}
-            </h3>
-
-            <p className="text-gray-300 text-[11px] leading-relaxed mb-3">
-              {rank.description}
-            </p>
-
-            <div className="flex flex-wrap gap-2">
-              {rank.famous.map(name => (
-                <span
-                  key={name}
-                  className="px-2 py-1 bg-black/60 rounded text-[10px] text-gray-400 border border-white/5 inline-block"
-                >
-                  {name}
-                </span>
-              ))}
-            </div>
-          </div>
-        );
-      })}
+      {/* --- 2. 詳細表示モーダル --- */}
+      {selectedRank && (
+        <RankDetailModal
+          rank={selectedRank}
+          onClose={() => setSelectedRank(null)}
+        />
+      )}
     </div>
   );
 }

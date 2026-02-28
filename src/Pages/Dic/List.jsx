@@ -1,7 +1,7 @@
 // src/Pages/Dic/List.jsx
 
-import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import Header from "../../Components/Header";
 import dic from "../../data/dic";
 import CharacterCard from "../../Components/CharacterCard";
@@ -9,21 +9,48 @@ import NavigationButton from "../../Components/NavigationButton";
 
 function List() {
   const [searchParams] = useSearchParams();
-  const modeFromUrl = searchParams.get('mode');
+  const navigate = useNavigate();
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const modeFromUrl = searchParams.get('mode');
+  const searchFromUrl = searchParams.get('search');
+
+  // 初期値に URL からの検索ワードをセット
+  const [searchTerm, setSearchTerm] = useState(searchFromUrl || "");
   const [selectedFaction, setSelectedFaction] = useState("すべて");
   const [globalMode, setGlobalMode] = useState(modeFromUrl || 'romance');
 
+  // ★ 追加：URLパラメータが変わった時（別の武将リンクを踏んだ時など）に
+  // 検索ワードを再セットする処理を入れておくと確実です
+  useEffect(() => {
+    if (searchFromUrl) {
+      setSearchTerm(searchFromUrl);
+    }
+  }, [searchFromUrl]);
+
   const filteredCharacters = dic.ALL_DIC_DATA.filter((char) => {
+    // 姓と名を結合したフルネームで判定
     const fullName = `${char.firstName}${char.lastName}`;
     const matchesSearch =
       fullName.includes(searchTerm) ||
       (char.nickName && char.nickName.includes(searchTerm));
+
     const matchesFaction =
       selectedFaction === "すべて" || char.group === selectedFaction;
+
     return matchesSearch && matchesFaction;
   });
+
+  // ★ 2. 自動遷移ロジックの追加
+  useEffect(() => {
+    // 検索結果がちょうど1人、かつURLに検索パラメータがある場合
+    if (filteredCharacters.length === 1 && searchFromUrl) {
+      const targetChar = filteredCharacters[0];
+      // 詳細ページへ自動遷移
+      // replace: true をつけることで、戻るボタンを押したときに一覧画面で止まらず、
+      // さらに前の画面（官職名鑑）まで戻れるようになります（無限ループ防止）
+      navigate(`/dic/detail/${targetChar.id}?mode=${globalMode}`, { replace: true });
+    }
+  }, [filteredCharacters, searchFromUrl, globalMode, navigate]);
 
   const factions = ["すべて", "魏", "呉", "蜀"];
 
