@@ -1,9 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useMonetization } from '../hooks/useMonetization';
 
 export default function RankDetailModal({ rank, onClose }) {
+  const { totalReceived } = useMonetization();
+
+  // --- 1. 解禁状態と支出額の管理 (LocalStorage連携) ---
+  const [unlockedIds, setUnlockedIds] = useState(() => 
+    JSON.parse(localStorage.getItem('marchingApp_unlockedIds') || '[]')
+  );
+  const [totalSpent, setTotalSpent] = useState(() => 
+    Number(localStorage.getItem('marchingApp_totalSpent') || '0')
+  );
+
   if (!rank) return null;
+
   const categoryIcon = rank.category === "文官" ? "📜" : "⚔️";
+
+  // 解禁状態と現在の残高の計算
+  const isUnlocked = unlockedIds.includes(rank.id);
+  const currentBalance = totalReceived - totalSpent;
+  const canAfford = currentBalance >= (rank.unlockCost || 0);
+
+  // --- 2. 解禁ボタンを押した時の処理 ---
+  const handleUnlock = () => {
+    if (canAfford && !isUnlocked) {
+      const nextSpent = totalSpent + rank.unlockCost;
+      const nextUnlocked = [...unlockedIds, rank.id];
+
+      // ステートとLocalStorageを更新
+      setTotalSpent(nextSpent);
+      setUnlockedIds(nextUnlocked);
+      localStorage.setItem('marchingApp_totalSpent', nextSpent.toString());
+      localStorage.setItem('marchingApp_unlockedIds', JSON.stringify(nextUnlocked));
+    }
+  };
+
+  
 
   // --- 陣営ごとのスタイル定義 ---
   const campStyles = {
@@ -91,6 +124,47 @@ export default function RankDetailModal({ rank, onClose }) {
             <p className="text-gray-300 text-xs leading-relaxed font-serif">
               {rank.description}
             </p>
+          </section>
+
+          {/* --- 3. 歴史資料アーカイブ（アンロックセクション） --- */}
+          <section className="bg-amber-900/10 p-4 rounded-xl border border-amber-500/20">
+            <h4 className="text-[9px] font-bold text-amber-500/60 uppercase tracking-widest mb-2 flex justify-between">
+              <span>歴史資料アーカイブ</span>
+              {isUnlocked ? <span className="text-amber-400">🔓 解読済み</span> : <span>🔒 未解読</span>}
+            </h4>
+
+            {isUnlocked ? (
+              <div className="animate-fade-in">
+                <p className="text-amber-200 text-sm font-serif italic leading-relaxed">
+                  {rank.sourceText || "該等する古文書は散逸しました。"}
+                </p>
+                <p className="text-[8px] text-amber-500/40 mt-2 text-right">出典：二十四史正文</p>
+              </div>
+            ) : (
+              <div className="text-center py-2">
+                {canAfford ? (
+                  <button
+                    onClick={handleUnlock}
+                    className="px-6 py-2 bg-amber-600 hover:bg-amber-500 text-white text-[11px] font-black rounded-lg shadow-[0_0_15px_rgba(217,119,6,0.5)] transition-all animate-pulse"
+                  >
+                    📜 兵糧 {rank.unlockCost.toFixed(8)} を消費して解読
+                  </button>
+                ) : (
+                  <>
+                    <p className="text-[10px] text-gray-500 mb-2 italic">軍資金が不足しています。兵糧を蓄積せよ。</p>
+                    <div className="w-full bg-gray-900 h-1.5 rounded-full overflow-hidden border border-white/5">
+                      <div
+                        className="bg-amber-600 h-full transition-all duration-1000"
+                        style={{ width: `${Math.min(100, (currentBalance / rank.unlockCost) * 100)}%` }}
+                      ></div>
+                    </div>
+                    <p className="text-[8px] text-gray-600 mt-2">
+                      残高: {currentBalance.toFixed(9)} / 必要: {rank.unlockCost.toFixed(9)}
+                    </p>
+                  </>
+                )}
+              </div>
+            )}
           </section>
 
           <section>

@@ -2,6 +2,7 @@
 export const MILITARY_RANKS = [
   // --- 文官 最高職 ---
   {
+    id: "rank_001",
     category: "文官",
     grade: "一品",
     title: "丞相 (じょうしょう)",
@@ -10,10 +11,13 @@ export const MILITARY_RANKS = [
     famous: ["曹操", "諸葛亮", "陸遜"],
     salary: "万石 (最高額)",
     authority: 5,
+    unlockCost: 0.0000001,
+    sourceText: "「丞相者、上佐天子、助理萬機。」（史記・陳丞相世家より）",
     color: "text-emerald-400",
     bg: "bg-emerald-900/20"
   },
   {
+    id: "rank_002",
     category: "文官",
     grade: "一品 / 二品",
     title: "大司馬 (だいしば)",
@@ -26,6 +30,7 @@ export const MILITARY_RANKS = [
     bg: "bg-cyan-900/20"
   },
   {
+    id: "rank_003",
     category: "文官",
     grade: "二品",
     title: "大都督 (だいととく)",
@@ -38,6 +43,7 @@ export const MILITARY_RANKS = [
     bg: "bg-red-900/20"
   },
   {
+    id: "rank_004",
     category: "文官",
     grade: "一品",
     title: "三公 (太尉・司徒・司空)",
@@ -50,6 +56,7 @@ export const MILITARY_RANKS = [
     bg: "bg-teal-900/20"
   },
   {
+    id: "rank_005",
     category: "文官",
     grade: "三品 / 四品",
     title: "尚書令 / 中書令",
@@ -62,6 +69,7 @@ export const MILITARY_RANKS = [
     bg: "bg-blue-900/20"
   },
   {
+    id: "rank_006",
     category: "文官",
     grade: "二品 / 三品",
     title: "州牧 / 刺史 (しゅうぼく / しし)",
@@ -74,6 +82,7 @@ export const MILITARY_RANKS = [
     bg: "bg-green-900/20"
   },
   {
+    id: "rank_007",
     category: "文官",
     grade: "三品",
     title: "侍中 (じちゅう)",
@@ -88,6 +97,7 @@ export const MILITARY_RANKS = [
 
   // --- 武官職 ---
   {
+    id: "rank_008",
     category: "武官",
     grade: "一品",
     title: "大将軍",
@@ -100,6 +110,7 @@ export const MILITARY_RANKS = [
     bg: "bg-yellow-900/20"
   },
   {
+    id: "rank_009",
     category: "武官",
     grade: "二品",
     title: "驃騎将軍 / 車騎将軍",
@@ -112,6 +123,7 @@ export const MILITARY_RANKS = [
     bg: "bg-orange-900/20"
   },
   {
+    id: "rank_010",
     category: "武官",
     grade: "二品",
     title: "衛将軍",
@@ -124,6 +136,7 @@ export const MILITARY_RANKS = [
     bg: "bg-red-900/20"
   },
   {
+    id: "rank_011",
     category: "武官",
     grade: "三品",
     title: "四征将軍",
@@ -136,6 +149,7 @@ export const MILITARY_RANKS = [
     bg: "bg-blue-900/20"
   },
   {
+    id: "rank_012",
     category: "武官",
     grade: "四品 / 五品",
     title: "中郎将 (ちゅうろうしょう)",
@@ -148,6 +162,7 @@ export const MILITARY_RANKS = [
     bg: "bg-stone-900/20"
   },
   {
+    id: "rank_013",
     category: "武官",
     grade: "四品以下",
     title: "雑号将軍",
