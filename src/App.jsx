@@ -12,14 +12,24 @@ import BattleList from './Pages/BattleList';
 import BattleScreen from './Pages/BattleScreen';
 import ResultScreen from './Pages/ResultScreen';
 import ThankYouToast from './Components/ThankYouToast';
+import MetaMaskSupportModal from './Components/MetaMaskSupportModal';
 import { useMonetization } from './hooks/useMonetization';
-import Result from './Pages/Quiz/Result';
+import { useMetaMaskConnect } from './hooks/useMetaMaskConnect';
 
 function App() {
-  const isMonetized = useMonetization();
+  const { isMonetized } = useMonetization();
+  const {
+    isMetaMaskInstalled,
+    walletAddress,
+    showSupportModal,
+    isConnecting,
+    txStatus,
+    connectWallet,
+    openSupportModal,
+    sendSupportPayment,
+    dismissModal,
+  } = useMetaMaskConnect();
 
-  // --- データの復元（初期化） ---
-  // localStorageからデータを読み込み、なければデフォルト値を返します
   const [visitedBranches, setVisitedBranches] = useState(() => {
     const saved = localStorage.getItem('visitedBranches');
     return saved ? JSON.parse(saved) : ['main'];
@@ -32,20 +42,14 @@ function App() {
 
   const [currentBranch, setCurrentBranch] = useState('main');
 
-  // --- データの保存（永続化） ---
-  // visitedBranchesが更新されるたびにlocalStorageに保存
   useEffect(() => {
     localStorage.setItem('visitedBranches', JSON.stringify(visitedBranches));
   }, [visitedBranches]);
 
-  // quizStatsが更新されるたびにlocalStorageに保存
   useEffect(() => {
     localStorage.setItem('quizStats', JSON.stringify(quizStats));
   }, [quizStats]);
 
-  // --- 既存の関数ロジック ---
-
-  // クイズ完了時に成績を更新する関数
   const updateQuizStats = (correct, diff) => {
     setQuizStats(prev => ({
       maxCorrect: Math.max(prev.maxCorrect, correct),
@@ -53,7 +57,6 @@ function App() {
     }));
   };
 
-  // 新しいブランチを訪れた時に記録を更新する関数
   const markBranchAsVisited = (branchId) => {
     setVisitedBranches(prev => {
       if (prev.includes(branchId)) return prev;
@@ -62,18 +65,30 @@ function App() {
   };
 
   return (
-    <div className={`flex flex-col min-h-screen w-full items-center transition-colors duration-1000 ${isMonetized ? 'bg-golden-mode' : 'bg-slate-900'
-      }`}>
+    <div className={`flex flex-col min-h-dvh w-full transition-colors duration-1000 ${isMonetized ? 'bg-golden-mode' : 'bg-slate-900'}`}>
 
       {isMonetized && <div className="golden-aura" />}
       <ThankYouToast isMonetized={isMonetized} />
 
-      <main className="w-full max-w-6xl flex-grow flex flex-col px-0 sm:px-4">
+      {showSupportModal && (
+        <MetaMaskSupportModal
+          onSupport={sendSupportPayment}
+          onDecline={dismissModal}
+          txStatus={txStatus}
+        />
+      )}
+
+      <main className="w-full flex-grow flex flex-col min-h-0">
         <Routes>
           <Route path="/" element={<Home
             isMonetized={isMonetized}
             visitedBranches={visitedBranches}
             quizStats={quizStats}
+            isMetaMaskInstalled={isMetaMaskInstalled}
+            walletAddress={walletAddress}
+            isConnecting={isConnecting}
+            connectWallet={connectWallet}
+            openSupportModal={openSupportModal}
           />} />
           <Route path="/quiz/select" element={<QuizSelect />} />
 

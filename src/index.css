@@ -1,44 +1,68 @@
-/* 1. フォントやカラースキームなど、アプリ全体に影響するグローバルな設定 */
+/* ===== DESIGN TOKENS ===== */
+@import "tailwindcss";
 
+:root {
+  /* セーフエリア */
+  --sat: env(safe-area-inset-top);
+  --sab: env(safe-area-inset-bottom);
+  --sal: env(safe-area-inset-left);
+  --sar: env(safe-area-inset-right);
+
+  /* カラートークン */
+  --color-bg-base: #0f172a;
+  --color-bg-surface: #1e293b;
+  --color-bg-elevated: #111827;
+  --color-border-red: rgba(185, 28, 28, 0.35);
+  --color-border-muted: rgba(100, 116, 139, 0.3);
+
+  /* タイポグラフィ */
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+/* ===== RESET ===== */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
-html,
-body,
-#root {
+html {
   height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  color: white;
-  background-color: #0f172a;
-  /* 横揺れを完全に封印 */
   overflow-x: hidden;
+  /* iOSスクロールバウンスを抑制 */
+  overscroll-behavior: none;
 }
 
 body {
   margin: 0;
-  /* ★ 以下の flex 関連を削除し、標準のドキュメントフローに戻す */
-  display: block;
-  min-width: 320px;
-  min-height: 100vh;
-  line-height: 1.5;
-}
-
-/* アプリ全体を包むラッパー */
-#appWrapper {
-  width: 100%;
   min-height: 100%;
-  position: relative;
-  overflow-y: auto;
+  min-height: 100dvh;
+  /* Dynamic Viewport Height（アドレスバー考慮） */
+  background-color: var(--color-bg-base);
+  color: white;
   overflow-x: hidden;
-  /* 二重の防波堤 */
+  /* iOSタップハイライトを無効化 */
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* スクロールバーを隠す設定 */
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== SAFE AREA ===== */
+.safe-top {
+  padding-top: var(--sat);
+}
+
+.safe-bottom {
+  padding-bottom: var(--sab);
+}
+
+/* ===== SCROLLBAR ===== */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
@@ -48,104 +72,63 @@ body {
   scrollbar-width: none;
 }
 
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color-scheme: light dark;
-  --sat: env(safe-area-inset-top);
-  --sab: env(safe-area-inset-bottom);
+/* ===== TOUCH FEEDBACK ===== */
+/* active状態でネイティブアプリらしい押下感を出す */
+.touch-btn {
+  transition: transform 0.1s ease, opacity 0.1s ease;
+  cursor: pointer;
 }
 
-/* 2. bodyのリセット（TailwindがCDNで提供しているため、完全に削除しても動作します） */
-body {
-  margin: 0;
-  display: flex;
-  /* アプリを中央に寄せるための設定 */
-  place-items: center;
-  /* アプリを中央に寄せるための設定 */
-  min-width: 320px;
-  min-height: 100vh;
+.touch-btn:active {
+  transform: scale(0.96);
+  opacity: 0.85;
 }
 
-/* 3. aタグのデフォルトスタイル */
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-
-/* ... その他、アニメーションキーフレームなど ... */
-
-/* ★ それ以外の h1, button, .logo, .card などの定義は全て削除してください ★ */
-
-
-#appWrapper {
-  height: 100%;
-  width: 100%;
-  overflow-y: auto;
-  /* ★ スクロールが必要な時だけ、この中でさせる */
-  -webkit-overflow-scrolling: touch;
-  /* iOSでのスクロールを滑らかに */
-}
-
-
-@keyframes scan {
+/* ===== ANIMATIONS ===== */
+@keyframes slide-in-diagonal {
   0% {
-    transform: translateY(-100%);
+    transform: translateX(-100%) rotate(-12deg);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  85% {
+    opacity: 1;
   }
 
   100% {
-    transform: translateY(100%);
+    transform: translateX(100%) rotate(-12deg);
+    opacity: 0;
   }
 }
 
-.secret-container {
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(255, 215, 0, 0.3);
-  background: rgba(20, 20, 20, 0.9);
-}
-
-/* 走査線エフェクト */
-.secret-container::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(rgba(255, 215, 0, 0) 0%,
-      rgba(255, 215, 0, 0.05) 50%,
-      rgba(255, 215, 0, 0) 100%);
-  animation: scan 3s linear infinite;
-  pointer-events: none;
-}
-
-.secret-container::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: rgba(255, 215, 0, 0.2);
-  animation: scan-line 4s linear infinite;
-  z-index: 5;
-}
-
-@keyframes scan-line {
+@keyframes fade-in-up {
   0% {
-    top: 0%;
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(10px);
   }
 
   100% {
-    top: 100%;
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
 
-/* 右からスライドイン */
+  to {
+    opacity: 1;
+  }
+}
+
 @keyframes bounce-in {
   0% {
     transform: translateX(100%);
@@ -162,11 +145,6 @@ a {
   }
 }
 
-.animate-bounce-in {
-  animation: bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
-}
-
-/* 5秒かけて幅が0になる */
 @keyframes shrink-width {
   0% {
     width: 100%;
@@ -177,14 +155,6 @@ a {
   }
 }
 
-.animate-shrink-width {
-  animation: shrink-width 5s linear forwards;
-}
-
-
-/* src/index.css の末尾に追記 */
-
-/* 黄金の輝き（揺らぎ）アニメーション */
 @keyframes gold-shimmer {
   0% {
     background-position: 0% 50%;
@@ -199,24 +169,26 @@ a {
   }
 }
 
-/* 黄金モード用の背景クラス */
-.bg-golden-mode {
-  background: linear-gradient(-45deg, #111827, #1a1a1a, #451a03, #78350f, #111827);
-  background-size: 400% 400%;
-  animation: gold-shimmer 15s ease infinite;
+@keyframes scan {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(100%);
+  }
 }
 
-/* 黄金の光跡（オーラ） */
-.golden-aura {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(circle at 50% -20%, rgba(234, 179, 8, 0.15), transparent 70%);
-  z-index: 1;
+@keyframes scan-line {
+  0% {
+    top: 0%;
+  }
+
+  100% {
+    top: 100%;
+  }
 }
 
-
-/* index.css または Tailwindのレイヤーに追加 */
 @keyframes flicker {
 
   0%,
@@ -238,12 +210,6 @@ a {
   }
 }
 
-.animate-flicker {
-  animation: flicker 3s infinite ease-in-out;
-}
-
-
-/* index.css */
 @keyframes shake {
 
   0%,
@@ -259,46 +225,6 @@ a {
     transform: translateX(4px) rotate(1deg);
   }
 }
-
-.animate-shake {
-  animation: shake 0.2s ease-in-out infinite;
-}
-
-
-/* 粒子の基本スタイル */
-.particle {
-  position: absolute;
-  pointer-events: none;
-  opacity: 0;
-  border-radius: 50%;
-}
-
-/* 黄金の輝きアニメーション */
-@keyframes gold-float {
-  0% {
-    transform: translateY(100vh) rotate(0deg) scale(0);
-    opacity: 0;
-  }
-
-  20% {
-    opacity: 1;
-  }
-
-  80% {
-    opacity: 0.8;
-  }
-
-  100% {
-    transform: translateY(-20vh) rotate(720deg) scale(1.2);
-    opacity: 0;
-  }
-}
-
-.animate-gold-particle {
-  animation: gold-float 4s linear infinite;
-}
-
-/* src/index.css */
 
 @keyframes gold-float {
   0% {
@@ -321,6 +247,88 @@ a {
   }
 }
 
+/* ===== UTILITY CLASSES ===== */
+.animate-cutin-bg {
+  animation: slide-in-diagonal 2.5s ease-in-out forwards;
+}
+
+.animate-cutin-text {
+  animation: fade-in-up 0.8s ease-out 0.3s forwards;
+  opacity: 0;
+}
+
+.animate-narration-in {
+  animation: fadeIn 1.5s ease-out forwards;
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+}
+
+.animate-shrink-width {
+  animation: shrink-width 5s linear forwards;
+}
+
+.animate-flicker {
+  animation: flicker 3s infinite ease-in-out;
+}
+
+.animate-shake {
+  animation: shake 0.2s ease-in-out infinite;
+}
+
 .animate-gold-float {
   animation: gold-float linear infinite;
+}
+
+.narration-text {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.1em;
+  line-height: 2;
+}
+
+/* ===== GOLDEN MODE ===== */
+.bg-golden-mode {
+  background: linear-gradient(-45deg, #111827, #1a1a1a, #451a03, #78350f, #111827);
+  background-size: 400% 400%;
+  animation: gold-shimmer 15s ease infinite;
+}
+
+.golden-aura {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% -20%, rgba(234, 179, 8, 0.15), transparent 70%);
+  z-index: 1;
+}
+
+/* ===== SECRET CONTAINER ===== */
+.secret-container {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  background: rgba(20, 20, 20, 0.9);
+}
+
+.secret-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(255, 215, 0, 0) 0%,
+      rgba(255, 215, 0, 0.05) 50%,
+      rgba(255, 215, 0, 0) 100%);
+  animation: scan 3s linear infinite;
+  pointer-events: none;
+}
+
+.secret-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 215, 0, 0.2);
+  animation: scan-line 4s linear infinite;
+  z-index: 5;
 }

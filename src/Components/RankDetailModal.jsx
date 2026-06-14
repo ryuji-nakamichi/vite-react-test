@@ -147,7 +147,7 @@ export default function RankDetailModal({ rank, onClose }) {
                     onClick={handleUnlock}
                     className="px-6 py-2 bg-amber-600 hover:bg-amber-500 text-white text-[11px] font-black rounded-lg shadow-[0_0_15px_rgba(217,119,6,0.5)] transition-all animate-pulse"
                   >
-                    📜 兵糧 {rank.unlockCost.toFixed(8)} を消費して解読
+                    📜 兵糧 {rank.unlockCost?.toFixed(8) ?? '少量'} を消費して解読
                   </button>
                 ) : (
                   <>

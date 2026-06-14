@@ -106,7 +106,7 @@ export const generateDynamicQuiz = (difficulty = 'normal', count = 5) => {
       case 'KEYWORD_GUESS':
         const keyword = (target.keywords && target.keywords.length > 0) ? target.keywords[0] : "義兄弟";
         question = `特徴タグに「${keyword}」を持つ武将は誰？`;
-        const kOthers = shuffle(allCharacters.filter(c => !c.keywords.includes(keyword))).slice(0, 3);
+        const kOthers = shuffle(allCharacters.filter(c => !c.keywords?.includes(keyword))).slice(0, 3);
         const kOptions = shuffle([target, ...kOthers]);
         answerIndex = kOptions.indexOf(target);
         options = kOptions.map(c => `${c.firstName}${c.lastName}`);

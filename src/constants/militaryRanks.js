@@ -12,7 +12,7 @@ export const MILITARY_RANKS = [
     salary: "万石 (最高額)",
     authority: 5,
     unlockCost: 0.0000001,
-    sourceText: "「丞相者、上佐天子、助理萬機。」（史記・陳丞相世家より）",
+    sourceText: "「丞相者、上佐天子、助理萬機。」（史記・陳丞相世家より）— 丞相は天子を上から補佐し、万事の政務を助け理める者である。曹操・諸葛亮ともにこの職を通じて実権を掌握したが、曹操は自ら就任して覇権の証とし、諸葛亮は先帝の遺命を受けて漢室復興を誓いこれを全うせんとした。",
     color: "text-emerald-400",
     bg: "bg-emerald-900/20"
   },
@@ -26,6 +26,8 @@ export const MILITARY_RANKS = [
     famous: ["曹仁", "司馬懿", "呉懿"],
     salary: "中二千石",
     authority: 5,
+    unlockCost: 0.0000001,
+    sourceText: "「大司馬掌武事、征伐之事無不統焉。」— 武事全般を統括し、出征と征伐の全てを監督した。魏では曹仁がこの職に就いて曹操軍の防衛を担い、司馬懿は大司馬を経て三代にわたる魏の重臣となり、後に晋建国の礎を築いた。",
     color: "text-cyan-400",
     bg: "bg-cyan-900/20"
   },
@@ -39,6 +41,8 @@ export const MILITARY_RANKS = [
     famous: ["周瑜", "魯粛", "呂蒙", "陸遜"],
     salary: "万石",
     authority: 5,
+    unlockCost: 0.0000001,
+    sourceText: "「都督諸軍事、仮節鉞」— 仮節鉞の権限は、陣中において独断で将校を斬ることを意味した。周瑜は赤壁で曹操の大軍を打ち破り、呂蒙は荊州を奇策で奪回し、陸遜は夷陵で劉備率いる大軍を火攻めで壊滅させた。呉の存亡を左右した名将たちが担った至高の軍職である。",
     color: "text-red-400",
     bg: "bg-red-900/20"
   },
@@ -52,6 +56,8 @@ export const MILITARY_RANKS = [
     famous: ["王允 (司徒)", "荀彧 (尚書令)", "楊彪"],
     salary: "万石",
     authority: 5,
+    unlockCost: 0.0000001,
+    sourceText: "「三公者、王佐之才、輔弼天子、正五品之法。」— 太尉・司徒・司空の三公は漢代最高の官位。乱世においては名誉職の色が濃くなったが、三公への任命は天下に対する政治的権威の証であった。王允は三公の位にあって董卓誅殺を主謀した。",
     color: "text-teal-400",
     bg: "bg-teal-900/20"
   },
@@ -65,6 +71,8 @@ export const MILITARY_RANKS = [
     famous: ["荀彧", "諸葛瑾", "法正"],
     salary: "千石",
     authority: 4,
+    unlockCost: 0.00000008,
+    sourceText: "「尚書令、天子禁中之正官、掌文書。」— 皇帝の文書を管掌し、政令の起草・執行を行う実務の要職。荀彧はこの職にあって魏の内政を整え、曹操の覇業を陰で支えた。後に曹操の魏公就任に反対したため失脚し、悲劇的な最期を遂げた。",
     color: "text-blue-300",
     bg: "bg-blue-900/20"
   },
@@ -78,6 +86,8 @@ export const MILITARY_RANKS = [
     famous: ["劉備 (豫州牧)", "劉表 (荊州牧)", "陶謙 (徐州刺史)"],
     salary: "二千石",
     authority: 4,
+    unlockCost: 0.00000008,
+    sourceText: "「牧守一方、軍民之事悉隷之。」— 本来は監察官であった刺史が、黄巾の乱以降に軍事・行政を兼ねる州牧へと権限拡大した。劉表の荊州、劉璋の益州など、各地の州牧は群雄割拠の基盤となり、三国鼎立の遠因ともなった。",
     color: "text-green-400",
     bg: "bg-green-900/20"
   },
@@ -91,6 +101,8 @@ export const MILITARY_RANKS = [
     famous: ["荀攸", "董允", "馬良"],
     salary: "二千石",
     authority: 3,
+    unlockCost: 0.00000008,
+    sourceText: "「侍中、常侍天子左右、以備顧問。」— 常に天子の傍に侍して諮問に応じる近臣職。蜀では費禕・董允が後主劉禅の言動を諌め、宮廷の安定を保った。董允は宦官の黄皓が政治に介入するのを死去するまで抑制し続けた。",
     color: "text-amber-300",
     bg: "bg-amber-900/20"
   },
@@ -106,6 +118,8 @@ export const MILITARY_RANKS = [
     famous: ["何進", "曹真", "蒋琬", "姜維"],
     salary: "万石",
     authority: 5,
+    unlockCost: 0.0000001,
+    sourceText: "「大将軍、秉鉞専征、位在三公之上。」— その権威は三公をも上回るとされた軍事最高職。曹真は諸葛亮の北伐に対し魏の全軍を率いて防衛し、蜀では蒋琬・費禕・姜維と受け継がれ、姜維は晩年まで北伐を繰り返した。",
     color: "text-yellow-400",
     bg: "bg-yellow-900/20"
   },
@@ -119,6 +133,8 @@ export const MILITARY_RANKS = [
     famous: ["張飛 (車騎将軍)", "馬超 (驃騎将軍)", "曹洪"],
     salary: "万石",
     authority: 5,
+    unlockCost: 0.00000008,
+    sourceText: "「驃騎之号、以騎兵迅猛善戦而名。」— 大将軍に次ぐ高位として大規模な方面軍の指揮を担った。張飛が車騎将軍として蜀の軍制を支え、馬超の驃騎将軍就任は関中における威名の高さを示した。両者ともに蜀漢五虎大将に数えられる猛将である。",
     color: "text-orange-400",
     bg: "bg-orange-900/20"
   },
@@ -132,6 +148,8 @@ export const MILITARY_RANKS = [
     famous: ["諸葛瞻", "姜維 (就任履歴あり)"],
     salary: "二千石",
     authority: 4,
+    unlockCost: 0.00000008,
+    sourceText: "「衛将軍、典宿衛禁兵。」— 皇居守護と近衛兵を統率する。蜀では諸葛亮の子・諸葛瞻がこの職に就き、魏の侵攻に際して綿竹関で奮戦した。父の遺志を胸に敵陣へ斬り込み、息子の諸葛尚とともに壮絶な最期を遂げた。",
     color: "text-red-400",
     bg: "bg-red-900/20"
   },
@@ -145,6 +163,8 @@ export const MILITARY_RANKS = [
     famous: ["張遼 (征東将軍)", "鄧艾 (征西将軍)", "夏侯淵 (征西将軍)"],
     salary: "二千石",
     authority: 4,
+    unlockCost: 0.00000007,
+    sourceText: "「征東将軍張遼、以八百破十万于逍遥津。」— 張遼の逍遥津の戦いはその名を天下に轟かせた。孫権軍十万に対し僅か八百の決死隊で突撃し、孫権を恐怖させた伝説的な戦いである。呉の子供は「張遼」の名を聞いただけで夜泣きが止まったという。",
     color: "text-blue-400",
     bg: "bg-blue-900/20"
   },
@@ -158,6 +178,8 @@ export const MILITARY_RANKS = [
     famous: ["諸葛亮 (軍師中郎将)", "曹丕 (五官中郎将)", "龐統"],
     salary: "比二千石",
     authority: 3,
+    unlockCost: 0.00000005,
+    sourceText: "「中郎将、掌宿衛兵、以才授職。」— 諸葛亮が劉備に用いられた当初の官職が「軍師中郎将」。格式ある将校職でありながら軍師の役割を兼ねる柔軟な職位として乱世で活躍した。龐統も軍師中郎将として劉備に仕え、落鳳坡で非業の死を遂げた。",
     color: "text-stone-400",
     bg: "bg-stone-900/20"
   },
@@ -171,6 +193,8 @@ export const MILITARY_RANKS = [
     famous: ["関羽 (盪寇将軍)", "孫堅 (破虜将軍)", "孫策 (討逆将軍)"],
     salary: "比二千石",
     authority: 2,
+    unlockCost: 0.00000005,
+    sourceText: "「盪寇・破虜・討逆之号、皆因戦功而賜也。」— 戦場での功績に応じて与えられた称号将軍。関羽の盪寇将軍、孫堅の破虜将軍、孫策の討逆将軍など、三国の英雄たちが名乗った歴史的称号。その名が示す通り、いずれも実戦で功を立てた武人に与えられた。",
     color: "text-gray-400",
     bg: "bg-gray-900/20"
   }

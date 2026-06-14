@@ -17,7 +17,7 @@ const FACTION_COLORS = {
 };
 
 function Detail({ currentBranch }) {
-  const isMonetized = useMonetization();
+  const { isMonetized } = useMonetization();
   const { id } = useParams();
   const characterId = parseInt(id, 10);
   const [searchParams] = useSearchParams();
@@ -160,7 +160,7 @@ function Detail({ currentBranch }) {
                           <span className="w-2 h-2 bg-green-500 rounded-full animate-ping"></span>
                           <span className="text-[10px] text-yellow-600/70 font-mono">DATA_DECRYPTED</span>
                         </div>
-                        <span className="px-2 py-1 bg-yellow-500/20 text-yellow-500 rounded-full text-[9px] font-bold border border-yellow-500/30">STREAMING</span>
+                        <span className="px-2 py-1 bg-yellow-500/20 text-yellow-500 rounded-full text-[9px] font-bold border border-yellow-500/30">SUPPORTER</span>
                       </div>
                     </div>
                   </div>
@@ -170,7 +170,7 @@ function Detail({ currentBranch }) {
                   <div className="text-3xl mb-4 opacity-50">📜</div>
                   <h3 className="text-gray-400 font-bold mb-2 text-base">軍略秘録（限定）</h3>
                   <p className="text-gray-500 text-xs sm:text-sm leading-relaxed mb-6 px-2">
-                    Web Monetization支援を開始すると、<br className="hidden sm:block" />
+                    MetaMask でアプリを応援すると、<br className="hidden sm:block" />
                     この武将の極秘データが解析されます。
                   </p>
                   <div className="inline-block px-4 py-2 rounded-full border border-gray-600 text-gray-500 text-[10px] font-bold">SUPPORT_REQUIRED</div>

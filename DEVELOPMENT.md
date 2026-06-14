@@ -245,6 +245,39 @@ console.log('🚀 [SYSTEM] Web Monetization Mock Event: STARTED');
   - selectedRank ステートによる条件付きレンダリング。
   - AIイメージ用枠: 将来的にDALL-E等で生成した「官服の絵」や「印綬（スタンプ）」を飾るためのプレースホルダー設置。
 
+
+
+### 2026-06-14
+
+Claude Code導入: npm install + VS Code拡張の環境構築完了。Proプランと連携し次回以降の実装作業に投入可能な状態へ。
+Mobile First CSS再設計: Viteの初期テンプレートゴミ（#rootのmax-width・padding等）を除去。bodyの矛盾定義を一本化し、min-h-dvh・セーフエリア変数（--sat/--sab）を正式導入。
+称号プレートのレイアウト再設計: 絶対位置指定（-top-6）による不安定な浮遊構造を廃止。横並びフラットレイアウトに変更し、スマホで崩れない設計に刷新。
+MetaMaskウィジェットをフロー内に統合: fixed top-52による浮遊・被さり問題を解消。コンテンツの流れの中に自然に組み込む構造へ移行。
+ボタン折り返し解消: NavigationButtonコンポーネントを再設計。appButtonContainerの不明クラスを除去し、whitespace-nowrap・touch-btnを付与。
+タッチフィードバック実装: .touch-btnクラスを設計。active:scale(0.96)によるネイティブアプリらしい押下感を全ボタンに導入。
+
+次回の開発ロードマップ
+
+
+MetaMaskウィジェットと本文の間の「死地」完全解消
+
+目的: SP表示でボタン群とウィジェットの間に残る余白を排除し、画面全体を使い切るレイアウトを完成させる。
+技術要素: flex-growの高さ継承チェーン（App.jsx → Home.jsx → <main>）を整理し、mt-autoが正しく機能する構造に修正する。
+
+
+
+他ページのMobile First対応
+
+目的: Homeで確立した設計思想（セーフエリア・タッチフィードバック・dvh）をQuizGame・BattleScreen・DicDetail等の各ページに展開する。
+技術要素: NavigationButtonのtouch-btn適用範囲の拡大。各ページの<main>にmin-h-0・h-fullを統一適用。
+
+
+
+App.cssの完全クリーンアップ
+
+目的: Vite初期テンプレートの残骸（.logo・.read-the-docs等）を完全に除去し、アニメーション定義のみの純粋なファイルに整理する。
+技術要素: index.cssに統合済みのアニメーション定義と重複するものを削除。App.cssをアニメーション専用ファイルとして再定義。
+
 ---
 
 ## 💡 今後の課題
